@@ -11,6 +11,8 @@ import {
 
 import {RootStackParamList} from '../../../App';
 
+import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKeyboardView';
+
 type SignInProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
 const SignIn = ({navigation}: SignInProps) => {
@@ -37,7 +39,7 @@ const SignIn = ({navigation}: SignInProps) => {
   }, [email, password]);
 
   return (
-    <View>
+    <DismissKeyboardView>
       <View style={styles.inputWrapper}>
         <Text style={styles.label}>이메일</Text>
         <TextInput
@@ -83,7 +85,7 @@ const SignIn = ({navigation}: SignInProps) => {
           <Text>회원가입</Text>
         </Pressable>
       </View>
-    </View>
+    </DismissKeyboardView>
   );
 };
 
