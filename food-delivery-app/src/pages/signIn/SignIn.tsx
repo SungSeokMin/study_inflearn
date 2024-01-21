@@ -1,15 +1,40 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack/lib/typescript/src/types';
 import {useCallback, useMemo, useState} from 'react';
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 
-type SignInProps = {};
+import {RootStackParamList} from '../../../App';
 
-const SignIn = ({}: SignInProps) => {
+type SignInProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
+
+const SignIn = ({navigation}: SignInProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const canGoNext = useMemo(() => !!email && !!password, [email, password]);
 
-  const onSubmit = useCallback(() => {}, []);
+  const toSignUp = useCallback(
+    () => navigation.navigate('SignUp'),
+    [navigation],
+  );
+
+  const onSubmit = useCallback(() => {
+    if (!email || !email.trim()) {
+      return Alert.alert('알림', '이메일을 입력해주세요');
+    }
+
+    if (!password || !password.trim()) {
+      return Alert.alert('알림', '비밀번호를 입력해주세요');
+    }
+
+    Alert.alert('알림', '로그인 되었습니다.');
+  }, [email, password]);
 
   return (
     <View>
@@ -17,7 +42,13 @@ const SignIn = ({}: SignInProps) => {
         <Text style={styles.label}>이메일</Text>
         <TextInput
           style={styles.textInput}
+          value={email}
           onChangeText={setEmail}
+          importantForAutofill="yes"
+          autoComplete="email"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          clearButtonMode="while-editing"
           placeholder="이메일을 입력해주세요."
         />
       </View>
@@ -26,8 +57,13 @@ const SignIn = ({}: SignInProps) => {
         <Text style={styles.label}>비밀번호</Text>
         <TextInput
           style={styles.textInput}
+          value={password}
           onChangeText={setPassword}
+          importantForAutofill="yes"
+          autoComplete="password"
+          secureTextEntry
           placeholder="비밀번호를 입력해주세요."
+          onSubmitEditing={onSubmit}
         />
       </View>
 
@@ -39,11 +75,11 @@ const SignIn = ({}: SignInProps) => {
               : StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
           }
           onPress={onSubmit}
-          disabled={canGoNext}>
+          disabled={!canGoNext}>
           <Text style={styles.loginButtonText}>로그인</Text>
         </Pressable>
 
-        <Pressable>
+        <Pressable onPress={toSignUp}>
           <Text>회원가입</Text>
         </Pressable>
       </View>
