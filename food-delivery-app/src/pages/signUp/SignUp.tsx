@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../../types/screen.types';
 
 import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKeyboardView';
 

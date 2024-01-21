@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 
-import {RootStackParamList} from '../../../App';
+import {RootStackParamList} from '../../../types/screen.types';
 
 import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKeyboardView';
 
