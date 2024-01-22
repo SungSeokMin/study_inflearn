@@ -2,6 +2,9 @@
 #
 .DS_Store
 
+#react-native-config
+ios/tmp.xcconfig
+
 # Xcode
 #
 build/

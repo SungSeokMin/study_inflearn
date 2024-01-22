@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  foodDeliveryAppp
+//
+//  Created by 성석민 on 1/22/24.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+#include? "tmp.xcconfig"

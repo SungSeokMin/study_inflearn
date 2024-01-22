@@ -9,6 +9,7 @@ import {
   TextInput,
   View
 } from 'react-native';
+import Config from 'react-native-config';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import axios, { AxiosError } from 'axios';
@@ -19,7 +20,7 @@ import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKey
 
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-function SignUp({}: SignUpScreenProps) {
+function SignUp({ navigation }: SignUpScreenProps) {
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState('');
@@ -62,9 +63,11 @@ function SignUp({}: SignUpScreenProps) {
 
     try {
       setLoading(true);
-      await axios.post('/user', { email, name, password });
+      await axios.post(`${Config.API_URL}/user`, { email, name, password });
 
       Alert.alert('알림', '회원가입 되었습니다.');
+
+      navigation.navigate('SignIn');
     } catch (error) {
       const errorResponse = (error as AxiosError<{ message: string }>).response;
 
@@ -74,7 +77,7 @@ function SignUp({}: SignUpScreenProps) {
     } finally {
       setLoading(false);
     }
-  }, [email, loading, name, password]);
+  }, [email, loading, name, navigation, password]);
 
   const canGoNext = useMemo(() => email && name && password, [email, name, password]);
 

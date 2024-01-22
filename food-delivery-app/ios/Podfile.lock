@@ -950,7 +950,7 @@ PODS:
     - React-Core
   - react-native-encrypted-storage (4.0.3):
     - React-Core
-  - react-native-flipper (0.212.0):
+  - react-native-flipper (0.128.4):
     - React-Core
   - react-native-safe-area-context (4.8.2):
     - React-Core
@@ -1380,7 +1380,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 9ee041e1d7be96da6d76a251f92e72b711c651d6
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
-  react-native-flipper: 9c1957af24b76493ba74f46d000a5c1d485e7731
+  react-native-flipper: bb8caa2e42294b4f145365138cf4941a125fe953
   react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
   React-nativeconfig: d753fbbc8cecc8ae413d615599ac378bbf6999bb
   React-NativeModulesApple: 964f4eeab1b4325e8b6a799cf4444c3fd4eb0a9c
