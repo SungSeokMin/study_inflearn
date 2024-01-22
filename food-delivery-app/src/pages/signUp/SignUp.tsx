@@ -1,8 +1,17 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View
+} from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import { RootStackParamList } from '../../../types/screen.types';
 
@@ -11,6 +20,8 @@ import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKey
 type SignUpScreenProps = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
 function SignUp({}: SignUpScreenProps) {
+  const [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -20,15 +31,20 @@ function SignUp({}: SignUpScreenProps) {
   const passwordRef = useRef<TextInput | null>(null);
 
   const onSubmit = useCallback(async () => {
+    if (loading) return;
+
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요.');
     }
+
     if (!name || !name.trim()) {
       return Alert.alert('알림', '이름을 입력해주세요.');
     }
+
     if (!password || !password.trim()) {
       return Alert.alert('알림', '비밀번호를 입력해주세요.');
     }
+
     if (
       !/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/.test(
         email
@@ -36,6 +52,7 @@ function SignUp({}: SignUpScreenProps) {
     ) {
       return Alert.alert('알림', '올바른 이메일 주소가 아닙니다.');
     }
+
     if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
       return Alert.alert(
         '알림',
@@ -44,14 +61,20 @@ function SignUp({}: SignUpScreenProps) {
     }
 
     try {
-      const response = await axios.post('/user', { email, name, password });
-      console.log('🔥SignUp: 48줄🔥', response);
-    } catch (error) {
-    } finally {
-    }
+      setLoading(true);
+      await axios.post('/user', { email, name, password });
 
-    Alert.alert('알림', '회원가입 되었습니다.');
-  }, [email, name, password]);
+      Alert.alert('알림', '회원가입 되었습니다.');
+    } catch (error) {
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+
+      if (errorResponse) {
+        Alert.alert('알림', errorResponse.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [email, loading, name, password]);
 
   const canGoNext = useMemo(() => email && name && password, [email, name, password]);
 
@@ -115,10 +138,14 @@ function SignUp({}: SignUpScreenProps) {
               ? StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
               : styles.loginButton
           }
-          disabled={!canGoNext}
+          disabled={!canGoNext || loading}
           onPress={onSubmit}
         >
-          <Text style={styles.loginButtonText}>회원가입</Text>
+          {loading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.loginButtonText}>회원가입</Text>
+          )}
         </Pressable>
       </View>
     </DismissKeyboardView>
