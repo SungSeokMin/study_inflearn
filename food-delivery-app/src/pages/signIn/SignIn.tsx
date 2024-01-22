@@ -1,32 +1,43 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack/lib/typescript/src/types';
-import {useCallback, useMemo, useState} from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   Pressable,
   StyleSheet,
   Text,
   TextInput,
-  View,
+  View
 } from 'react-native';
+import Config from 'react-native-config';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { NativeStackScreenProps } from '@react-navigation/native-stack/lib/typescript/src/types';
 
-import {RootStackParamList} from '../../../types/screen.types';
+import axios, { AxiosError } from 'axios';
+
+import { RootStackParamList } from '../../../types/screen.types';
 
 import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKeyboardView';
 
+import { useAppDispatch } from '../../store';
+import { setUser } from '../../slices/user';
+
 type SignInProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
-const SignIn = ({navigation}: SignInProps) => {
+const SignIn = ({ navigation }: SignInProps) => {
+  const dispatch = useAppDispatch();
+
+  const [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const canGoNext = useMemo(() => !!email && !!password, [email, password]);
 
-  const toSignUp = useCallback(
-    () => navigation.navigate('SignUp'),
-    [navigation],
-  );
+  const toSignUp = useCallback(() => navigation.navigate('SignUp'), [navigation]);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
+    if (loading) return;
+
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요');
     }
@@ -35,8 +46,36 @@ const SignIn = ({navigation}: SignInProps) => {
       return Alert.alert('알림', '비밀번호를 입력해주세요');
     }
 
-    Alert.alert('알림', '로그인 되었습니다.');
-  }, [email, password]);
+    try {
+      setLoading(true);
+
+      const response = await axios.post(`${Config.API_URL}/login`, {
+        email,
+        password
+      });
+
+      Alert.alert('알림', '로그인 되었습니다.');
+
+      dispatch(
+        setUser({
+          name: response.data.data.name,
+          email: response.data.data.email,
+          accessToken: response.data.data.accessToken
+        })
+      );
+
+      await EncryptedStorage.setItem('refreshToken', response.data.data.refreshToken);
+    } catch (error) {
+      const errorResponse = (error as AxiosError<{ message: string }>).response;
+
+      console.log('🔥SignIn: 74줄🔥', error);
+      if (errorResponse) {
+        Alert.alert('알림', errorResponse.data.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch, email, loading, password]);
 
   return (
     <DismissKeyboardView>
@@ -77,8 +116,9 @@ const SignIn = ({navigation}: SignInProps) => {
               : StyleSheet.compose(styles.loginButton, styles.loginButtonActive)
           }
           onPress={onSubmit}
-          disabled={!canGoNext}>
-          <Text style={styles.loginButtonText}>로그인</Text>
+          disabled={!canGoNext}
+        >
+          {loading ? <ActivityIndicator /> : <Text style={styles.loginButtonText}>로그인</Text>}
         </Pressable>
 
         <Pressable onPress={toSignUp}>
@@ -91,34 +131,34 @@ const SignIn = ({navigation}: SignInProps) => {
 
 const styles = StyleSheet.create({
   inputWrapper: {
-    padding: 20,
+    padding: 20
   },
   label: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 20
   },
   textInput: {
     padding: 5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   buttonGroup: {
-    alignItems: 'center',
+    alignItems: 'center'
   },
   loginButton: {
     paddingHorizontal: 20,
     paddingVertical: 10,
     marginBottom: 5,
     backgroundColor: 'gray',
-    borderRadius: 5,
+    borderRadius: 5
   },
   loginButtonActive: {
-    backgroundColor: 'blue',
+    backgroundColor: 'blue'
   },
   loginButtonText: {
     fontSize: 16,
-    color: 'white',
-  },
+    color: 'white'
+  }
 });
 
 export default SignIn;
