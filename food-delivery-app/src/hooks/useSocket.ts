@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { io, Socket } from 'socket.io-client';
+
+import SocketIOClient, { Socket } from 'socket.io-client';
 
 import Config from 'react-native-config';
 
@@ -16,7 +17,7 @@ const useSocket = (): useSocketReturnType => {
   }, []);
 
   if (!socket) {
-    socket = io(Config.API_URL as string, {
+    socket = SocketIOClient(Config.API_URL as string, {
       transports: ['websocket']
     });
   }

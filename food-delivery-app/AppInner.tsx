@@ -1,5 +1,5 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,6 +10,8 @@ import SignIn from './src/pages/signIn/SignIn';
 import SignUp from './src/pages/signUp/SignUp';
 import Settings from './src/pages/settings/Settings';
 
+import useSocket from './src/hooks/useSocket';
+
 import { selectIsLoggedIn } from './src/slices/user';
 
 import { LoggedInParamList, RootStackParamList } from './types/screen.types';
@@ -19,6 +21,28 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppInner = () => {
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [socket, disconnect] = useSocket();
+
+  useEffect(() => {
+    const helloCallback = (data: any) => {
+      console.log(data);
+    };
+
+    if (socket && isLoggedIn) {
+      socket.emit('login', 'hello');
+      socket.on('hello', helloCallback);
+    }
+
+    return () => {
+      if (socket) {
+        socket.off('hello', helloCallback);
+      }
+    };
+  }, [isLoggedIn, socket]);
+
+  useEffect(() => {
+    if (!isLoggedIn) disconnect();
+  }, [disconnect, isLoggedIn]);
 
   return (
     <NavigationContainer>

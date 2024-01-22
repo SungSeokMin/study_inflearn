@@ -33,3 +33,4 @@ export default userSlice;
 export const { setUser } = userSlice.actions;
 
 export const selectIsLoggedIn = (state: RootStateType) => !!state.user.email;
+export const selectAccessToken = (state: RootStateType) => state.user.accessToken;
