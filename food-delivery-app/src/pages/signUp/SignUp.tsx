@@ -1,16 +1,10 @@
-import {useCallback, useMemo, useRef, useState} from 'react';
-import {
-  Alert,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import { Alert, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '../../../types/screen.types';
+import axios from 'axios';
+
+import { RootStackParamList } from '../../../types/screen.types';
 
 import DismissKeyboardView from '../../components/dismissKeyboardView/DismissKeyboardView';
 
@@ -25,7 +19,7 @@ function SignUp({}: SignUpScreenProps) {
   const nameRef = useRef<TextInput | null>(null);
   const passwordRef = useRef<TextInput | null>(null);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     if (!email || !email.trim()) {
       return Alert.alert('알림', '이메일을 입력해주세요.');
     }
@@ -37,7 +31,7 @@ function SignUp({}: SignUpScreenProps) {
     }
     if (
       !/^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/.test(
-        email,
+        email
       )
     ) {
       return Alert.alert('알림', '올바른 이메일 주소가 아닙니다.');
@@ -45,17 +39,21 @@ function SignUp({}: SignUpScreenProps) {
     if (!/^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@^!%*#?&]).{8,50}$/.test(password)) {
       return Alert.alert(
         '알림',
-        '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.',
+        '비밀번호는 영문,숫자,특수문자($@^!%*#?&)를 모두 포함하여 8자 이상 입력해야합니다.'
       );
+    }
+
+    try {
+      const response = await axios.post('/user', { email, name, password });
+      console.log('🔥SignUp: 48줄🔥', response);
+    } catch (error) {
+    } finally {
     }
 
     Alert.alert('알림', '회원가입 되었습니다.');
   }, [email, name, password]);
 
-  const canGoNext = useMemo(
-    () => email && name && password,
-    [email, name, password],
-  );
+  const canGoNext = useMemo(() => email && name && password, [email, name, password]);
 
   return (
     <DismissKeyboardView>
@@ -118,7 +116,8 @@ function SignUp({}: SignUpScreenProps) {
               : styles.loginButton
           }
           disabled={!canGoNext}
-          onPress={onSubmit}>
+          onPress={onSubmit}
+        >
           <Text style={styles.loginButtonText}>회원가입</Text>
         </Pressable>
       </View>
@@ -129,33 +128,33 @@ function SignUp({}: SignUpScreenProps) {
 const styles = StyleSheet.create({
   textInput: {
     padding: 5,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: StyleSheet.hairlineWidth
   },
   inputWrapper: {
-    padding: 20,
+    padding: 20
   },
   label: {
     fontWeight: 'bold',
     fontSize: 16,
-    marginBottom: 20,
+    marginBottom: 20
   },
   buttonZone: {
-    alignItems: 'center',
+    alignItems: 'center'
   },
   loginButton: {
     backgroundColor: 'gray',
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 10
   },
   loginButtonActive: {
-    backgroundColor: 'blue',
+    backgroundColor: 'blue'
   },
   loginButtonText: {
     color: 'white',
-    fontSize: 16,
-  },
+    fontSize: 16
+  }
 });
 
 export default SignUp;
