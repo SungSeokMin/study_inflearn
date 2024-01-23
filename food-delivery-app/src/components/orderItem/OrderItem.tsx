@@ -44,6 +44,7 @@ const OrderItem = ({ order }: OrderItem) => {
 
       dispatch(acceptOrder(orderId));
 
+      setLoading(false);
       navigation.navigate('Delivery');
     } catch (error) {
       let errorResponse = (error as AxiosError<{ message: string }>).response;
@@ -52,7 +53,6 @@ const OrderItem = ({ order }: OrderItem) => {
         Alert.alert('알림', errorResponse.data.message);
         dispatch(rejectOrder(orderId));
       }
-    } finally {
       setLoading(false);
     }
     dispatch(acceptOrder(orderId));

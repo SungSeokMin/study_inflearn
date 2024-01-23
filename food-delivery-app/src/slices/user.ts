@@ -21,13 +21,16 @@ const userSlice = createSlice({
     },
     setMoney: (state, action) => {
       state.money = action.payload;
+    },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
     }
   }
 });
 
 export default userSlice;
 
-export const { setUser, setMoney } = userSlice.actions;
+export const { setUser, setMoney, setAccessToken } = userSlice.actions;
 
 export const selectIsLoggedIn = (state: RootStateType) => !!state.user.email;
 export const selectName = (state: RootStateType) => state.user.name;

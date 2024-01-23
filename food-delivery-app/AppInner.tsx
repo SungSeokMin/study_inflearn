@@ -18,7 +18,7 @@ import Settings from './src/pages/settings/Settings';
 import useSocket from './src/hooks/useSocket';
 
 import { useAppDispatch } from './src/store';
-import { selectIsLoggedIn, setUser } from './src/slices/user';
+import { selectIsLoggedIn, setAccessToken, setUser } from './src/slices/user';
 
 import { LoggedInParamList, RootStackParamList } from './types/screen.types';
 import { Order, addOrder } from './src/slices/order';
@@ -31,6 +31,36 @@ const AppInner = () => {
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const [socket, disconnect] = useSocket();
+
+  useEffect(() => {
+    axios.interceptors.response.use(
+      response => response,
+      async error => {
+        const originalRequest = (error as AxiosError).config;
+        const errorResponse = (error as AxiosError<{ code: string }>).response;
+
+        if (errorResponse?.status === 419) {
+          if (errorResponse.data.code === 'expired') {
+            const refreshToken = await EncryptedStorage.getItem('refreshToken');
+            const { data } = await axios.post(
+              `${Config.API_URL}/refreshToken`,
+              {},
+              { headers: { authorization: `Bearer ${refreshToken}` } }
+            );
+
+            dispatch(setAccessToken(data.data.accessToken));
+
+            if (originalRequest) {
+              originalRequest.headers.authorization = `Bearer ${data.data.accessToken}`;
+              return axios(originalRequest);
+            }
+          }
+        }
+
+        return Promise.reject(error);
+      }
+    );
+  }, [dispatch]);
 
   useEffect(() => {
     const callback = (data: Order) => {
