@@ -21,6 +21,7 @@ import { useAppDispatch } from './src/store';
 import { selectIsLoggedIn, setUser } from './src/slices/user';
 
 import { LoggedInParamList, RootStackParamList } from './types/screen.types';
+import { Order, addOrder } from './src/slices/order';
 
 const Tab = createBottomTabNavigator<LoggedInParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,8 +33,8 @@ const AppInner = () => {
   const [socket, disconnect] = useSocket();
 
   useEffect(() => {
-    const callback = (data: any) => {
-      console.log(data);
+    const callback = (data: Order) => {
+      dispatch(addOrder(data));
     };
 
     if (socket && isLoggedIn) {
@@ -46,7 +47,7 @@ const AppInner = () => {
         socket.off('order', callback);
       }
     };
-  }, [isLoggedIn, socket]);
+  }, [dispatch, isLoggedIn, socket]);
 
   useEffect(() => {
     if (!isLoggedIn) disconnect();
