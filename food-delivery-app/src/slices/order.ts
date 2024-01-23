@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { RootStateType } from '../store/reducer';
 
 export interface Order {
   orderId: string;
@@ -48,5 +49,7 @@ const orderSlice = createSlice({
 });
 
 export const { addOrder, acceptOrder, rejectOrder } = orderSlice.actions;
+
+export const selectOrders = (state: RootStateType) => state.order.orders;
 
 export default orderSlice;
