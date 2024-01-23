@@ -8,17 +8,17 @@ const initialState = {
   refreshToken: ''
 };
 
-type SetUserPayload = {
+interface User {
   name: string;
   email: string;
   accessToken: string;
-};
+}
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<SetUserPayload>) => {
+    setUser: (state, action: PayloadAction<User>) => {
       const { email, name, accessToken } = action.payload;
 
       state.email = email;
