@@ -1,11 +1,13 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { DeliveryParamList } from '../../../types/screen.types';
-import { useSelector } from 'react-redux';
-import { selectDeliveries } from '../../slices/order';
 import { useEffect, useState } from 'react';
-import Geolocation from '@react-native-community/geolocation';
 import { Dimensions, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import NaverMapView, { Marker, Path } from 'react-native-nmap';
+import Geolocation from '@react-native-community/geolocation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import { selectDeliveries } from '../../slices/order';
+
+import { DeliveryParamList } from '../../../types/screen.types';
 
 type IngScreenProps = NativeStackScreenProps<DeliveryParamList, 'Ing'>;
 
@@ -123,7 +125,6 @@ function Ing({ navigation }: IngScreenProps) {
             caption={{ text: '도착' }}
             image={require('../../assets/green-dot.png')}
             onClick={() => {
-              console.log(navigation);
               navigation.push('Complete', { orderId: deliveries[0].orderId });
             }}
           />

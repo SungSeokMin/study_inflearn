@@ -22,6 +22,8 @@
     "react-native-config": "^1.4.5",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-flipper": "^0.212.0",
+    "react-native-image-crop-picker": "^0.40.2",
+    "react-native-image-resizer": "^1.4.5",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-nmap": "https://github.com/zerocho/react-native-naver-map",
     "react-native-permissions": "^4.0.4",
