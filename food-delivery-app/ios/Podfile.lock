@@ -503,6 +503,8 @@ PODS:
     - React-perflogger (= 0.72.4)
   - RNCAsyncStorage (1.21.0):
     - React-Core
+  - RNPermissions (4.0.4):
+    - React-Core
   - RNScreens (3.29.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
@@ -580,6 +582,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -692,6 +695,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   Yoga:
@@ -756,11 +761,12 @@ SPEC CHECKSUMS:
   React-utils: b79f2411931f9d3ea5781404dcbb2fa8a837e13a
   ReactCommon: 4b2bdcb50a3543e1c2b2849ad44533686610826d
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNPermissions: 17eccfc717c137192634c5c5df201e96f3b62b30
   RNScreens: 3c5b9f4a9dcde752466854b6109b79c0e205dad3
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   Yoga: 3efc43e0d48686ce2e8c60f99d4e6bd349aff981
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 0ca625410874b20161af48699aab410724010015
+PODFILE CHECKSUM: 2d102c01dc96e78ff7ea3ddad6346186b9f93881
 
 COCOAPODS: 1.14.3

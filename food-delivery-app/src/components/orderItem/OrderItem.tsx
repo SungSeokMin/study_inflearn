@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Alert, Dimensions } from 'react-native';
 import Config from 'react-native-config';
+import NaverMapView, { Marker, Path } from 'react-native-nmap';
 
 import axios, { AxiosError } from 'axios';
 
@@ -79,8 +80,34 @@ const OrderItem = ({ order }: OrderItem) => {
 
       {detail && (
         <View>
-          <View>
-            <Text>네이버맵이 들어갈 장소</Text>
+          <View style={styles.mapContainer}>
+            <NaverMapView
+              style={styles.map}
+              center={{
+                zoom: 10,
+                tilt: 50,
+                latitude: (start.latitude + end.latitude) / 2,
+                longitude: (start.longitude + end.longitude) / 2
+              }}
+            >
+              <Marker
+                coordinate={{
+                  latitude: start.latitude,
+                  longitude: start.longitude
+                }}
+                pinColor="blue"
+              />
+              <Path
+                coordinates={[
+                  {
+                    latitude: start.latitude,
+                    longitude: start.longitude
+                  },
+                  { latitude: end.latitude, longitude: end.longitude }
+                ]}
+              />
+              <Marker coordinate={{ latitude: end.latitude, longitude: end.longitude }} />
+            </NaverMapView>
           </View>
           <View style={styles.buttonWrapper}>
             <Pressable style={styles.acceptButton} disabled={loading} onPress={onAccept}>
@@ -132,6 +159,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16
+  },
+  mapContainer: { width: Dimensions.get('window').width - 30, height: 200, marginTop: 10 },
+  map: {
+    width: '100%',
+    height: '100%'
   }
 });
 

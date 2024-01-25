@@ -22,11 +22,14 @@ import { selectIsLoggedIn, setAccessToken, setUser } from './src/slices/user';
 
 import { LoggedInParamList, RootStackParamList } from './types/screen.types';
 import { Order, addOrder } from './src/slices/order';
+import usePermissions from './src/hooks/usePermissions';
 
 const Tab = createBottomTabNavigator<LoggedInParamList>();
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppInner = () => {
+  usePermissions();
+
   const dispatch = useAppDispatch();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
