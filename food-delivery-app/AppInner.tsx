@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 import Config from 'react-native-config';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import SplashScreen from 'react-native-splash-screen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -22,6 +23,7 @@ import { selectIsLoggedIn, setAccessToken, setUser } from './src/slices/user';
 
 import { LoggedInParamList, RootStackParamList } from './types/screen.types';
 import { Order, addOrder } from './src/slices/order';
+
 import usePermissions from './src/hooks/usePermissions';
 
 const Tab = createBottomTabNavigator<LoggedInParamList>();
@@ -91,7 +93,10 @@ const AppInner = () => {
       try {
         const token = await EncryptedStorage.getItem('refreshToken');
 
-        if (!token) return;
+        if (!token) {
+          SplashScreen.hide();
+          return;
+        }
 
         const response = await axios.post(
           `${Config.API_URL}/refreshToken`,
@@ -117,7 +122,7 @@ const AppInner = () => {
           Alert.alert('알림', '다시 로그인 해주세요.');
         }
       } finally {
-        // TODO: 스플래쉬 스크린 삭제
+        SplashScreen.hide();
       }
     };
 
