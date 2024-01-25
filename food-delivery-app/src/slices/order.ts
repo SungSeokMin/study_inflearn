@@ -51,5 +51,6 @@ const orderSlice = createSlice({
 export const { addOrder, acceptOrder, rejectOrder } = orderSlice.actions;
 
 export const selectOrders = (state: RootStateType) => state.order.orders;
+export const selectDeliveries = (state: RootStateType) => state.order.deliveries;
 
 export default orderSlice;

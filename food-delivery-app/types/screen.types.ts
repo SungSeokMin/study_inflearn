@@ -2,10 +2,14 @@ export type LoggedInParamList = {
   Orders: undefined;
   Settings: undefined;
   Delivery: undefined;
-  Complete: {orderId: string};
 };
 
 export type RootStackParamList = {
   SignIn: undefined;
   SignUp: undefined;
+};
+
+export type DeliveryParamList = {
+  Ing: undefined;
+  Complete: { orderId: string };
 };
