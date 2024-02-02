@@ -10,23 +10,65 @@ class HomeScreen extends StatelessWidget {
         bottom: false,
         child: Container(
           color: Colors.black,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Container(
-                color: Colors.red,
-                width: 50.0,
-                height: 50.0,
+              // Expanded / Flexible 위젯은 Row, Column 위젯 안에만 사용할 수 있다.
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    color: Colors.red,
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                  Container(
+                    color: Colors.orange,
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                  Container(
+                    color: Colors.yellow,
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                  Container(
+                    color: Colors.green,
+                    width: 50.0,
+                    height: 50.0,
+                  )
+                ],
               ),
               Container(
                 color: Colors.orange,
                 width: 50.0,
                 height: 50.0,
               ),
-              Container(
-                color: Colors.yellow,
-                width: 50.0,
-                height: 50.0,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    color: Colors.red,
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                  Container(
+                    color: Colors.orange,
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                  Container(
+                    color: Colors.yellow,
+                    width: 50.0,
+                    height: 50.0,
+                  ),
+                  Container(
+                    color: Colors.green,
+                    width: 50.0,
+                    height: 50.0,
+                  )
+                ],
               ),
               Container(
                 color: Colors.green,
