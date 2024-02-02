@@ -3,6 +3,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 final homeUrl = Uri.parse('https://blog.codefactory.ai');
 
+// ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
   WebViewController controller = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted)
