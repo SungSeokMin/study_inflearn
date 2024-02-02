@@ -15,6 +15,13 @@ class HomeScreen extends StatelessWidget {
           title: const Text('Code Factory'),
           centerTitle: true,
           backgroundColor: Colors.orange,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  controller.loadRequest(homeUrl);
+                },
+                icon: const Icon(Icons.home))
+          ],
         ),
         body: WebViewWidget(controller: controller));
   }
