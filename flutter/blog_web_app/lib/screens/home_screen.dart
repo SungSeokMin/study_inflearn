@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  WebViewController controller = WebViewController();
+
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text(
-          'hi',
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Code Factory'),
+          centerTitle: true,
+          backgroundColor: Colors.orange,
         ),
-      ),
-    );
+        body: WebViewWidget(controller: controller));
   }
 }
