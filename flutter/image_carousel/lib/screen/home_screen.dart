@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (nextPage > 4) nextPage = 0;
 
       controller.animateToPage(nextPage,
-          duration: const Duration(milliseconds: 400), curve: Curves.linear);
+          duration: const Duration(milliseconds: 300), curve: Curves.linear);
     });
   }
 
