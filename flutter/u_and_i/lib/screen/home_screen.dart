@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,33 +29,64 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _TopPart extends StatelessWidget {
+class _TopPart extends StatefulWidget {
   const _TopPart();
 
   @override
+  State<_TopPart> createState() => _TopPartState();
+}
+
+class _TopPartState extends State<_TopPart> {
+  DateTime selectedDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const Text('U*I',
               style: TextStyle(color: Colors.white, fontFamily: 'parisienne', fontSize: 80.0)),
-          const Column(children: [
-            Text('우리 처음 만난 날',
+          Column(children: [
+            const Text('우리 처음 만난 날',
                 style: TextStyle(color: Colors.white, fontFamily: 'sunflower', fontSize: 30.0)),
-            Text('2021.12.27',
-                style: TextStyle(color: Colors.white, fontFamily: 'sunflower', fontSize: 20.0)),
+            Text('${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
+                style:
+                    const TextStyle(color: Colors.white, fontFamily: 'sunflower', fontSize: 20.0)),
           ]),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              // dialog
+              showCupertinoDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        color: Colors.white,
+                        height: 300.0,
+                        child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.date,
+                            initialDateTime: selectedDate,
+                            maximumDate: DateTime(now.year, now.month, now.day),
+                            onDateTimeChanged: (DateTime date) {
+                              setState(() => selectedDate = date);
+                            }),
+                      ),
+                    );
+                  });
+            },
             icon: const Icon(
               Icons.favorite,
               color: Colors.red,
             ),
             iconSize: 60.0,
           ),
-          const Text('D+1',
-              style: TextStyle(
+          Text('D+${DateTime(now.year, now.month, now.day).difference(selectedDate).inDays + 1}',
+              style: const TextStyle(
                   color: Colors.white,
                   fontFamily: 'sunflower',
                   fontWeight: FontWeight.w700,
