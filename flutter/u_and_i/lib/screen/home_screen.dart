@@ -70,20 +70,18 @@ class _TopPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     final now = DateTime.now();
 
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Text('U*I',
-              style: TextStyle(color: Colors.white, fontFamily: 'parisienne', fontSize: 80.0)),
+          Text('U*I', style: textTheme.displayLarge),
           Column(children: [
-            const Text('우리 처음 만난 날',
-                style: TextStyle(color: Colors.white, fontFamily: 'sunflower', fontSize: 30.0)),
+            Text('우리 처음 만난 날', style: textTheme.bodyLarge),
             Text('${selectedDate.year}.${selectedDate.month}.${selectedDate.day}',
-                style:
-                    const TextStyle(color: Colors.white, fontFamily: 'sunflower', fontSize: 20.0)),
+                style: textTheme.bodyMedium)
           ]),
           IconButton(
             onPressed: onPressed,
@@ -94,11 +92,7 @@ class _TopPart extends StatelessWidget {
             iconSize: 60.0,
           ),
           Text('D+${DateTime(now.year, now.month, now.day).difference(selectedDate).inDays + 1}',
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'sunflower',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 50.0)),
+              style: textTheme.displayMedium),
         ],
       ),
     );
