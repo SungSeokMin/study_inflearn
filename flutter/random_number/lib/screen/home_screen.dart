@@ -12,7 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static List<int> randomNumber = [123, 456, 789];
+  int maxNumber = 1000;
+  List<int> randomNumber = [123, 456, 789];
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const _Header(),
+              _Header(onPressed: onSettingsPop),
               _Body(randomNumber: randomNumber),
               _Fotter(onPressed: onRandomNumberGenerate)
             ],
@@ -39,17 +40,29 @@ class _HomeScreenState extends State<HomeScreen> {
     final Set<int> newNumbers = {};
 
     while (newNumbers.length != 3) {
-      final num = random.nextInt(1000);
+      final num = random.nextInt(maxNumber);
 
       newNumbers.add(num);
     }
 
     setState(() => randomNumber = newNumbers.toList());
   }
+
+  void onSettingsPop() async {
+    final result = await Navigator.of(context).push<int?>(
+      MaterialPageRoute(builder: (BuildContext context) {
+        return const SettingsScreen();
+      }),
+    );
+
+    if (result != null) setState(() => maxNumber = result);
+  }
 }
 
 class _Header extends StatelessWidget {
-  const _Header();
+  final VoidCallback onPressed;
+
+  const _Header({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +78,7 @@ class _Header extends StatelessWidget {
           ),
         ),
         IconButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) {
-                  return const SettingsScreen();
-                }),
-              );
-            },
+            onPressed: onPressed,
             icon: const Icon(
               Icons.settings,
               color: redColor,
