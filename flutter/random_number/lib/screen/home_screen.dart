@@ -9,6 +9,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Widget> showNumber() {
+    return [123, 456, 789]
+        .map(
+          (number) => Row(
+            children: number
+                .toString()
+                .split('')
+                .map(
+                  (x) => Image.asset(
+                    'asset/img/$x.png',
+                    width: 50.0,
+                    height: 70.0,
+                  ),
+                )
+                .toList(),
+          ),
+        )
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                 ],
               ),
-              const Expanded(
+              Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('123'),
-                    Text('456'),
-                    Text('789'),
-                  ],
+                  children: showNumber(),
                 ),
               ),
               SizedBox(
