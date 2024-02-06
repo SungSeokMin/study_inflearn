@@ -10,8 +10,38 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text('Hello World'),
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('랜덤숫자 생성기'),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.settings)),
+              ],
+            ),
+            const Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('123'),
+                  Text('456'),
+                  Text('789'),
+                ],
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('생성하기'),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
