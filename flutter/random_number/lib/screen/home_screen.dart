@@ -9,21 +9,27 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const numbers = [123, 456, 789];
+  final numbersMap = numbers.asMap().entries;
+
   List<Widget> showNumber() {
-    return [123, 456, 789]
+    return numbersMap
         .map(
-          (number) => Row(
-            children: number
-                .toString()
-                .split('')
-                .map(
-                  (x) => Image.asset(
-                    'asset/img/$x.png',
-                    width: 50.0,
-                    height: 70.0,
-                  ),
-                )
-                .toList(),
+          (x) => Padding(
+            padding: EdgeInsets.only(bottom: x.key == numbers.length - 1 ? 0 : 16.0),
+            child: Row(
+              children: x.value
+                  .toString()
+                  .split('')
+                  .map(
+                    (x) => Image.asset(
+                      'asset/img/$x.png',
+                      width: 50.0,
+                      height: 70.0,
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         )
         .toList();
