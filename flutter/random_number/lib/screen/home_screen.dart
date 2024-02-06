@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:random_number/constant/color.dart';
 
@@ -9,14 +11,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const numbers = [123, 456, 789];
-  final numbersMap = numbers.asMap().entries;
+  static List<int> randonNumber = [123, 456, 789];
 
   List<Widget> showNumber() {
-    return numbersMap
+    return randonNumber
+        .asMap()
+        .entries
         .map(
           (x) => Padding(
-            padding: EdgeInsets.only(bottom: x.key == numbers.length - 1 ? 0 : 16.0),
+            padding: EdgeInsets.only(bottom: x.key == randonNumber.length - 1 ? 0 : 16.0),
             child: Row(
               children: x.value
                   .toString()
@@ -73,7 +76,19 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final random = Random();
+
+                    final Set<int> newNumbers = {};
+
+                    while (newNumbers.length != 3) {
+                      final num = random.nextInt(1000);
+
+                      newNumbers.add(num);
+                    }
+
+                    setState(() => randonNumber = newNumbers.toList());
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: redColor,
                   ),
