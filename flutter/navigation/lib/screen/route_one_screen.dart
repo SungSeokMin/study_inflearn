@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/layout/main_layout.dart';
+import 'package:navigation/screen/route_two_screen.dart';
 
 class RouteOneScreen extends StatelessWidget {
   const RouteOneScreen({super.key});
@@ -13,6 +14,21 @@ class RouteOneScreen extends StatelessWidget {
         },
         child: const Text('Pop'),
       ),
+      ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) {
+                return const RouteTwoScreen();
+              },
+              settings: const RouteSettings(
+                arguments: 789,
+              ),
+            ),
+          );
+        },
+        child: const Text('Push'),
+      )
     ]);
   }
 }
