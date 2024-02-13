@@ -10,17 +10,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  bool choolCheckDone = false;
+
   static const LatLng companyLatLng = LatLng(37.5233273, 126.921252);
 
   final CameraPosition initialPosition = const CameraPosition(target: companyLatLng, zoom: 15);
 
-  static const double distance = 100;
+  static const double okDistance = 100;
 
   static Circle withinDistanceCircle = Circle(
     circleId: const CircleId('withinDistanceCircle'),
     center: companyLatLng,
     fillColor: Colors.blue.withOpacity(0.5),
-    radius: distance,
+    radius: okDistance,
     strokeColor: Colors.blue,
     strokeWidth: 1,
   );
@@ -28,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     circleId: const CircleId('notWithinDistanceCircle'),
     center: companyLatLng,
     fillColor: Colors.red.withOpacity(0.5),
-    radius: distance,
+    radius: okDistance,
     strokeColor: Colors.red,
     strokeWidth: 1,
   );
@@ -36,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     circleId: const CircleId('checkDoneCircle'),
     center: companyLatLng,
     fillColor: Colors.green.withOpacity(0.5),
-    radius: distance,
+    radius: okDistance,
     strokeColor: Colors.green,
     strokeWidth: 1,
   );
@@ -60,16 +62,46 @@ class _HomeScreenState extends State<HomeScreen> {
             }
 
             if (snapshot.data == '위치 권한이 허가 되었습니다.') {
-              return Column(
-                children: [
-                  _CustomGoogleMap(
-                    initialPosition: initialPosition,
-                    withinDistanceCircle: withinDistanceCircle,
-                    marker: marker,
-                  ),
-                  const _ChoolCheckButton(),
-                ],
-              );
+              return StreamBuilder<Position>(
+                  stream: Geolocator.getPositionStream(),
+                  builder: (context, snapshot) {
+                    bool isWithinRange = false;
+
+                    if (snapshot.hasData) {
+                      final start = snapshot.data!;
+                      const end = companyLatLng;
+
+                      final distance = Geolocator.distanceBetween(
+                        start.latitude,
+                        start.longitude,
+                        end.latitude,
+                        end.longitude,
+                      );
+
+                      if (distance < okDistance) {
+                        isWithinRange = true;
+                      }
+                    }
+
+                    return Column(
+                      children: [
+                        _CustomGoogleMap(
+                          initialPosition: initialPosition,
+                          withinDistanceCircle: choolCheckDone
+                              ? checkDoneCircle
+                              : isWithinRange
+                                  ? withinDistanceCircle
+                                  : notWithinDistanceCircle,
+                          marker: marker,
+                        ),
+                        _ChoolCheckButton(
+                          isWithinRange: isWithinRange,
+                          choolCheckDone: choolCheckDone,
+                          onPressed: onChoolCheckPressed,
+                        ),
+                      ],
+                    );
+                  });
             }
 
             return Center(
@@ -77,6 +109,35 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }),
     );
+  }
+
+  void onChoolCheckPressed() async {
+    final result = await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('출근하기'),
+            content: const Text('출근을 하시겠습니까?'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text('취소')),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text('출근하기')),
+            ],
+          );
+        });
+
+    if (result) {
+      setState(() {
+        choolCheckDone = result;
+      });
+    }
   }
 
   Future<String> checkPermission() async {
@@ -140,12 +201,36 @@ class _CustomGoogleMap extends StatelessWidget {
 }
 
 class _ChoolCheckButton extends StatelessWidget {
-  const _ChoolCheckButton();
+  final bool isWithinRange;
+  final bool choolCheckDone;
+  final VoidCallback onPressed;
+
+  const _ChoolCheckButton({
+    required this.isWithinRange,
+    required this.choolCheckDone,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
-      child: Text('출근'),
+    return Expanded(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Icon(
+          Icons.timelapse_outlined,
+          size: 50.0,
+          color: choolCheckDone
+              ? Colors.green
+              : isWithinRange
+                  ? Colors.blue
+                  : Colors.red,
+        ),
+        const SizedBox(height: 20.0),
+        if (!choolCheckDone && isWithinRange)
+          TextButton(
+            onPressed: onPressed,
+            child: const Text('출근하기'),
+          ),
+      ]),
     );
   }
 }
