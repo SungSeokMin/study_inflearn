@@ -16,6 +16,7 @@ class CustomVideoPlayer extends StatefulWidget {
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   VideoPlayerController? videoController;
   Duration currentPosition = const Duration();
+  bool showControls = false;
 
   @override
   void initState() {
@@ -50,23 +51,35 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     return AspectRatio(
       aspectRatio: videoController!.value.aspectRatio,
-      child: Stack(
-        children: [
-          VideoPlayer(
-            videoController!,
-          ),
-          _Controls(
-              isPlaying: videoController!.value.isPlaying,
-              onReversePressed: onReversePressed,
-              onPlayPressed: onPlayPressed,
-              onForwardPressed: onForwardPressed),
-          _NewVideo(onPressed: onNewVideoPressed),
-          _SliderBottom(
-            maxPosition: videoController!.value.duration,
-            currentPosition: currentPosition,
-            onChanged: onChanged,
-          ),
-        ],
+      child: GestureDetector(
+        onTap: () {
+          setState(() {
+            showControls = !showControls;
+          });
+        },
+        child: Stack(
+          children: [
+            VideoPlayer(
+              videoController!,
+            ),
+            if (showControls)
+              _Controls(
+                isPlaying: videoController!.value.isPlaying,
+                onReversePressed: onReversePressed,
+                onPlayPressed: onPlayPressed,
+                onForwardPressed: onForwardPressed,
+              ),
+            if (showControls)
+              _NewVideo(
+                onPressed: onNewVideoPressed,
+              ),
+            _SliderBottom(
+              maxPosition: videoController!.value.duration,
+              currentPosition: currentPosition,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
       ),
     );
   }
