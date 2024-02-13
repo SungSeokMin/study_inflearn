@@ -16,13 +16,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const double distance = 100;
 
-  static Circle circle = Circle(
-    circleId: const CircleId('circle'),
+  static Circle withinDistanceCircle = Circle(
+    circleId: const CircleId('withinDistanceCircle'),
     center: companyLatLng,
     fillColor: Colors.blue.withOpacity(0.5),
     radius: distance,
     strokeColor: Colors.blue,
     strokeWidth: 1,
+  );
+  static Circle notWithinDistanceCircle = Circle(
+    circleId: const CircleId('notWithinDistanceCircle'),
+    center: companyLatLng,
+    fillColor: Colors.red.withOpacity(0.5),
+    radius: distance,
+    strokeColor: Colors.red,
+    strokeWidth: 1,
+  );
+  static Circle checkDoneCircle = Circle(
+    circleId: const CircleId('checkDoneCircle'),
+    center: companyLatLng,
+    fillColor: Colors.green.withOpacity(0.5),
+    radius: distance,
+    strokeColor: Colors.green,
+    strokeWidth: 1,
+  );
+
+  static Marker marker = const Marker(
+    markerId: MarkerId('marker'),
+    position: companyLatLng,
   );
 
   @override
@@ -41,7 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
             if (snapshot.data == '위치 권한이 허가 되었습니다.') {
               return Column(
                 children: [
-                  _CustomGoogleMap(initialPosition: initialPosition, circle: circle),
+                  _CustomGoogleMap(
+                    initialPosition: initialPosition,
+                    withinDistanceCircle: withinDistanceCircle,
+                    marker: marker,
+                  ),
                   const _ChoolCheckButton(),
                 ],
               );
@@ -92,9 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 class _CustomGoogleMap extends StatelessWidget {
   final CameraPosition initialPosition;
-  final Circle circle;
+  final Circle withinDistanceCircle;
+  final Marker marker;
 
-  const _CustomGoogleMap({required this.initialPosition, required this.circle});
+  const _CustomGoogleMap(
+      {required this.initialPosition, required this.withinDistanceCircle, required this.marker});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +132,8 @@ class _CustomGoogleMap extends StatelessWidget {
         mapType: MapType.normal,
         myLocationEnabled: true,
         myLocationButtonEnabled: false,
-        circles: {circle},
+        circles: {withinDistanceCircle},
+        markers: {marker},
       ),
     );
   }
