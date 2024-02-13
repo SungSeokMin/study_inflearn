@@ -15,20 +15,29 @@ class CustomVideoPlayer extends StatefulWidget {
 
 class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
   VideoPlayerController? videoController;
+  Duration currentPosition = const Duration();
 
   @override
   void initState() {
     super.initState();
 
-    videoController = VideoPlayerController.file(
-      File(widget.video.path),
-    );
-
     initializeController();
   }
 
   initializeController() async {
+    videoController = VideoPlayerController.file(
+      File(widget.video.path),
+    );
+
     await videoController!.initialize();
+
+    videoController!.addListener(() {
+      setState(() {
+        final currentPosition = videoController!.value.position;
+
+        this.currentPosition = currentPosition;
+      });
+    });
 
     setState(() {});
   }
@@ -51,14 +60,11 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
               onReversePressed: onReversePressed,
               onPlayPressed: onPlayPressed,
               onForwardPressed: onForwardPressed),
-          Positioned(
-            right: 0,
-            child: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.photo_camera_back),
-              color: Colors.white,
-              iconSize: 30.0,
-            ),
+          _NewVideo(onPressed: onNewVideoPressed),
+          _SliderBottom(
+            maxPosition: videoController!.value.duration,
+            currentPosition: currentPosition,
+            onChanged: onChanged,
           ),
         ],
       ),
@@ -103,6 +109,16 @@ class _CustomVideoPlayerState extends State<CustomVideoPlayer> {
 
     videoController!.seekTo(position);
   }
+
+  void onNewVideoPressed() {}
+
+  void onChanged(double val) {
+    videoController!.seekTo(
+      Duration(
+        seconds: val.toInt(),
+      ),
+    );
+  }
 }
 
 class _Controls extends StatelessWidget {
@@ -121,10 +137,10 @@ class _Controls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       color: Colors.black.withOpacity(0.5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           renderIconButton(
             onPressed: onReversePressed,
@@ -152,6 +168,66 @@ class _Controls extends StatelessWidget {
       icon: Icon(iconData),
       color: Colors.white,
       iconSize: 30.0,
+    );
+  }
+}
+
+class _NewVideo extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const _NewVideo({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      right: 0,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: const Icon(Icons.photo_camera_back),
+        color: Colors.white,
+        iconSize: 30.0,
+      ),
+    );
+  }
+}
+
+class _SliderBottom extends StatelessWidget {
+  final Duration currentPosition;
+  final Duration maxPosition;
+  final ValueChanged<double> onChanged;
+
+  const _SliderBottom(
+      {required this.maxPosition, required this.currentPosition, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      left: 0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          children: [
+            Text(
+              '${currentPosition.inMinutes}:${(currentPosition.inSeconds % 60).toString().padLeft(2, '0')}',
+              style: const TextStyle(color: Colors.white),
+            ),
+            Expanded(
+              child: Slider(
+                max: maxPosition.inSeconds.toDouble(),
+                min: 0,
+                value: currentPosition.inSeconds.toDouble(),
+                onChanged: onChanged,
+              ),
+            ),
+            Text(
+              '${maxPosition.inMinutes}:${(maxPosition.inSeconds % 60).toString().padLeft(2, '0')}',
+              style: const TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
