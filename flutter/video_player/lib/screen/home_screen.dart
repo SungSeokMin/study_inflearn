@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget renderVideo() {
     return Center(
-      child: CustonVideoPlayer(video: video!),
+      child: CustomVideoPlayer(video: video!),
     );
   }
 
