@@ -1,3 +1,4 @@
+import 'package:calendar_scheduler/component/calendar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,9 +7,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Center(
-        child: Text(
-          'calendar_scheduler',
+      body: SafeArea(
+        child: Column(
+          children: [
+            Calendar(),
+          ],
         ),
       ),
     );
