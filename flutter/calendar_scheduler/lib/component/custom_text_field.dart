@@ -5,11 +5,13 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final bool isTime;
+  final FormFieldSetter<String> onSaved;
 
   const CustomTextField({
     super.key,
     required this.label,
     required this.isTime,
+    required this.onSaved,
   });
 
   @override
@@ -38,6 +40,7 @@ class CustomTextField extends StatelessWidget {
 
   Widget renderTextField() {
     return TextFormField(
+      onSaved: onSaved,
       validator: (String? val) {
         if (val == null || val.isEmpty) return '값을 입력해주세요.';
 
