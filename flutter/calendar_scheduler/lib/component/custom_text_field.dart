@@ -37,7 +37,12 @@ class CustomTextField extends StatelessWidget {
   }
 
   Widget renderTextField() {
-    return TextField(
+    return TextFormField(
+      validator: (String? val) {
+        if (val == null || val.isEmpty) return '값을 입력해주세요.';
+
+        return null;
+      },
       expands: !isTime,
       keyboardType: isTime ? TextInputType.number : TextInputType.multiline,
       maxLines: isTime ? 1 : null,

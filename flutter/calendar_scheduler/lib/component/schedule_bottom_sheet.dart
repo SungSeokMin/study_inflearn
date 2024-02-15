@@ -2,9 +2,15 @@ import 'package:calendar_scheduler/component/custom_text_field.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:flutter/material.dart';
 
-class ScheduleBottomSheet extends StatelessWidget {
+class ScheduleBottomSheet extends StatefulWidget {
   const ScheduleBottomSheet({super.key});
 
+  @override
+  State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();
+}
+
+class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
+  final GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
@@ -19,25 +25,36 @@ class ScheduleBottomSheet extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: EdgeInsets.only(bottom: bottomInset),
-            child: const Padding(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Time(),
-                  SizedBox(height: 16.0),
-                  _Content(),
-                  SizedBox(height: 16.0),
-                  _ColorPicker(),
-                  SizedBox(height: 8.0),
-                  _SaveButton()
-                ],
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const _Time(),
+                    const SizedBox(height: 16.0),
+                    const _Content(),
+                    const SizedBox(height: 16.0),
+                    const _ColorPicker(),
+                    const SizedBox(height: 8.0),
+                    _SaveButton(
+                      onPressed: onSavePressed,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  void onSavePressed() {
+    if (formKey.currentState == null) return;
+
+    if (formKey.currentState!.validate()) {}
   }
 }
 
@@ -114,7 +131,9 @@ class _ColorPicker extends StatelessWidget {
 }
 
 class _SaveButton extends StatelessWidget {
-  const _SaveButton();
+  final VoidCallback onPressed;
+
+  const _SaveButton({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +148,7 @@ class _SaveButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4.0),
               ),
             ),
-            onPressed: () {},
+            onPressed: onPressed,
             child: const Text('저장'),
           ),
         ),
