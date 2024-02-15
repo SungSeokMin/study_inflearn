@@ -41,6 +41,13 @@ class CustomTextField extends StatelessWidget {
       validator: (String? val) {
         if (val == null || val.isEmpty) return '값을 입력해주세요.';
 
+        if (isTime) {
+          int time = int.parse(val);
+
+          if (time < 0) return '0 이상의 숫자를 입력해주세요.';
+          if (time > 24) return '24 이하의 숫자를 입력해주세요.';
+        }
+
         return null;
       },
       expands: !isTime,
