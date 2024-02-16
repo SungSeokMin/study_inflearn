@@ -1,12 +1,18 @@
 import 'package:calendar_scheduler/component/custom_text_field.dart';
 import 'package:calendar_scheduler/const/colors.dart';
 import 'package:calendar_scheduler/database/drift_database.dart';
+import 'package:drift/drift.dart' show Value;
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class ScheduleBottomSheet extends StatefulWidget {
-  const ScheduleBottomSheet({super.key});
+  final DateTime selectedDay;
+
+  const ScheduleBottomSheet({
+    super.key,
+    required this.selectedDay,
+  });
 
   @override
   State<ScheduleBottomSheet> createState() => _ScheduleBottomSheetState();
@@ -60,7 +66,7 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
                             selectedColorId = snapshot.data![0].id;
                           }
                           return _ColorPicker(
-                            selectedColorId: selectedColorId!,
+                            selectedColorId: selectedColorId,
                             colors: snapshot.hasData ? snapshot.data! : [],
                             colorIdSetter: colorIdSetter,
                           );
@@ -95,11 +101,24 @@ class _ScheduleBottomSheetState extends State<ScheduleBottomSheet> {
     content = val;
   }
 
-  void onSavePressed() {
+  void onSavePressed() async {
     if (formKey.currentState == null) return;
 
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
+
+      await GetIt.I<LocalDatabase>().createSchedule(
+        SchedulesCompanion(
+          date: Value(widget.selectedDay),
+          startTime: Value(startTime!),
+          endTime: Value(endTime!),
+          content: Value(content!),
+          colorId: Value(selectedColorId!),
+        ),
+      );
+
+      if (!mounted) return;
+      Navigator.of(context).pop();
     }
   }
 }
@@ -162,8 +181,8 @@ typedef ColorIdSetter = void Function(int id);
 
 class _ColorPicker extends StatelessWidget {
   final List<CategoryColorData> colors;
-  final int selectedColorId;
   final ColorIdSetter colorIdSetter;
+  final int? selectedColorId;
 
   const _ColorPicker({
     required this.colors,
