@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatelessWidget {
   final String label;
   final bool isTime;
-  final FormFieldSetter<String> onSaved;
+  final void Function(String?) onSaved;
 
   const CustomTextField({
     super.key,
