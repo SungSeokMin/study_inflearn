@@ -1,0 +1,10 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "OpenSimulator",
+      "type": "shell",
+      "command": "open -a Simulator.app && echo 'Opening Simulator'"
+    }
+  ]
+}
