@@ -1,6 +1,7 @@
 import 'package:dusty_dust/component/card_title.dart';
 import 'package:dusty_dust/component/main_card.dart';
 import 'package:dusty_dust/component/main_stat.dart';
+
 import 'package:dusty_dust/model/stat_and_status_model.dart';
 import 'package:dusty_dust/utils/data_utils.dart';
 
@@ -8,11 +9,15 @@ import 'package:flutter/material.dart';
 
 class CategoryCard extends StatelessWidget {
   final String region;
+  final Color darkColor;
+  final Color lightColor;
   final List<StatAndStatusModel> models;
 
   const CategoryCard({
     super.key,
     required this.region,
+    required this.darkColor,
+    required this.lightColor,
     required this.models,
   });
 
@@ -21,11 +26,15 @@ class CategoryCard extends StatelessWidget {
     return SizedBox(
         height: 160,
         child: MainCard(
+          backgroundColor: lightColor,
           child: LayoutBuilder(builder: (context, constraints) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const CardTitle(title: '종류별 통계'),
+                CardTitle(
+                  title: '종류별 통계',
+                  backgroundColor: darkColor,
+                ),
                 Expanded(
                   child: ListView(
                       physics: const PageScrollPhysics(),

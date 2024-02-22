@@ -1,12 +1,13 @@
-import 'package:dusty_dust/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class MainCard extends StatelessWidget {
   final Widget child;
+  final Color backgroundColor;
 
   const MainCard({
     super.key,
     required this.child,
+    required this.backgroundColor,
   });
 
   @override
@@ -22,7 +23,7 @@ class MainCard extends StatelessWidget {
           ),
         ),
       ),
-      color: lightColor,
+      color: backgroundColor,
       child: child,
     );
   }
