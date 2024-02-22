@@ -22,10 +22,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<Map<ItemCode, List<StatModel>>> fetchData() async {
     Map<ItemCode, List<StatModel>> stats = {};
 
-    for (ItemCode itemCode in ItemCode.values) {
-      final statModels = await StatRepository.fetchData(itemCode: itemCode);
+    List<Future> futures = [];
 
-      stats.addAll({itemCode: statModels});
+    for (ItemCode itemCode in ItemCode.values) {
+      futures.add(StatRepository.fetchData(itemCode: itemCode));
+    }
+
+    final results = await Future.wait(futures);
+
+    for (int i = 0; i < results.length; i++) {
+      final key = ItemCode.values[i];
+      final value = results[i];
+
+      stats.addAll({key: value});
     }
 
     return stats;
