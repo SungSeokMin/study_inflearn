@@ -19,10 +19,16 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String region = regions[0];
 
-  Future<List<StatModel>> fetchData() async {
-    final statModels = await StatRepository.fetchData();
+  Future<Map<ItemCode, List<StatModel>>> fetchData() async {
+    Map<ItemCode, List<StatModel>> stats = {};
 
-    return statModels;
+    for (ItemCode itemCode in ItemCode.values) {
+      final statModels = await StatRepository.fetchData(itemCode: itemCode);
+
+      stats.addAll({itemCode: statModels});
+    }
+
+    return stats;
   }
 
   void onRegionTap(String region) {
@@ -41,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedRegion: region,
         onRegionTap: onRegionTap,
       ),
-      body: FutureBuilder<List<StatModel>>(
+      body: FutureBuilder<Map<ItemCode, List<StatModel>>>(
           future: fetchData(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
@@ -52,17 +58,23 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
 
-            List<StatModel> stats = snapshot.data!;
-            StatModel recentStat = stats[0];
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            Map<ItemCode, List<StatModel>> stats = snapshot.data!;
+            StatModel pm10RecentStat = stats[ItemCode.PM10]![0];
 
             final status = DataUtils.getStatusFromItemCodeAndValue(
-                value: recentStat.seoul, itemCode: ItemCode.PM10);
+                value: pm10RecentStat.seoul, itemCode: ItemCode.PM10);
 
             return CustomScrollView(
               slivers: [
                 MainAppBar(
                   region: region,
-                  stat: recentStat,
+                  stat: pm10RecentStat,
                   status: status,
                 ),
                 const SliverToBoxAdapter(
