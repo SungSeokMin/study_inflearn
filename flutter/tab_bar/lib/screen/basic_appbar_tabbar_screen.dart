@@ -14,12 +14,13 @@ class BasicAppbarTabbarScreen extends StatelessWidget {
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(80),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TabBar(
                   indicatorColor: Colors.red,
                   indicatorWeight: 4.0,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  isScrollable: true,
+                  // isScrollable: true,
                   labelColor: Colors.green,
                   unselectedLabelColor: Colors.grey,
                   labelStyle: const TextStyle(
