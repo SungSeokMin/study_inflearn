@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:tab_bar/screen/basic_appbar_tabbar_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Tab-Bar'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Screen'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const BasicAppbarTabbarScreen(),
+                  ),
+                );
+              },
+              child: const Text(
+                'Basic AppBar TabBar Screen',
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
