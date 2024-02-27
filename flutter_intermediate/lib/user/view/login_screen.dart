@@ -6,9 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/component/custom_text_form_filed.dart';
 import 'package:flutter_intermediate/common/const/colors.dart';
 import 'package:flutter_intermediate/common/layout/default_layout.dart';
+import 'package:flutter_intermediate/common/view/root_tab.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String username = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +52,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 CustomTextFormField(
                   hintText: '이메일을 입력해주세요.',
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    username = value;
+                  },
                 ),
                 const SizedBox(
                   height: 16.0,
@@ -51,7 +62,9 @@ class LoginScreen extends StatelessWidget {
                 CustomTextFormField(
                   hintText: '비밀번호를 입력해주세요.',
                   obscureText: true,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    password = value;
+                  },
                 ),
                 const SizedBox(
                   height: 16.0,
@@ -59,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     // ID:Password
-                    const rawString = 'test@codefactory.ai:testtest';
+                    String rawString = '$username:$password';
 
                     Codec<String, String> stringToBase64 = utf8.fuse(base64);
                     String token = stringToBase64.encode(rawString);
@@ -71,7 +84,13 @@ class LoginScreen extends StatelessWidget {
                       ),
                     );
 
-                    print(response.data);
+                    if (!mounted) return;
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const RootTab(),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,
