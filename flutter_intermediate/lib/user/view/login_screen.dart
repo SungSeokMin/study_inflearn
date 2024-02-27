@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/component/custom_text_form_filed.dart';
 import 'package:flutter_intermediate/common/const/colors.dart';
@@ -8,6 +12,13 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dio = Dio();
+
+    const emulatorIp = '10.0.2.2:3000';
+    const simulatorIp = '127.0.0.1:3000';
+
+    final ip = Platform.isIOS ? simulatorIp : emulatorIp;
+
     return DefaultLayout(
       child: SingleChildScrollView(
         // 키보드 입력 중 스크롤 시 키보드 닫힘
@@ -46,7 +57,22 @@ class LoginScreen extends StatelessWidget {
                   height: 16.0,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    // ID:Password
+                    const rawString = 'test@codefactory.ai:testtest';
+
+                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                    String token = stringToBase64.encode(rawString);
+
+                    final response = await dio.post(
+                      'http://$ip/auth/login',
+                      options: Options(
+                        headers: {'authorization': 'Basic $token'},
+                      ),
+                    );
+
+                    print(response.data);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: primaryColor,
                     foregroundColor: Colors.white,
