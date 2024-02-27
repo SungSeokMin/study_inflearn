@@ -45,6 +45,8 @@ class CustomTextFormField extends StatelessWidget {
         fillColor: inputBgColor,
         // 모든 input 상태의 스타일
         border: baseBorder,
+        // 선택되지 않은 input 상태의 스타일
+        enabledBorder: baseBorder,
         // 선택된 input 상태의 스타일
         focusedBorder: baseBorder.copyWith(
           borderSide: baseBorder.borderSide.copyWith(
