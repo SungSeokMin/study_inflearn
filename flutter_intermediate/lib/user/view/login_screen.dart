@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/component/custom_text_form_filed.dart';
 import 'package:flutter_intermediate/common/const/colors.dart';
+import 'package:flutter_intermediate/common/const/data.dart';
 import 'package:flutter_intermediate/common/layout/default_layout.dart';
 import 'package:flutter_intermediate/common/view/root_tab.dart';
 
@@ -83,6 +84,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         headers: {'authorization': 'Basic $token'},
                       ),
                     );
+
+                    final accessToken = response.data['accessToken'];
+                    final refreshToken = response.data['refreshToken'];
+
+                    await storage.write(key: accessTokenKey, value: accessToken);
+                    await storage.write(key: refreshTokenKey, value: refreshToken);
 
                     if (!mounted) return;
 
