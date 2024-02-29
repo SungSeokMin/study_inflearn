@@ -27,12 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
     final dio = Dio();
 
     try {
-      await dio.post(
+      final response = await dio.post(
         'http://$ip/auth/token',
         options: Options(
           headers: {'authorization': 'Bearer $refreshToken'},
         ),
       );
+
+      await storage.write(key: accessTokenKey, value: response.data['accessToken']);
 
       if (!mounted) return;
 
