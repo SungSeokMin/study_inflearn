@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/const/data.dart';
 import 'package:flutter_intermediate/restaurant/component/restaurant_card.dart';
+import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
 
 class RestaurantScreen extends StatelessWidget {
   const RestaurantScreen({super.key});
@@ -39,18 +40,31 @@ class RestaurantScreen extends StatelessWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   final item = snapshot.data![index];
-
-                  return RestaurantCard(
-                    image: Image.network(
-                      'http://$ip${item['thumbUrl']}',
-                      fit: BoxFit.cover,
-                    ),
+                  final parseItem = RestaurantModel(
+                    id: item['id'],
                     name: item['name'],
+                    thumbUrl: 'http://$ip${item['thumbUrl']}',
                     tags: List<String>.from(item['tags']),
+                    priceRange: RestaurantPriceRange.values.firstWhere(
+                      (element) => element.name == item['priceRange'],
+                    ),
                     ratings: item['ratings'],
                     ratingsCount: item['ratingsCount'],
                     deliveryTime: item['deliveryTime'],
                     deliveryFee: item['deliveryFee'],
+                  );
+
+                  return RestaurantCard(
+                    image: Image.network(
+                      parseItem.thumbUrl,
+                      fit: BoxFit.cover,
+                    ),
+                    name: parseItem.name,
+                    tags: parseItem.tags,
+                    ratings: parseItem.ratings,
+                    ratingsCount: parseItem.ratingsCount,
+                    deliveryTime: parseItem.deliveryTime,
+                    deliveryFee: parseItem.deliveryFee,
                   );
                 },
                 separatorBuilder: (context, index) {
