@@ -18,6 +18,7 @@ class RestaurantDetailScreen extends StatelessWidget {
 
   Future<RestaurantDetailModel> getRestaurantDetail() async {
     final dio = Dio();
+
     dio.interceptors.add(
       CustomInterceptor(storage: storage),
     );
