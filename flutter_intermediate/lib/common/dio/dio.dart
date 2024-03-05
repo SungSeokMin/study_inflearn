@@ -13,6 +13,8 @@ class CustomInterceptor extends Interceptor {
   // 실제 토큰을 storage에서 가져와서 authorization: Bearer $token으로 헤더를 변경한다.
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    print('[REQ] [${options.method}] ${options.uri}');
+
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
 
@@ -38,13 +40,16 @@ class CustomInterceptor extends Interceptor {
   // 2) 응답을 받을 때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // TODO: implement onResponse
-    super.onResponse(response, handler);
+    print('[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+
+    return super.onResponse(response, handler);
   }
 
   // 3) 에러가 났을 때
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
+    print('[RES] [${err.requestOptions.method}] ${err.requestOptions.uri}');
+
     // 401에러가 있을 때 토큰을 재발급 받는 시도를하고 토큰이 재발급 되면
     // 다시 새로운 토큰으로 요청을 한다.
 
