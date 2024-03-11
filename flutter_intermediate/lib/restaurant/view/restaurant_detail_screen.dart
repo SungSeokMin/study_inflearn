@@ -3,7 +3,7 @@ import 'package:flutter_intermediate/common/layout/default_layout.dart';
 import 'package:flutter_intermediate/product/component/product_card.dart';
 import 'package:flutter_intermediate/restaurant/component/restaurant_card.dart';
 import 'package:flutter_intermediate/restaurant/model/restaurant_detail_model.dart';
-import 'package:flutter_intermediate/restaurant/repository/restaurant_repository.dart';
+import 'package:flutter_intermediate/restaurant/provider/restaurant_detail_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RestaurantDetailScreen extends ConsumerWidget {
@@ -19,9 +19,7 @@ class RestaurantDetailScreen extends ConsumerWidget {
     return DefaultLayout(
       title: '불타는 떡볶이',
       child: FutureBuilder<RestaurantDetailModel>(
-        future: ref.watch(restaurantRepositoryProvider).getRestaurantDetail(
-              id: id,
-            ),
+        future: ref.watch(restaurantDetailProvider(id)),
         builder: (context, AsyncSnapshot<RestaurantDetailModel> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
