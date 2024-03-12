@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/model/cursor_pagination_model.dart';
 import 'package:flutter_intermediate/restaurant/component/restaurant_card.dart';
-import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
 import 'package:flutter_intermediate/restaurant/provider/restaurant_provider.dart';
-import 'package:flutter_intermediate/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_intermediate/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RestaurantScreen extends ConsumerWidget {
   const RestaurantScreen({super.key});
-
-  Future<List<RestaurantModel>> paginateRestaurant(WidgetRef ref) async {
-    final repository = await ref.watch(restaurantRepositoryProvider).paginate();
-
-    return repository.data;
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
