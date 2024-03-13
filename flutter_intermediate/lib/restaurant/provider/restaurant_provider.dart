@@ -9,7 +9,6 @@ final restaurantProvier =
   final repository = ref.watch(restaurantRepositoryProvider);
 
   return RestaurantStateNotifier(
-    CursorPaginationLoading(),
     repository: repository,
   );
 });
@@ -17,10 +16,9 @@ final restaurantProvier =
 class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
   final RestaurantRepository repository;
 
-  RestaurantStateNotifier(
-    super._state, {
+  RestaurantStateNotifier({
     required this.repository,
-  }) {
+  }) : super(CursorPaginationLoading()) {
     paginate();
   }
 

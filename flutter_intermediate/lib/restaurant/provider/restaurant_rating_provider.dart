@@ -7,14 +7,13 @@ final restaurantRatingProvider =
         (ref, id) {
   final repository = ref.watch(restaurantRatingRepositoryProvider(id));
 
-  return RestaurantRatingStateNotifier(CursorPaginationLoading(), repository: repository);
+  return RestaurantRatingStateNotifier(repository: repository);
 });
 
 class RestaurantRatingStateNotifier extends StateNotifier<CursorPaginationBase> {
   final RestaurantRatingRepository repository;
 
-  RestaurantRatingStateNotifier(
-    super.state, {
+  RestaurantRatingStateNotifier({
     required this.repository,
-  });
+  }) : super(CursorPaginationLoading());
 }
