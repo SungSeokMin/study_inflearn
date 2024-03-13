@@ -5,11 +5,42 @@ import 'package:flutter_intermediate/restaurant/provider/restaurant_provider.dar
 import 'package:flutter_intermediate/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantScreen extends ConsumerWidget {
+class RestaurantScreen extends ConsumerStatefulWidget {
   const RestaurantScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RestaurantScreen> createState() => _RestaurantScreenState();
+}
+
+class _RestaurantScreenState extends ConsumerState<RestaurantScreen>
+    with SingleTickerProviderStateMixin {
+  final ScrollController controller = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.addListener(scrollListener);
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(scrollListener);
+
+    super.dispose();
+  }
+
+  void scrollListener() {
+    // 현재 위치가 최대 길이보다 조금 덜되는 위치까지 왔다면
+    // 새로운 데이터를 추가 요청
+
+    if (controller.offset > controller.position.maxScrollExtent - 300) {
+      ref.read(restaurantProvier.notifier).paginate(fetchMore: true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final data = ref.watch(restaurantProvier);
 
     if (data is CursorPaginationLoading) {
@@ -18,11 +49,18 @@ class RestaurantScreen extends ConsumerWidget {
       );
     }
 
+    if (data is CursorPaginationError) {
+      return Center(
+        child: Text(data.message),
+      );
+    }
+
     final cp = data as CursorPagination;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListView.separated(
+        controller: controller,
         itemCount: cp.data.length,
         itemBuilder: (context, index) {
           final parseItem = cp.data[index];

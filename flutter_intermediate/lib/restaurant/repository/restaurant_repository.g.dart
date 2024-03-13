@@ -27,9 +27,9 @@ class _RestaurantRepository implements RestaurantRepository {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CursorPagination<RestaurantModel>>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<CursorPagination<RestaurantModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -53,15 +53,14 @@ class _RestaurantRepository implements RestaurantRepository {
   }
 
   @override
-  Future<RestaurantDetailModel> getRestaurantDetail(
-      {required String id}) async {
+  Future<RestaurantDetailModel> getRestaurantDetail({required String id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<RestaurantDetailModel>(Options(
+    const Map<String, dynamic>? _data = null;
+    final _result =
+        await _dio.fetch<Map<String, dynamic>>(_setStreamType<RestaurantDetailModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
