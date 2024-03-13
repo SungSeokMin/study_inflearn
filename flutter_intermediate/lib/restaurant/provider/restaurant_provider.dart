@@ -18,7 +18,7 @@ class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
   final RestaurantRepository repository;
 
   RestaurantStateNotifier(
-    super.initialState, {
+    super._state, {
     required this.repository,
   }) {
     paginate();
