@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/const/colors.dart';
+import 'package:collection/collection.dart';
 
 class RatingCard extends StatelessWidget {
   // CircleAvatar
@@ -36,7 +37,14 @@ class RatingCard extends StatelessWidget {
         _Body(
           content: content,
         ),
-        const _Images(),
+        const SizedBox(height: 4.0),
+        if (images.isNotEmpty)
+          SizedBox(
+            height: 100,
+            child: _Images(
+              images: images,
+            ),
+          ),
       ],
     );
   }
@@ -112,10 +120,27 @@ class _Body extends StatelessWidget {
 }
 
 class _Images extends StatelessWidget {
-  const _Images({super.key});
+  final List<Image> images;
+
+  const _Images({
+    required this.images,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: images
+          .mapIndexed(
+            (index, image) => Padding(
+              padding: EdgeInsets.only(right: index == images.length - 1 ? 0 : 16.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: image,
+              ),
+            ),
+          )
+          .toList(),
+    );
   }
 }
