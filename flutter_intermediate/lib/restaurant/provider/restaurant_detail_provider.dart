@@ -1,10 +1,12 @@
-import 'package:flutter_intermediate/restaurant/model/restaurant_detail_model.dart';
-import 'package:flutter_intermediate/restaurant/repository/restaurant_repository.dart';
+import 'package:flutter_intermediate/common/model/cursor_pagination_model.dart';
+import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
+import 'package:flutter_intermediate/restaurant/provider/restaurant_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final restaurantDetailProvider =
-    Provider.family<Future<RestaurantDetailModel>, String>((ref, String id) {
-  final repository = ref.watch(restaurantRepositoryProvider);
+final restaurantDetailProvider = Provider.family<RestaurantModel?, String>((ref, String id) {
+  final state = ref.watch(restaurantProvier);
 
-  return repository.getRestaurantDetail(id: id);
+  if (state is! CursorPagination<RestaurantModel>) return null;
+
+  return state.data.firstWhere((element) => element.id == id);
 });
