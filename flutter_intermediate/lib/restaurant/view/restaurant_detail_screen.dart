@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/layout/default_layout.dart';
 import 'package:flutter_intermediate/product/component/product_card.dart';
+import 'package:flutter_intermediate/rating/component/rating_card.dart';
 import 'package:flutter_intermediate/restaurant/component/restaurant_card.dart';
 import 'package:flutter_intermediate/restaurant/model/restaurant_detail_model.dart';
 import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
@@ -47,6 +48,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           if (state is! RestaurantDetailModel) renderLoading(),
           if (state is RestaurantDetailModel) renderLabel(),
           if (state is RestaurantDetailModel) renderProducts(products: state.products),
+          renderRatingCard(),
         ],
       ),
     );
@@ -118,6 +120,21 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
             );
           },
           childCount: products.length,
+        ),
+      ),
+    );
+  }
+
+  SliverPadding renderRatingCard() {
+    return const SliverPadding(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      sliver: SliverToBoxAdapter(
+        child: RatingCard(
+          avatarimage: AssetImage('asset/img/logo/codefactory_logo.png'),
+          images: [],
+          rating: 4,
+          email: 'jkl154527@gmail.com',
+          content: '맛있습니다.',
         ),
       ),
     );
