@@ -25,10 +25,11 @@ class _RestaurantRatingRepository implements RestaurantRatingRepository {
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(paginationParams?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<CursorPagination<RatingModel>>(Options(
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CursorPagination<RatingModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
