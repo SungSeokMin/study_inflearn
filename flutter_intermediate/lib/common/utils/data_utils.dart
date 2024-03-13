@@ -1,7 +1,11 @@
 import 'package:flutter_intermediate/common/const/data.dart';
 
 class DataUtils {
-  static pathToUrl(String thumbUrl) {
+  static String pathToUrl(String thumbUrl) {
     return 'http://$ip$thumbUrl';
+  }
+
+  static List<String> listPathsToUrls(List<String> paths) {
+    return paths.map((path) => pathToUrl(path)).toList();
   }
 }
