@@ -5,9 +5,10 @@ import 'package:flutter_intermediate/restaurant/component/restaurant_card.dart';
 import 'package:flutter_intermediate/restaurant/model/restaurant_detail_model.dart';
 import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
 import 'package:flutter_intermediate/restaurant/provider/restaurant_detail_provider.dart';
+import 'package:flutter_intermediate/restaurant/provider/restaurant_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RestaurantDetailScreen extends ConsumerWidget {
+class RestaurantDetailScreen extends ConsumerStatefulWidget {
   final String id;
 
   const RestaurantDetailScreen({
@@ -16,8 +17,20 @@ class RestaurantDetailScreen extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(restaurantDetailProvider(id));
+  ConsumerState<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
+}
+
+class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    ref.read(restaurantProvier.notifier).getDetail(id: widget.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final state = ref.watch(restaurantDetailProvider(widget.id));
 
     if (state == null) {
       return const Center(
@@ -30,8 +43,8 @@ class RestaurantDetailScreen extends ConsumerWidget {
       child: CustomScrollView(
         slivers: [
           renderTop(model: state),
-          // renderLabel(),
-          // renderProducts(products: state.products),
+          if (state is RestaurantDetailModel) renderLabel(),
+          if (state is RestaurantDetailModel) renderProducts(products: state.products),
         ],
       ),
     );

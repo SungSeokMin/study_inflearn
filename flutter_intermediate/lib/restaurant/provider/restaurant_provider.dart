@@ -1,5 +1,6 @@
 import 'package:flutter_intermediate/common/model/cursor_pagination_model.dart';
 import 'package:flutter_intermediate/common/model/pagination_params.dart';
+import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
 import 'package:flutter_intermediate/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +24,7 @@ class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
     paginate();
   }
 
-  void paginate({
+  Future<void> paginate({
     int fetchCount = 20,
     // 데이터 추가 요청 -> true: 추가 데이터 요청, false: 첫 20개 요청
     bool fetchMore = false,
@@ -98,5 +99,26 @@ class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
     } catch (err) {
       state = CursorPaginationError(message: '데이터를 가져오지 못했습니다.');
     }
+  }
+
+  getDetail({
+    required String id,
+  }) async {
+    // 만약 아직 데이터가 없는 상태라면 (CursorPagination이 아니라면)
+    // 데이터를 가져오는 시도를 한다.
+    if (state is! CursorPagination) {
+      await paginate();
+    }
+
+    // 위에서 요청을 했는대 error가 발생한 경우
+    if (state is! CursorPagination) return;
+
+    final pState = state as CursorPagination;
+
+    final response = await repository.getRestaurantDetail(id: id);
+
+    state = pState.copyWith(
+      data: pState.data.map<RestaurantModel>((e) => e.id == id ? response : e).toList(),
+    );
   }
 }

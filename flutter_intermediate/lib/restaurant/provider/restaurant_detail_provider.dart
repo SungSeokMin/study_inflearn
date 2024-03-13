@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final restaurantDetailProvider = Provider.family<RestaurantModel?, String>((ref, String id) {
   final state = ref.watch(restaurantProvier);
 
-  if (state is! CursorPagination<RestaurantModel>) return null;
+  if (state is! CursorPagination) return null;
 
   return state.data.firstWhere((element) => element.id == id);
 });
