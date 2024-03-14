@@ -56,7 +56,7 @@ class PaginationProvider<T extends IModelWithId, U extends IBasePaginationReposi
       if (fetchMore) {
         final pState = state as CursorPagination<T>;
 
-        state = CursorPaginationFetchingMore(
+        state = CursorPaginationFetchingMore<T>(
           meta: pState.meta,
           data: pState.data,
         );
