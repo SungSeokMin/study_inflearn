@@ -1,5 +1,5 @@
 import 'package:flutter_intermediate/common/model/cursor_pagination_model.dart';
-import 'package:flutter_intermediate/common/model/pagination_params.dart';
+import 'package:flutter_intermediate/common/provider/pagination_provider.dart';
 import 'package:flutter_intermediate/restaurant/model/restaurant_model.dart';
 import 'package:flutter_intermediate/restaurant/repository/restaurant_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,17 +13,10 @@ final restaurantProvier =
   );
 });
 
-class RestaurantStateNotifier extends StateNotifier<CursorPaginationBase> {
-  final RestaurantRepository repository;
-
+class RestaurantStateNotifier extends PaginationProvider<RestaurantModel, RestaurantRepository> {
   RestaurantStateNotifier({
-    required this.repository,
-  }) : super(CursorPaginationLoading()) {
-    paginate();
-  }
-
- 
-  }
+    required super.repository,
+  });
 
   getDetail({
     required String id,
