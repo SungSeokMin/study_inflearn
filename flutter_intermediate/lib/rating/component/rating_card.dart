@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/const/colors.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_intermediate/rating/model/rating_model.dart';
 
 class RatingCard extends StatelessWidget {
   // CircleAvatar
@@ -11,7 +12,7 @@ class RatingCard extends StatelessWidget {
   final int rating;
   // 이메일
   final String email;
-  // 리뷰 ㅐㄴ용
+  // 리뷰 내용
   final String content;
 
   const RatingCard({
@@ -22,6 +23,16 @@ class RatingCard extends StatelessWidget {
     required this.email,
     required this.content,
   });
+
+  factory RatingCard.fromModel({required RatingModel model}) {
+    return RatingCard(
+      avatarimage: NetworkImage(model.user.imageUrl),
+      images: model.imgUrls.map((img) => Image.network(img)).toList(),
+      rating: model.rating,
+      email: model.user.username,
+      content: model.content,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
