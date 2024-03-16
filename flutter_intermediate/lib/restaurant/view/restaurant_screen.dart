@@ -9,7 +9,7 @@ class RestaurantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PagiatnionListView(
+    return PaginationListView(
       provider: restaurantProvier,
       itemBuilder: <RestaurantModel>(context, index, model) {
         return GestureDetector(

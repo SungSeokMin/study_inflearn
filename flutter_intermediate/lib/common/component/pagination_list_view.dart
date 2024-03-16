@@ -11,21 +11,21 @@ typedef PaginationWidgetBuilder<T extends IModelWithId> = Widget Function(
   T model,
 );
 
-class PagiatnionListView<T extends IModelWithId> extends ConsumerStatefulWidget {
+class PaginationListView<T extends IModelWithId> extends ConsumerStatefulWidget {
   final StateNotifierProvider<PaginationProvider, CursorPaginationBase> provider;
   final PaginationWidgetBuilder itemBuilder;
 
-  const PagiatnionListView({
+  const PaginationListView({
     super.key,
     required this.provider,
     required this.itemBuilder,
   });
 
   @override
-  ConsumerState<PagiatnionListView> createState() => _PagiatnionListViewState<T>();
+  ConsumerState<PaginationListView> createState() => _PaginationListViewState<T>();
 }
 
-class _PagiatnionListViewState<T extends IModelWithId> extends ConsumerState<PagiatnionListView> {
+class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<PaginationListView> {
   final ScrollController controller = ScrollController();
 
   @override
