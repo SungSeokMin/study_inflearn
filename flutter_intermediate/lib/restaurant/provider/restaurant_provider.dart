@@ -34,8 +34,17 @@ class RestaurantStateNotifier extends PaginationProvider<RestaurantModel, Restau
 
     final response = await repository.getRestaurantDetail(id: id);
 
-    state = pState.copyWith(
-      data: pState.data.map<RestaurantModel>((e) => e.id == id ? response : e).toList(),
-    );
+    // 요청 id = 10, list.where((element) => element.id == 10) -> 데이터 없음
+    // 데이터가 없을때는 그냥 캐시의 끝에다가 데이터를 추가해버린다.
+    if (pState.data.where((element) => element.id == id).isEmpty) {
+      state = pState.copyWith(data: <RestaurantModel>[
+        ...pState.data,
+        response,
+      ]);
+    } else {
+      state = pState.copyWith(
+        data: pState.data.map<RestaurantModel>((e) => e.id == id ? response : e).toList(),
+      );
+    }
   }
 }
