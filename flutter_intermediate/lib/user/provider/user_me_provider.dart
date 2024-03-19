@@ -19,7 +19,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     final accessToken = await storage.read(key: accessTokenKey);
     final refreshToken = await storage.read(key: refreshTokenKey);
 
-    if (accessToken == null || refreshToken == null) return;
+    if (accessToken == null || refreshToken == null) {
+      state = null;
+      return;
+    }
 
     final response = await repository.getMe();
 
