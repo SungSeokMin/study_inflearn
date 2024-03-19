@@ -7,6 +7,7 @@ import 'package:flutter_intermediate/common/const/colors.dart';
 import 'package:flutter_intermediate/common/const/data.dart';
 import 'package:flutter_intermediate/common/layout/default_layout.dart';
 import 'package:flutter_intermediate/common/secure_storage/secure_storage.dart';
+import 'package:flutter_intermediate/common/utils/data_utils.dart';
 import 'package:flutter_intermediate/common/view/root_tab.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,8 +72,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     // ID:Password
                     String rawString = '$username:$password';
 
-                    Codec<String, String> stringToBase64 = utf8.fuse(base64);
-                    String token = stringToBase64.encode(rawString);
+                    String token = DataUtils.plainToBase64(rawString);
 
                     final response = await dio.post(
                       'http://$ip/auth/login',
