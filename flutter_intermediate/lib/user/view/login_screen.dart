@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_intermediate/common/component/custom_text_form_filed.dart';
@@ -12,6 +10,8 @@ import 'package:flutter_intermediate/common/view/root_tab.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'login';
+
   const LoginScreen({super.key});
 
   @override

@@ -5,6 +5,8 @@ import 'package:flutter_intermediate/product/view/product_screen.dart';
 import 'package:flutter_intermediate/restaurant/view/restaurant_screen.dart';
 
 class RootTab extends StatefulWidget {
+  static String get routeName => 'home';
+
   const RootTab({super.key});
 
   @override

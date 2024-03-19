@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_intermediate/common/view/root_tab.dart';
+import 'package:flutter_intermediate/common/view/splash_screen.dart';
+import 'package:flutter_intermediate/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter_intermediate/user/model/user_model.dart';
 import 'package:flutter_intermediate/user/provider/user_me_provider.dart';
+import 'package:flutter_intermediate/user/view/login_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,4 +52,28 @@ class AuthProvider extends ChangeNotifier {
 
     return null;
   }
+
+  List<GoRoute> get routes => [
+        GoRoute(
+          path: '/',
+          name: RootTab.routeName,
+          builder: (context, state) => const RootTab(),
+          routes: [
+            GoRoute(
+              path: 'restaurant/:rid',
+              builder: (context, state) => RestaurantDetailScreen(id: state.pathParameters['rid']!),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/splash',
+          name: SplashScreen.routeName,
+          builder: (context, state) => const SplashScreen(),
+        ),
+        GoRoute(
+          path: '/login',
+          name: LoginScreen.routeName,
+          builder: (context, state) => const LoginScreen(),
+        ),
+      ];
 }
