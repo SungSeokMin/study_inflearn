@@ -29,9 +29,11 @@ class AuthProvider extends ChangeNotifier {
   // 앱을 처음 시작했을 때 토큰이 존재하는지 확인하고
   // 로그인 또는 홈 스크린으로 이동하는 과정이 필요
   String? redirectLogic(GoRouterState state) {
+    final location = state.uri.toString();
+
     final UserModelBase? user = ref.read(userMeProvider);
 
-    final logginIn = state.uri.toString() == '/login';
+    final logginIn = location == '/login';
 
     // 유저 정보가 없으면 로그인 중이면 로그인 페이지에 두고, 만약에 로그인중이 아니라면 로그인 페이지로 이동
     if (user == null) {
@@ -40,9 +42,9 @@ class AuthProvider extends ChangeNotifier {
 
     // UserModel
     // 사용자 정보가 있는 상태
-    //  로그인 중 && SplashScreen -> 홈으로 이동
+    //  로그인 중 || SplashScreen -> 홈으로 이동
     if (user is UserModel) {
-      return logginIn && state.uri.toString() == '/splash' ? '/' : null;
+      return logginIn || location == '/splash' ? '/' : null;
     }
 
     // UserModelError
@@ -61,7 +63,9 @@ class AuthProvider extends ChangeNotifier {
           routes: [
             GoRoute(
               path: 'restaurant/:rid',
-              builder: (context, state) => RestaurantDetailScreen(id: state.pathParameters['rid']!),
+              builder: (context, state) => RestaurantDetailScreen(
+                id: state.pathParameters['rid']!,
+              ),
             ),
           ],
         ),
