@@ -91,10 +91,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     if (!mounted) return;
 
-                    Navigator.of(context).push(
+                    Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                         builder: (_) => const RootTab(),
                       ),
+                      (route) => false,
                     );
                   },
                   style: ElevatedButton.styleFrom(
