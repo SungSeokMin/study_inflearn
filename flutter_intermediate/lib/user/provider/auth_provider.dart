@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_intermediate/common/view/root_tab.dart';
 import 'package:flutter_intermediate/common/view/splash_screen.dart';
+import 'package:flutter_intermediate/restaurant/view/basket_screen.dart';
 import 'package:flutter_intermediate/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter_intermediate/user/model/user_model.dart';
 import 'package:flutter_intermediate/user/provider/user_me_provider.dart';
@@ -67,12 +68,17 @@ class AuthProvider extends ChangeNotifier {
           routes: [
             GoRoute(
               path: 'restaurant/:rid',
-              name: RestaurantDetailScreen.routename,
+              name: RestaurantDetailScreen.routeName,
               builder: (context, state) => RestaurantDetailScreen(
                 id: state.pathParameters['rid']!,
               ),
             ),
           ],
+        ),
+        GoRoute(
+          path: '/basket',
+          name: BasketScreen.routeName,
+          builder: (context, state) => const BasketScreen(),
         ),
         GoRoute(
           path: '/splash',
