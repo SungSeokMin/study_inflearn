@@ -30,7 +30,7 @@ class OrderModel implements IModelWithId {
 class OrderProductModel {
   final String id;
   final String name;
-  final String detial;
+  final String detail;
   @JsonKey(fromJson: DataUtils.pathToUrl)
   final String imgUrl;
   final int price;
@@ -38,7 +38,7 @@ class OrderProductModel {
   OrderProductModel({
     required this.id,
     required this.name,
-    required this.detial,
+    required this.detail,
     required this.imgUrl,
     required this.price,
   });

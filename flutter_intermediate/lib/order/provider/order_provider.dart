@@ -16,26 +16,33 @@ class OrderStateNotifier extends StateNotifier<List<OrderModel>> {
   final OrderRepository repository;
 
   OrderStateNotifier({required this.ref, required this.repository}) : super([]);
-
   Future<bool> postOrder() async {
-    const uuid = Uuid();
-    final id = uuid.v4();
-
-    final state = ref.read(basketProvider);
-
     try {
-      final response = await repository.postOrder(
+      const uuid = Uuid();
+
+      final id = uuid.v4();
+
+      final state = ref.read(basketProvider);
+
+      await repository.postOrder(
         body: PostOrderBody(
           id: id,
           products: state
-              .map((e) => PostOrderBodyProduct(productId: e.product.id, count: e.count))
+              .map(
+                (e) => PostOrderBodyProduct(
+                  productId: e.product.id,
+                  count: e.count,
+                ),
+              )
               .toList(),
-          totalPrice:
-              state.fold<int>(0, (previous, next) => previous + (next.count * next.product.price)),
+          totalPrice: state.fold<int>(
+            0,
+            (p, n) => p + (n.count * n.product.price),
+          ),
           createdAt: DateTime.now().toString(),
         ),
       );
-      print(response);
+
       return true;
     } catch (e) {
       return false;

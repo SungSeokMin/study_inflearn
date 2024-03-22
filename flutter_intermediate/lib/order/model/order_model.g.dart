@@ -31,7 +31,7 @@ OrderProductModel _$OrderProductModelFromJson(Map<String, dynamic> json) =>
     OrderProductModel(
       id: json['id'] as String,
       name: json['name'] as String,
-      detial: json['detial'] as String,
+      detail: json['detail'] as String,
       imgUrl: DataUtils.pathToUrl(json['imgUrl'] as String),
       price: json['price'] as int,
     );
@@ -40,7 +40,7 @@ Map<String, dynamic> _$OrderProductModelToJson(OrderProductModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'detial': instance.detial,
+      'detail': instance.detail,
       'imgUrl': instance.imgUrl,
       'price': instance.price,
     };
