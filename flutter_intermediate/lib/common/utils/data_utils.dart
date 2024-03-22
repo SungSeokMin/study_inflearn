@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter_intermediate/common/const/data.dart';
 
 class DataUtils {
+  static DateTime stringToDateTime(String value) {
+    return DateTime.parse(value);
+  }
+
   static String pathToUrl(String thumbUrl) {
     return 'http://$ip$thumbUrl';
   }
