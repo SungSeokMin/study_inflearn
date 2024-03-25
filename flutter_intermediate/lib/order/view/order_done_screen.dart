@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_intermediate/common/const/colors.dart';
 import 'package:flutter_intermediate/common/layout/default_layout.dart';
 import 'package:flutter_intermediate/common/view/root_tab.dart';
