@@ -1,7 +1,41 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_architecture/model/photo.model.dart';
+import 'package:flutter_architecture/ui/ui/photo_widget.dart';
+import 'package:http/http.dart' as http;
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _controller = TextEditingController();
+
+  List<Photo> _photos = [];
+
+  Future<List<Photo>> fetch(String query) async {
+    final response = await http.get(
+      Uri.parse(
+        'https://pixabay.com/api/?key=23377613-9fc7315240ffa4544f10f1e82&q=$query}&image_type=photo&pretty=true',
+      ),
+    );
+
+    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+    Iterable hits = jsonResponse['hits'];
+
+    return hits.map((hit) => Photo.fromJson(hit)).toList();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,60 +52,48 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          renderTextFiled(),
-          renderGridView(),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () async {
+                    final photos = await fetch(_controller.text);
+
+                    setState(() {
+                      _photos = photos;
+                    });
+                  },
+                  icon: const Icon(Icons.search),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+              ),
+              itemCount: _photos.length,
+              itemBuilder: (context, index) {
+                final photo = _photos[index];
+
+                return PhotoWidget(
+                  photo: photo,
+                );
+              },
+            ),
+          ),
         ],
-      ),
-    );
-  }
-
-  // 변수를 사용하지 않고 위젯만 사용한 경우 const를 집어넣는다.
-  // 재사용이 가능하며, 메모리를 아낄 수 있다.
-  Padding renderTextFiled() {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: TextField(
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-          ),
-          suffixIcon: IconButton(
-            onPressed: () {
-              //
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Expanded renderGridView() {
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-        ),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO8cqwcVTXLr1ClylUyrurV8kYdPaEztkbhrbpdQxgMQ&s'),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(16.0),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
