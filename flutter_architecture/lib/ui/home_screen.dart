@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/data/api.dart';
 import 'package:flutter_architecture/model/photo.model.dart';
 import 'package:flutter_architecture/ui/ui/photo_widget.dart';
-import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,22 +11,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final api = PixabayApi();
   final _controller = TextEditingController();
 
   List<Photo> _photos = [];
-
-  Future<List<Photo>> fetch(String query) async {
-    final response = await http.get(
-      Uri.parse(
-        'https://pixabay.com/api/?key=23377613-9fc7315240ffa4544f10f1e82&q=$query}&image_type=photo&pretty=true',
-      ),
-    );
-
-    Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-    Iterable hits = jsonResponse['hits'];
-
-    return hits.map((hit) => Photo.fromJson(hit)).toList();
-  }
 
   @override
   void dispose() {
@@ -64,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    final photos = await fetch(_controller.text);
+                    final photos = await api.fetch(_controller.text);
 
                     setState(() {
                       _photos = photos;
