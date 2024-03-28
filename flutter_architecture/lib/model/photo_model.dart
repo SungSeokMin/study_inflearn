@@ -1,24 +1,15 @@
-import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'photo_model.freezed.dart';
 part 'photo_model.g.dart';
 
-@JsonSerializable()
-class Photo extends Equatable {
-  final int id;
-  final String previewURL;
-  final String tags;
-
-  const Photo({
-    required this.id,
-    required this.previewURL,
-    required this.tags,
-  });
+@freezed
+class Photo with _$Photo {
+  const factory Photo({
+    required int id,
+    required String previewURL,
+    required String tags,
+  }) = _Photo;
 
   factory Photo.fromJson(Map<String, dynamic> json) => _$PhotoFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PhotoToJson(this);
-
-  @override
-  List<Object?> get props => [id];
 }
