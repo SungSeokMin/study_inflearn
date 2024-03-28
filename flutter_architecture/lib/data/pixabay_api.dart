@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_architecture/data/photo_api_repository.dart';
-import 'package:flutter_architecture/model/photo.model.dart';
+import 'package:flutter_architecture/model/photo_model.dart';
 import 'package:http/http.dart' as http;
 
 class PixabayApi implements PhotoApiRepository {

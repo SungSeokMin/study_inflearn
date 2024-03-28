@@ -1,5 +1,5 @@
 import 'package:flutter_architecture/data/photo_api_repository.dart';
-import 'package:flutter_architecture/model/photo.model.dart';
+import 'package:flutter_architecture/model/photo_model.dart';
 import 'package:flutter_architecture/ui/home_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
