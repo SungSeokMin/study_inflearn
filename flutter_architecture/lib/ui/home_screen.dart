@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/data/photo_provider.dart';
 import 'package:flutter_architecture/model/photo_model.dart';
+import 'package:flutter_architecture/ui/home_view_model.dart';
 import 'package:flutter_architecture/ui/widget/photo_widget.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = PhotoProvider.of(context).viewModel;
+    final viewModel = context.watch<HomeViewModel>();
 
     return Scaffold(
       backgroundColor: Colors.white,
