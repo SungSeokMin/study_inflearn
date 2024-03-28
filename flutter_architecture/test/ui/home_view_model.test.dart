@@ -8,20 +8,10 @@ void main() {
     final viewModel = HomeViewModel(FakePhotoApiReposotory());
 
     await viewModel.fetch('apple');
-    await viewModel.fetch('apple');
 
     final result = fakeJson.map((e) => Photo.fromJson(e)).toList();
 
-    expect(
-      viewModel.photoStream,
-      emitsInOrder(
-        [
-          equals([]),
-          equals(result),
-          equals(result),
-        ],
-      ),
-    );
+    expect(viewModel.photos, result);
   });
 }
 

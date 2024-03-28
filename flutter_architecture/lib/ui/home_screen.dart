@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/model/photo_model.dart';
 import 'package:flutter_architecture/ui/home_view_model.dart';
 import 'package:flutter_architecture/ui/widget/photo_widget.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = context.watch<HomeViewModel>();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -52,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () async {
+                    final viewModel = context.read<HomeViewModel>();
                     viewModel.fetch(_controller.text);
                   },
                   icon: const Icon(Icons.search),
@@ -59,31 +57,28 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          StreamBuilder<List<Photo>>(
-              stream: viewModel.photoStream,
-              builder: (context, snapshot) {
-                final photos = snapshot.data;
-                if (photos == null) return const CircularProgressIndicator();
-
-                return Expanded(
-                  child: GridView.builder(
-                    padding: const EdgeInsets.all(16),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
-                    itemCount: photos.length,
-                    itemBuilder: (context, index) {
-                      final photo = photos[index];
-
-                      return PhotoWidget(
-                        photo: photo,
-                      );
-                    },
+          Consumer<HomeViewModel>(
+            builder: (_, viewModel, child) {
+              return Expanded(
+                child: GridView.builder(
+                  padding: const EdgeInsets.all(16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
                   ),
-                );
-              }),
+                  itemCount: viewModel.photos.length,
+                  itemBuilder: (context, index) {
+                    final photo = viewModel.photos[index];
+
+                    return PhotoWidget(
+                      photo: photo,
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
