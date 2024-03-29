@@ -1,18 +1,18 @@
 import 'dart:async';
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/data_source/result.dart';
 import 'package:flutter_architecture/domain/model/photo_model.dart';
 import 'package:flutter_architecture/domain/repository/photo_api_repository.dart';
+import 'package:flutter_architecture/presentation/home/home_state.dart';
 import 'package:flutter_architecture/presentation/home/home_ui_event.dart';
 
 class HomeViewModel with ChangeNotifier {
   final PhotoApiRepository repository;
 
-  List<Photo> _photos = [];
+  HomeState _state = HomeState([], false);
 
-  UnmodifiableListView<Photo> get photos => UnmodifiableListView(_photos);
+  HomeState get state => _state;
 
   final _eventController = StreamController<HomeUiEvent>();
 
@@ -23,13 +23,18 @@ class HomeViewModel with ChangeNotifier {
   );
 
   Future<void> fetch(String query) async {
+    _state = state.copyWith(isLoading: true);
+    notifyListeners();
+
     final Result<List<Photo>> result = await repository.fetch(query);
 
     result.when(success: (photos) {
-      _photos = photos;
+      _state = state.copyWith(photos: photos);
       notifyListeners();
     }, error: (message) {
       _eventController.add(HomeUiEvent.showSnackBar(message));
     });
+    _state = state.copyWith(isLoading: false);
+    notifyListeners();
   }
 }
