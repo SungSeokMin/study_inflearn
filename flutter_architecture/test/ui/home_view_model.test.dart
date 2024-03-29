@@ -1,12 +1,13 @@
 import 'package:flutter_architecture/data/data_source/result.dart';
 import 'package:flutter_architecture/domain/model/photo_model.dart';
 import 'package:flutter_architecture/domain/repository/photo_api_repository.dart';
+import 'package:flutter_architecture/domain/use_case/get_photos_use_case.dart';
 import 'package:flutter_architecture/presentation/home/home_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Stream이 잘 동작해야한다.', () async {
-    final viewModel = HomeViewModel(FakePhotoApiReposotory());
+    final viewModel = HomeViewModel(GetPhotosUseCase(FakePhotoApiReposotory()));
 
     await viewModel.fetch('apple');
 
