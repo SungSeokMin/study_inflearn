@@ -12,13 +12,11 @@ class PhotoApiRepositoryImpl implements PhotoApiRepository {
   Future<Result<List<Photo>>> fetch(String query) async {
     final Result<Iterable> result = await api.fetch(query);
 
-    return result.when(
-      success: (iterable) {
-        return Result.success(iterable.map((hit) => Photo.fromJson(hit)).toList());
-      },
-      error: (message) {
-        return Result.error(message);
-      },
-    );
+    switch (result) {
+      case Success<Iterable>():
+        return Result.success(result.data.map((hit) => Photo.fromJson(hit)).toList());
+      case Error<Iterable>():
+        return Result.error(result.message);
+    }
   }
 }

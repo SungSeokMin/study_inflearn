@@ -12,10 +12,11 @@ class GetPhotosUseCase {
   Future<Result<List<Photo>>> execute(String query) async {
     final result = await repository.fetch(query);
 
-    return result.when(success: (photos) {
-      return Result.success(photos.sublist(0, min(3, photos.length)));
-    }, error: (message) {
-      return Result.error(message);
-    });
+    switch (result) {
+      case Success<List<Photo>>():
+        return Result.success(result.data.sublist(0, min(3, result.data.length)));
+      case Error<List<Photo>>():
+        return Result.error(result.message);
+    }
   }
 }

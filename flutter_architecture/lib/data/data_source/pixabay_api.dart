@@ -22,7 +22,7 @@ class PixabayApi {
 
       return Result.success(hits);
     } catch (err) {
-      return const Result.error('네트워크 에러');
+      return Result.error('네트워크 에러');
     }
   }
 }
