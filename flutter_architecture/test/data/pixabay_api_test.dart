@@ -1,5 +1,7 @@
 import 'package:flutter_architecture/data/data_source/pixabay_api.dart';
+import 'package:flutter_architecture/data/data_source/result.dart';
 import 'package:flutter_architecture/data/repository/photo_api_repository_impl.dart';
+import 'package:flutter_architecture/domain/model/photo_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -24,9 +26,9 @@ void main() {
         ),
       )).thenAnswer((_) async => http.Response(faceJsonBody, 200));
 
-      final result = await api.fetch('iphone');
+      final Result<List<Photo>> result = await api.fetch('iphone');
 
-      expect(result.length, 20);
+      expect((result as Success<List<Photo>>).data.length, 20);
 
       verify(client.get(
         Uri.parse(
