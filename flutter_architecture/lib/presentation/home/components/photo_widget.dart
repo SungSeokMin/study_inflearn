@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_architecture/model/photo_model.dart';
+import 'package:flutter_architecture/domain/model/photo_model.dart';
 
 // 변수를 사용하지 않고 위젯만 사용한 경우 const를 집어넣는다.
 // 재사용이 가능하며, 메모리를 아낄 수 있다.
