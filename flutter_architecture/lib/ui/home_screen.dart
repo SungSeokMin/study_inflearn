@@ -15,8 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = TextEditingController();
 
-  List<Photo> photos = [];
-
   @override
   void dispose() {
     controller.dispose();
@@ -69,31 +67,39 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return IconButton(
       onPressed: () async {
-        final photos = await photoProvider.api.fetch(controller.text);
-        setState(() {
-          this.photos = photos;
-        });
+        photoProvider.fetch(controller.text);
       },
       icon: const Icon(Icons.search),
     );
   }
 
-  Expanded buildGridView() {
-    return Expanded(
-      child: GridView.builder(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-        ),
-        itemCount: photos.length,
-        itemBuilder: (_, index) {
-          final photo = photos[index];
+  StreamBuilder<List<Photo>> buildGridView() {
+    final photoProvider = PhotoProvider.of(context);
 
-          return PhotoWidget(photo: photo);
-        },
-      ),
+    return StreamBuilder<List<Photo>>(
+      stream: photoProvider.photoStream,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const CircularProgressIndicator();
+
+        final photos = snapshot.data!;
+
+        return Expanded(
+          child: GridView.builder(
+            padding: const EdgeInsets.all(16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+            ),
+            itemCount: photos.length,
+            itemBuilder: (_, index) {
+              final photo = photos[index];
+
+              return PhotoWidget(photo: photo);
+            },
+          ),
+        );
+      },
     );
   }
 }
