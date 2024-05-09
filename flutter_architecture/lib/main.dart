@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture/ui/home_screen.dart';
 
 void main() {
   return runApp(
     const MaterialApp(
-      home: HomePage(),
+      home: HomeScreen(),
     ),
   );
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
 }
