@@ -2,6 +2,7 @@ import 'package:flutter_architecture/data/photo_api_repository.dart';
 import 'package:flutter_architecture/model/photo.dart';
 import 'package:flutter_architecture/ui/home_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   test('Stream이 잘 동작해야 한다.', () async {
@@ -21,7 +22,7 @@ void main() {
 
 class FakePhotoApiRepository extends PhotoApiRepository {
   @override
-  Future<List<Photo>> fetch(String query) async {
+  Future<List<Photo>> fetch(String query, {http.Client? client}) async {
     Future.delayed(const Duration(milliseconds: 500));
 
     return fakeJson.map((e) => Photo.fromJson(e)).toList();
