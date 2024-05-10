@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/photo_provider.dart';
 import 'package:flutter_architecture/model/photo.dart';
+import 'package:flutter_architecture/ui/home_view_model.dart';
 import 'package:flutter_architecture/ui/widget/photo_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = PhotoProvider.of(context).viewModel;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -38,20 +41,20 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          buildSearch(),
-          buildGridView(),
+          buildSearch(viewModel),
+          buildGridView(viewModel),
         ],
       ),
     );
   }
 
-  Padding buildSearch() {
+  Padding buildSearch(HomeViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
-          suffixIcon: buildIconButton(),
+          suffixIcon: buildIconButton(viewModel),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
@@ -62,22 +65,18 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  IconButton buildIconButton() {
-    final photoProvider = PhotoProvider.of(context);
-
+  IconButton buildIconButton(HomeViewModel viewModel) {
     return IconButton(
       onPressed: () async {
-        photoProvider.fetch(controller.text);
+        viewModel.fetch(controller.text);
       },
       icon: const Icon(Icons.search),
     );
   }
 
-  StreamBuilder<List<Photo>> buildGridView() {
-    final photoProvider = PhotoProvider.of(context);
-
+  StreamBuilder<List<Photo>> buildGridView(HomeViewModel viewModel) {
     return StreamBuilder<List<Photo>>(
-      stream: photoProvider.photoStream,
+      stream: viewModel.photoStream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const CircularProgressIndicator();
 
