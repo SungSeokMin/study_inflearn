@@ -11,7 +11,7 @@ void main() {
     await viewModel.fetch('apple');
 
     expect(
-      viewModel.photoStream,
+      viewModel.photos,
       emitsInOrder([
         equals([]),
         equals(fakeJson.map((e) => Photo.fromJson(e)).toList()),

@@ -1,22 +1,24 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_architecture/data/photo_api_repository.dart';
 import 'package:flutter_architecture/model/photo.dart';
 
-class HomeViewModel {
+class HomeViewModel with ChangeNotifier {
   final PhotoApiRepository repository;
 
   HomeViewModel({
     required this.repository,
   });
 
-  final photoStreamController = StreamController<List<Photo>>()..add([]);
+  List<Photo> _photos = [];
 
-  Stream<List<Photo>> get photoStream => photoStreamController.stream;
+  List<Photo> get photos => _photos;
 
   Future<void> fetch(String query) async {
     final result = await repository.fetch(query);
 
-    photoStreamController.add(result);
+    _photos = result;
+    notifyListeners();
   }
 }

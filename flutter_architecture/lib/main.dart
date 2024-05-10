@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 void main() {
   return runApp(
     MaterialApp(
-      home: Provider<HomeViewModel>(
+      home: ChangeNotifierProvider<HomeViewModel>(
         create: (_) => HomeViewModel(repository: PixabayApi()),
         child: const HomeScreen(),
       ),
