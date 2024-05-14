@@ -138,7 +138,7 @@ class __$$NoteImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$NoteImpl implements _Note {
   _$NoteImpl(
-      {required this.id,
+      {this.id,
       required this.title,
       required this.content,
       required this.color,
@@ -197,7 +197,7 @@ class _$NoteImpl implements _Note {
 
 abstract class _Note implements Note {
   factory _Note(
-      {required final int? id,
+      {final int? id,
       required final String title,
       required final String content,
       required final int color,
