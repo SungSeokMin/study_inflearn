@@ -3,9 +3,10 @@ import { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-import zLogo from "../../../public/zlogo.png";
+import NavMenu from "@/app/(afterLogin)/_component/NavMenu";
 
 import styles from "./layout.module.css";
+import LogoutButton from "@/app/(afterLogin)/_component/LoginButton";
 
 interface AfterLoginLayoutProps {
   children: ReactNode;
@@ -19,9 +20,21 @@ const AfterLoginLayout = ({ children }: AfterLoginLayoutProps) => {
           <div className={styles.leftSectionFixed}>
             <Link className={styles.logo} href="/home">
               <div className={styles.logoPill}>
-                <Image src={zLogo} alt="logo" width={40} height={40} />
+                <Image src="/zlogo.png" alt="logo" width={40} height={40} />
               </div>
             </Link>
+
+            <nav>
+              <ul>
+                <NavMenu></NavMenu>
+              </ul>
+
+              <Link href="/compose/tweet" className={styles.postButton}>
+                게시하기
+              </Link>
+            </nav>
+
+            <LogoutButton />
           </div>
         </section>
       </header>

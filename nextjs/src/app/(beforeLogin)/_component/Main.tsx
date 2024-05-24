@@ -1,8 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import zLogo from "../../../../public/zlogo.png";
-
 import styles from "@/app/(beforeLogin)/_component/main.module.css";
 
 interface MainProps {}
@@ -11,7 +9,7 @@ const Main = ({}: MainProps) => {
   return (
     <>
       <div className={styles.left}>
-        <Image src={zLogo} alt="logo" />
+        <Image src="/zlogo.png" alt="logo" width={200} height={200} />
       </div>
 
       <div className={styles.right}>

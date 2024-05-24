@@ -65,6 +65,7 @@
   font-weight: 700;
   font-size: 17px;
   border-radius: 26px;
+  text-decoration: none;
 }
 
 .postButton:hover {
@@ -88,7 +89,7 @@
 
 .main {
   width: 600px;
-  height: 200dvh;
+  height: 100dvh;
 }
 
 .rightSection {
