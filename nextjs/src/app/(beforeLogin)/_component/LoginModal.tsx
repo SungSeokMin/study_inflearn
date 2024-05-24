@@ -3,15 +3,20 @@
 import { useState } from "react";
 
 import styles from "@/app/(beforeLogin)/_component/login.module.css";
+import { useRouter } from "next/navigation";
 
 const LoginModal = () => {
+  const router = useRouter();
+
   const [id, setId] = useState();
   const [password, setPassword] = useState();
   const [message, setMessage] = useState();
 
   const onSubmit = () => {};
 
-  const onClickClose = () => {};
+  const onClickClose = () => {
+    router.back();
+  };
 
   const onChangeId = () => {};
 
