@@ -5,16 +5,18 @@ import Image from "next/image";
 
 import NavMenu from "@/app/(afterLogin)/_component/navMenu/NavMenu";
 
-import styles from "./layout.module.css";
 import LogoutButton from "@/app/(afterLogin)/_component/loginButton/LoginButton";
 import TrendSection from "@/app/(afterLogin)/_component/trendSection/TrendSection";
 import FollowRecommend from "@/app/(afterLogin)/_component/followRecommend/FollowRecommend";
 
+import styles from "./layout.module.css";
+
 interface AfterLoginLayoutProps {
   children: ReactNode;
+  modal: ReactNode;
 }
 
-const AfterLoginLayout = ({ children }: AfterLoginLayoutProps) => {
+const AfterLoginLayout = ({ children, modal }: AfterLoginLayoutProps) => {
   return (
     <div className={styles.container}>
       <header className={styles.leftSectionWrapper}>
@@ -28,7 +30,7 @@ const AfterLoginLayout = ({ children }: AfterLoginLayoutProps) => {
 
             <nav>
               <ul>
-                <NavMenu></NavMenu>
+                <NavMenu />
               </ul>
 
               <Link href="/compose/tweet" className={styles.postButton}>
@@ -67,7 +69,7 @@ const AfterLoginLayout = ({ children }: AfterLoginLayoutProps) => {
           </section>
         </div>
       </div>
-      {/*{children}*/}
+      {modal}
     </div>
   );
 };

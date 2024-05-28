@@ -1,7 +1,13 @@
-const TweetPage = () => {
-  return (
-    <div>Tweet Page</div>
-  );
-}
+import HomePage from "@/app/(afterLogin)/home/page";
+import ComposeTweetModal from "@/app/(afterLogin)/@modal/(.)compose/tweet/page";
 
-export default TweetPage;
+const ComposeTweet = () => {
+  return (
+    <>
+      <HomePage />
+      <ComposeTweetModal />
+    </>
+  );
+};
+
+export default ComposeTweet;

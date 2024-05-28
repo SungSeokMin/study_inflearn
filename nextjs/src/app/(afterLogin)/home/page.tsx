@@ -14,17 +14,17 @@ const HomePage = () => {
         <PostForm />
 
         <Post />
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
-        {/*<Post/>*/}
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
+        <Post />
       </TabProvider>
     </main>
   );
