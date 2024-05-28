@@ -43,7 +43,7 @@ const AfterLoginLayout = ({ children }: AfterLoginLayoutProps) => {
 
       <div className={styles.rightSectionWrapper}>
         <div className={styles.rightSectionInner}>
-          <main className={styles.main}></main>
+          <main className={styles.main}>{children}</main>
           <section className={styles.rightSection}>
             <div className={styles.rightSectionMarginBotton}>
               <form className={styles.search}>
