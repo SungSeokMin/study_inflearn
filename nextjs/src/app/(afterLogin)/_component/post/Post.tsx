@@ -7,23 +7,26 @@ import "dayjs/locale/ko";
 
 import style from "./post.module.css";
 import ActionButtons from "@/app/(afterLogin)/_component/post/_component/ActionButtons";
+import PostArticle from "@/app/(afterLogin)/_component/post/_component/PostArticle";
 
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
 const Post = () => {
   const target = {
+    postId: 1,
+    content: "클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ",
+    createdAt: new Date(),
+    Images: [],
     User: {
       id: "elonmusk",
       nickname: "Elon Musk",
       image: "/yRsRRjGO.jpg",
     },
-    content: "클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ",
-    createdAt: new Date(),
-    Images: [],
   };
+  
   return (
-    <article className={style.post}>
+    <PostArticle post={target}>
       <div className={style.postWrapper}>
         <div className={style.postUserSection}>
           <Link href={`/${target.User.id}`} className={style.postUserImage}>
@@ -48,7 +51,7 @@ const Post = () => {
           <ActionButtons />
         </div>
       </div>
-    </article>
+    </PostArticle>
   );
 };
 
