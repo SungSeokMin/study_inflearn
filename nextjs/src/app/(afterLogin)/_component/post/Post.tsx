@@ -14,7 +14,11 @@ import style from "./post.module.css";
 dayjs.locale("ko");
 dayjs.extend(relativeTime);
 
-const Post = () => {
+interface Props {
+  noImage?: boolean;
+}
+
+const Post = ({ noImage }: Props) => {
   const target = {
     postId: 1,
     content: "클론코딩 라이브로 하니 너무 힘들어요 ㅠㅠ",
@@ -27,7 +31,7 @@ const Post = () => {
     },
   };
 
-  if (Math.random() > 0.5) {
+  if (Math.random() > 0.5 && !noImage) {
     target.Images.push({ imageId: 1, link: faker.image.urlLoremFlickr() });
   }
 
@@ -56,8 +60,10 @@ const Post = () => {
           <div className={style.postImageSection}>
             {target.Images && target.Images.length > 0 && (
               <Link
-                href={`${target.User.id}/status/${target.postId}/photo/${target.Images[0]}`}
-              />
+                href={`${target.User.id}/status/${target.postId}/photo/${target.Images[0].imageId}`}
+              >
+                <img src={target.Images[0]?.link} alt="images" />
+              </Link>
             )}
           </div>
           <ActionButtons />
