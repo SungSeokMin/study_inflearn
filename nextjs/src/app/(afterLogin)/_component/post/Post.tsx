@@ -9,6 +9,8 @@ import { faker } from "@faker-js/faker";
 import ActionButtons from "@/app/(afterLogin)/_component/post/_component/ActionButtons";
 import PostArticle from "@/app/(afterLogin)/_component/post/_component/PostArticle";
 
+import PostImages from "@/app/(afterLogin)/_component/post/_component/PostImages";
+
 import style from "./post.module.css";
 
 dayjs.locale("ko");
@@ -58,13 +60,7 @@ const Post = ({ noImage }: Props) => {
           </div>
           <div>{target.content}</div>
           <div className={style.postImageSection}>
-            {target.Images && target.Images.length > 0 && (
-              <Link
-                href={`${target.User.id}/status/${target.postId}/photo/${target.Images[0].imageId}`}
-              >
-                <img src={target.Images[0]?.link} alt="images" />
-              </Link>
-            )}
+            <PostImages post={target} />
           </div>
           <ActionButtons />
         </div>
