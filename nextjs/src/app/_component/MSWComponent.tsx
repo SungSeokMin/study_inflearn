@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "@inquirer/core";
+import { useEffect } from "react";
 
 const MSWComponent = () => {
   useEffect(() => {
