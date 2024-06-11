@@ -1,52 +1,36 @@
+"use client";
+
+import { useFormState, useFormStatus } from "react-dom";
+
+import onSubmit from "../_lib/signup";
+
 import BackButton from "@/app/(beforeLogin)/_component/BackButton";
 
 import styles from "./signup.module.css";
-import { redirect } from "next/navigation";
 
 export default function SignupModal() {
-  const onSubmit = async (formData: FormData) => {
-    "use server";
-    let shouldRedirect = false;
+  const [state, formAction] = useFormState(onSubmit, { message: null });
+  const { pending } = useFormStatus();
 
-    if (!formData.get("id")) {
-      return { message: "no_id" };
+  const showMessage = (message: string | null) => {
+    if (message === "no_id") {
+      return "아이디가 없습니다.";
     }
 
-    if (!formData.get("name")) {
-      return { message: "no_name" };
+    if (message === "no_name") {
+      return "닉네임을 입력하세요.";
     }
 
-    if (!formData.get("password")) {
-      return { message: "no_password" };
+    if (message === "no_password") {
+      return "비밀번호를 입력해주세요.";
     }
 
-    if (!formData.get("image")) {
-      return { message: "no_image" };
+    if (message === "no_image") {
+      return "이미지를 등록해주세요.";
     }
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/users`,
-        {
-          method: "post",
-          body: formData,
-          credentials: "include",
-        },
-      );
-
-      if (response.status === 403) {
-        return { message: "user_exists" };
-      }
-
-      shouldRedirect = true;
-
-      console.log("🔥onSubmit🔥 → 17줄", response);
-    } catch (err) {
-      console.error(err);
-    }
-
-    if (shouldRedirect) {
-      redirect("/home");
+    if (message === "user_exists") {
+      return "이미 사용 중인 아이디입니다.";
     }
   };
 
@@ -58,7 +42,7 @@ export default function SignupModal() {
 
           <div>계정을 생성하세요.</div>
         </div>
-        <form action={onSubmit}>
+        <form action={formAction}>
           <div className={styles.modalBody}>
             <div className={styles.inputDiv}>
               <label className={styles.inputLabel} htmlFor="id">
@@ -69,7 +53,6 @@ export default function SignupModal() {
                 name="id"
                 className={styles.input}
                 type="text"
-                placeholder=""
                 required
               />
             </div>
@@ -83,7 +66,6 @@ export default function SignupModal() {
                 name="name"
                 className={styles.input}
                 type="text"
-                placeholder=""
                 required
               />
             </div>
@@ -97,7 +79,6 @@ export default function SignupModal() {
                 name="password"
                 className={styles.input}
                 type="password"
-                placeholder=""
                 required
               />
             </div>
@@ -117,9 +98,15 @@ export default function SignupModal() {
           </div>
 
           <div className={styles.modalFooter}>
-            <button type="submit" className={styles.actionButton}>
+            <button
+              type="submit"
+              className={styles.actionButton}
+              disabled={pending}
+            >
               가입하기
             </button>
+
+            <div className={styles.error}>{showMessage(state?.message)}</div>
           </div>
         </form>
       </div>

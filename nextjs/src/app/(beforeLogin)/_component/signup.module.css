@@ -10,11 +10,13 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
 @media (prefers-color-scheme: dark) {
   .modalBackground {
     background-color: rgba(91, 112, 131, 0.4);
   }
 }
+
 .modal {
   background-color: #fff;
   position: relative;
@@ -43,6 +45,7 @@
   flex: 1;
   padding: 0 80px;
 }
+
 @media all and (min-width: 687px) {
   .modal {
     top: 5%;
@@ -51,9 +54,11 @@
     height: 550px;
     padding: 0;
   }
+
   .modalHeader {
     padding: 36px 80px 20px;
   }
+
   .modalBody {
     padding: 0 80px;
   }
@@ -66,6 +71,7 @@
   position: relative;
   margin: 12px 0;
 }
+
 .inputLabel {
   width: 100%;
   display: inline-block;
@@ -110,7 +116,7 @@
 }
 
 .actionButton:hover {
-  background-color: rgb(39,44,48);
+  background-color: rgb(39, 44, 48);
 }
 
 .closeButton {
@@ -129,7 +135,7 @@
 }
 
 .closeButton:hover {
-  background-color: rgba(15,20,25, 0.1);
+  background-color: rgba(15, 20, 25, 0.1);
 }
 
 @media all and (min-width: 687px) {
@@ -146,4 +152,9 @@
   .closeButton svg {
     fill: white;
   }
+}
+
+.error {
+  font-weight: bold;
+  color: red;
 }
