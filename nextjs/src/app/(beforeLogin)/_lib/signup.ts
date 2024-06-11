@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { signIn } from "@/auth";
 
 export default async (
   state: { message: string | null },
@@ -37,6 +38,12 @@ export default async (
     if (response.status === 403) {
       return { message: "user_exists" };
     }
+
+    await signIn("credentials", {
+      username: formData.get("id"),
+      password: formData.get("password"),
+      redirect: false,
+    });
 
     shouldRedirect = true;
   } catch (err) {

@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 
 import "./globals.css";
 import MSWComponent from "@/app/_component/MSWComponent";
+import AuthSession from "@/app/_component/AuthSession";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ko">
       <body className={inter.className}>
         <MSWComponent />
-        {children}
+        <AuthSession>{children}</AuthSession>
       </body>
     </html>
   );

@@ -10,6 +10,7 @@ export const {
     signIn: "/i/flow/login",
     newUser: "/i/flow/signup",
   },
+
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
@@ -29,7 +30,14 @@ export const {
 
         if (!response.ok) return null;
 
-        return (await response.json()) ?? null;
+        const user = await response.json();
+
+        return {
+          name: user.nickname,
+          email: user.email,
+          image: user.image,
+          ...user,
+        };
       },
     }),
   ],
