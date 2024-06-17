@@ -16,7 +16,7 @@ const getPostRecommends = async () => {
     next: {
       tags: ["posts", "recommends"],
     },
-    cache: "no-cache",
+    cache: "no-store",
   });
 
   if (!response.ok) {
