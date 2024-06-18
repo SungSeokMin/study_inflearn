@@ -7,24 +7,10 @@ import {
 import Tab from "@/app/(afterLogin)/home/_component/tab/Tab";
 import TabProvider from "@/app/(afterLogin)/home/_component/tabProvider/TabProvider";
 import PostForm from "@/app/(afterLogin)/home/_component/postForm/PostForm";
-import Post from "@/app/(afterLogin)/_component/post/Post";
 
 import styles from "./home.module.css";
-
-const getPostRecommends = async () => {
-  const response = await fetch("http://localhost:9090/api/postRecommends", {
-    next: {
-      tags: ["posts", "recommends"],
-    },
-    cache: "no-store",
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to fetch data");
-  }
-
-  return response.json();
-};
+import PostRecommends from "@/app/(afterLogin)/home/_component/postRecommends/PostRecommends";
+import { getPostRecommends } from "@/app/(afterLogin)/home/_lib/getPostRecommends";
 
 const HomePage = async () => {
   const queryClient = new QueryClient();
@@ -44,18 +30,7 @@ const HomePage = async () => {
 
           <PostForm />
 
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
-          <Post />
+          <PostRecommends />
         </TabProvider>
       </HydrationBoundary>
     </main>

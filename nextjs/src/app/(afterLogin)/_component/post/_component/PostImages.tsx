@@ -2,24 +2,17 @@ import Link from "next/link";
 import cx from "classnames";
 
 import styles from "../post.module.css";
+import { IPost } from "@/model/post.type";
 
 interface Props {
-  post: {
-    postId: number;
-    content: string;
-    createdAt: Date;
-    Images: any[];
-    User: {
-      id: string;
-      nickname: string;
-      image: string;
-    };
-  };
+  post: IPost;
 }
 
 const PostImages = ({ post }: Props) => {
   if (!post.Images) return null;
+
   if (!post.Images.length) return null;
+
   if (post.Images.length === 1) {
     return (
       <Link
@@ -34,6 +27,7 @@ const PostImages = ({ post }: Props) => {
       </Link>
     );
   }
+
   if (post.Images.length === 2) {
     return (
       <div className={cx(styles.postImageSection, styles.twoImage)}>
@@ -63,7 +57,7 @@ const PostImages = ({ post }: Props) => {
             backgroundImage: `url(${post.Images[0]?.link})`,
             backgroundSize: "cover",
           }}
-        ></Link>
+        />
         <div>
           <Link
             href={`/${post.User.id}/status/${post.postId}/photo/${post.Images[1].imageId}`}
@@ -71,14 +65,14 @@ const PostImages = ({ post }: Props) => {
               backgroundImage: `url(${post.Images[1]?.link})`,
               backgroundSize: "cover",
             }}
-          ></Link>
+          />
           <Link
             href={`/${post.User.id}/status/${post.postId}/photo/${post.Images[2].imageId}`}
             style={{
               backgroundImage: `url(${post.Images[2]?.link})`,
               backgroundSize: "cover",
             }}
-          ></Link>
+          />
         </div>
       </div>
     );
@@ -92,28 +86,28 @@ const PostImages = ({ post }: Props) => {
             backgroundImage: `url(${post.Images[0]?.link})`,
             backgroundSize: "cover",
           }}
-        ></Link>
+        />
         <Link
           href={`/${post.User.id}/status/${post.postId}/photo/${post.Images[1].imageId}`}
           style={{
             backgroundImage: `url(${post.Images[1]?.link})`,
             backgroundSize: "cover",
           }}
-        ></Link>
+        />
         <Link
           href={`/${post.User.id}/status/${post.postId}/photo/${post.Images[2].imageId}`}
           style={{
             backgroundImage: `url(${post.Images[2]?.link})`,
             backgroundSize: "cover",
           }}
-        ></Link>
+        />
         <Link
           href={`/${post.User.id}/status/${post.postId}/photo/${post.Images[3].imageId}`}
           style={{
             backgroundImage: `url(${post.Images[3]?.link})`,
             backgroundSize: "cover",
           }}
-        ></Link>
+        />
       </div>
     );
   }
