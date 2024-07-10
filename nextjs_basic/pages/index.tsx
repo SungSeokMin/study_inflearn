@@ -17,7 +17,20 @@ function ProductPage() {
 			.then(response => setProducts(response.data));
 	}, []);
 
-	return <div>상품 목록</div>;
+	if (!products) {
+		return <div>상품이 없습니다.</div>;
+	}
+
+	return (
+		<div>
+			<h1>상품목록 페이지</h1>
+			<ul>
+				{products.map(product => (
+					<li key={product.id}>{product.name}</li>
+				))}
+			</ul>
+		</div>
+	);
 }
 
 export default ProductPage;
