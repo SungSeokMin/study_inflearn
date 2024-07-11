@@ -1,16 +1,21 @@
-import ProductHeader from '@/components/ProductHeader';
 import { GetServerSidePropsContext } from 'next';
 
+import axios from 'axios';
+
+import ProductHeader from '@/components/ProductHeader';
+
+import { ProductType } from '@/types/product.types';
+
 type Props = {
-	message: string;
+	product: ProductType;
 };
 
-const ProductDetailPage = ({ message }: Props) => {
+const ProductDetailPage = ({ product }: Props) => {
 	return (
 		<div>
 			<ProductHeader title="상품 상세 페이지" />
 
-			{message}
+			<p>{product.name}</p>
 		</div>
 	);
 };
@@ -18,8 +23,13 @@ const ProductDetailPage = ({ message }: Props) => {
 export const getServerSideProps = async (
 	context: GetServerSidePropsContext,
 ) => {
+	const id = context.params?.productId;
+
+	const response = await axios.get(`http://localhost:4000/products/${id}`);
+	const product = response.data;
+
 	return {
-		props: { message: '서버 데이터' },
+		props: { product },
 	};
 };
 

@@ -4,17 +4,12 @@ import Image from 'next/image';
 
 import axios from 'axios';
 
+import { ProductType } from '@/types/product.types';
+
 import styles from './ProductList.module.css';
 
-type Product = {
-	id: string;
-	name: string;
-	price: string;
-	imageUrl: string;
-};
-
 const ProductList = () => {
-	const [products, setProducts] = useState<null | Product[]>(null);
+	const [products, setProducts] = useState<null | ProductType[]>(null);
 
 	useEffect(() => {
 		axios
