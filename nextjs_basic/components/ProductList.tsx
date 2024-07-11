@@ -6,6 +6,7 @@ import axios from 'axios';
 
 import { ProductType } from '@/types/product.types';
 
+import Link from 'next/link';
 import styles from './ProductList.module.css';
 
 const ProductList = () => {
@@ -22,16 +23,18 @@ const ProductList = () => {
 			{products
 				? products.map(product => (
 						<li className={styles.item} key={product.id}>
-							<div>
-								<Image
-									src={product.imageUrl}
-									alt={product.name}
-									width={300}
-									height={250}
-								/>
-							</div>
+							<Link href={`/products/${product.id}`}>
+								<div>
+									<Image
+										src={product.imageUrl}
+										alt={product.name}
+										width={300}
+										height={250}
+									/>
+								</div>
 
-							<div>{product.name}</div>
+								<div>{product.name}</div>
+							</Link>
 						</li>
 					))
 				: null}
