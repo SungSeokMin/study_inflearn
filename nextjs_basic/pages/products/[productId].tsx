@@ -1,3 +1,4 @@
+import ProductHeader from '@/components/ProductHeader';
 import { GetServerSidePropsContext } from 'next';
 
 type Props = {
@@ -5,7 +6,13 @@ type Props = {
 };
 
 const ProductDetailPage = ({ message }: Props) => {
-	return <div>{message}</div>;
+	return (
+		<div>
+			<ProductHeader title="상품 상세 페이지" />
+
+			{message}
+		</div>
+	);
 };
 
 export const getServerSideProps = async (
