@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
-import axios from 'axios';
+import { fetchProducts } from '@/api';
 
 import { ProductType } from '@/types/product.types';
 
-import Link from 'next/link';
 import styles from './ProductList.module.css';
 
 const ProductList = () => {
 	const [products, setProducts] = useState<null | ProductType[]>(null);
 
 	useEffect(() => {
-		axios
-			.get('http://localhost:4000/products')
-			.then(response => setProducts(response.data));
+		fetchProducts().then(response => setProducts(response.data));
 	}, []);
 
 	return (
