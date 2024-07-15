@@ -1,14 +1,23 @@
+import { useRouter } from 'next/router';
+
+import { ProductType } from '@/types/product.types';
+
+import Image from 'next/image';
+
+import styles from './Product.module.css';
+
 type Props = {
 	productDetail: ProductType;
 };
 
-import { ProductType } from '@/types/product.types';
-
-import styles from './Product.module.css';
-import Image from 'next/image';
-
 const Product = ({ productDetail }: Props) => {
 	const { name, price, imageUrl } = productDetail;
+
+	const router = useRouter();
+
+	const addCart = () => {
+		router.push('/cart');
+	};
 
 	return (
 		<div className={styles.container}>
@@ -21,7 +30,7 @@ const Product = ({ productDetail }: Props) => {
 
 				<p>{price}</p>
 
-				<button>장바구니에 담기</button>
+				<button onClick={addCart}>장바구니에 담기</button>
 			</div>
 		</div>
 	);
