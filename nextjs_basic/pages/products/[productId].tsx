@@ -3,18 +3,21 @@ import { GetServerSidePropsContext } from 'next';
 import ProductHeader from '@/components/ProductHeader';
 
 import { fetchProductById } from '@/api';
+
+import Product from '@/components/Product';
+
 import { ProductType } from '@/types/product.types';
 
 type Props = {
-	product: ProductType;
+	productDetail: ProductType;
 };
 
-const ProductDetailPage = ({ product }: Props) => {
+const ProductDetailPage = ({ productDetail }: Props) => {
 	return (
 		<div>
 			<ProductHeader title="상품 상세 페이지" />
 
-			<p>{product.name}</p>
+			<Product productDetail={productDetail} />
 		</div>
 	);
 };
@@ -24,11 +27,10 @@ export const getServerSideProps = async (
 ) => {
 	const id = context.params?.productId as string;
 
-	const response = await fetchProductById(id);
-	const product = response.data;
+	const { data } = await fetchProductById(id);
 
 	return {
-		props: { product },
+		props: { productDetail: data },
 	};
 };
 
