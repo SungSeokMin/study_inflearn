@@ -8,20 +8,20 @@ import styles from './Product.module.css';
 import Image from 'next/image';
 
 const Product = ({ productDetail }: Props) => {
-	console.log('🔥Product: 12줄🔥', productDetail);
-	const { id, name, price, imageUrl } = productDetail;
-
-	console.log('🔥Product: 13줄🔥', id);
+	const { name, price, imageUrl } = productDetail;
 
 	return (
-		<div>
+		<div className={styles.container}>
 			<div>
-				<Image src={imageUrl} alt={name} width={250} height={250} />
+				<Image src={imageUrl} alt={name} width={300} height={250} />
 			</div>
 
-			<div>
+			<div className={styles.description}>
 				<p>{name}</p>
+
 				<p>{price}</p>
+
+				<button>장바구니에 담기</button>
 			</div>
 		</div>
 	);
