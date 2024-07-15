@@ -13,7 +13,7 @@ const Product = ({ productDetail }: Props) => {
 	return (
 		<div className={styles.container}>
 			<div>
-				<Image src={imageUrl} alt={name} width={300} height={250} />
+				<Image src={imageUrl} alt={name} width={250} height={250} />
 			</div>
 
 			<div className={styles.description}>
