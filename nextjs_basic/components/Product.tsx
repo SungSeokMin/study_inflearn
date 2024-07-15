@@ -5,17 +5,22 @@ import { ProductType } from '@/types/product.types';
 import Image from 'next/image';
 
 import styles from './Product.module.css';
+import { createCartItem } from '@/api';
 
 type Props = {
 	productDetail: ProductType;
 };
 
 const Product = ({ productDetail }: Props) => {
-	const { name, price, imageUrl } = productDetail;
+	const { id, name, price, imageUrl } = productDetail;
 
 	const router = useRouter();
 
-	const addCart = () => {
+	const addCart = async () => {
+		const response = await createCartItem(productDetail);
+
+		alert('장바구니에 추가되었습니다.');
+
 		router.push('/cart');
 	};
 

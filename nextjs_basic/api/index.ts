@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { ProductType } from '@/types/product.types';
+
 const instance = axios.create({
 	baseURL: 'http://localhost:4000',
 });
@@ -14,4 +16,9 @@ const fetchProductById = (id: string) => {
 	return instance.get(`/products/${id}`);
 };
 
-export { fetchProductById, fetchProducts };
+// 장바구니 추가
+const createCartItem = (product: ProductType) => {
+	return instance.post('/carts', { ...product });
+};
+
+export { fetchProductById, fetchProducts, createCartItem };
