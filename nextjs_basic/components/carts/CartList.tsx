@@ -9,6 +9,9 @@ type Props = {
 };
 
 const CartList = ({ carts }: Props) => {
+	const totalPrice = carts.reduce((acc, cur) => acc + Number(cur.price), 0);
+	const totalQuantity = carts.length;
+
 	return (
 		<>
 			<div>
@@ -34,10 +37,9 @@ const CartList = ({ carts }: Props) => {
 			</div>
 
 			<div>
-				<p>
-					총 가격 : {carts.reduce((acc, cur) => acc + Number(cur.price), 0)}
-				</p>
-				<p>총 수량 : {carts.length} </p>
+				<p>총 가격 : {totalPrice}</p>
+
+				<p>총 수량 : {totalQuantity}</p>
 			</div>
 		</>
 	);
