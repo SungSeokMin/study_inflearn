@@ -4,7 +4,7 @@ import ProductHeader from '@/components/ProductHeader';
 
 import { fetchProductById } from '@/api';
 
-import Product from '@/components/Product';
+import Product from '@/components/product-detail/Product';
 
 import { ProductType } from '@/types/product.types';
 

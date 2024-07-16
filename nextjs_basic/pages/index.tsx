@@ -1,5 +1,5 @@
+import ProductList from '@/components/product-list/ProductList';
 import ProductHeader from '@/components/ProductHeader';
-import ProductList from '@/components/ProductList';
 
 function ProductPage() {
 	return (
