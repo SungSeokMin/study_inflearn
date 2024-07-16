@@ -1,17 +1,34 @@
+import Image from 'next/image';
+
 import { ProductType } from '@/types/product.types';
+
+import styles from './CartList.module.css';
 
 type Props = {
 	carts: ProductType[];
 };
 
 const CartList = ({ carts }: Props) => {
-	console.log('🔥CartList: 8줄🔥', carts);
 	return (
 		<>
 			<div>
 				<ul>
 					{carts.map(cart => (
-						<li key={cart.id}>{cart.name}</li>
+						<li className={styles.item} key={cart.id}>
+							<div>
+								<Image
+									src={cart.imageUrl}
+									alt={cart.name}
+									width={75}
+									height={75}
+								/>
+							</div>
+
+							<div>
+								<div>{cart.name}</div>
+								<div>{cart.price}</div>
+							</div>
+						</li>
 					))}
 				</ul>
 			</div>
