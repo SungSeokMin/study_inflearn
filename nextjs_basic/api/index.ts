@@ -21,4 +21,9 @@ const createCartItem = (product: ProductType) => {
 	return instance.post('/carts', { ...product });
 };
 
-export { fetchProductById, fetchProducts, createCartItem };
+// 장바구니 조회
+const fetchCarts = () => {
+	return instance.get('/carts');
+};
+
+export { createCartItem, fetchProductById, fetchProducts, fetchCarts };
