@@ -4,21 +4,25 @@ import { ProductType } from '@/types/product.types';
 
 import styles from './CartList.module.css';
 import { removeCartItem } from '@/api';
+import { useRouter } from 'next/router';
 
 type Props = {
 	carts: ProductType[];
 };
 
 const CartList = ({ carts }: Props) => {
-	const totalPrice = carts.reduce((acc, cur) => acc + Number(cur.price), 0);
-	const totalQuantity = carts.length;
+	const router = useRouter();
 
 	const removeCart = async (id: string) => {
-		await removeCartItem(id);
+		const { data } = await removeCartItem(id);
 
-		alert('삭제가 되었습니다.');
+		alert(`${data.name} 삭제가 되었습니다.`);
+
+		router.replace(router.asPath);
 	};
 
+	const totalPrice = carts.reduce((acc, cur) => acc + Number(cur.price), 0);
+	const totalQuantity = carts.length;
 	return (
 		<>
 			<div>
