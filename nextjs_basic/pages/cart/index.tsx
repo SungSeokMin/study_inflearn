@@ -1,4 +1,6 @@
 import { fetchCarts } from '@/api';
+import CartHeader from '@/components/carts/CartHeader';
+import CartList from '@/components/carts/CartList';
 
 import { ProductType } from '@/types/product.types';
 
@@ -7,8 +9,13 @@ type Props = {
 };
 
 const CartPage = ({ carts }: Props) => {
-	console.log('🔥index: 9줄🔥', carts);
-	return <div>장바구니 페이지</div>;
+	return (
+		<div>
+			<CartHeader />
+
+			<CartList />
+		</div>
+	);
 };
 
 export const getServerSideProps = async () => {
