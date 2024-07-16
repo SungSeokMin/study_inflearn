@@ -13,7 +13,7 @@ const CartPage = ({ carts }: Props) => {
 		<div>
 			<CartHeader />
 
-			<CartList />
+			<CartList carts={carts} />
 		</div>
 	);
 };
