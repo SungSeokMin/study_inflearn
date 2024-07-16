@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { ProductType } from '@/types/product.types';
 
 import styles from './CartList.module.css';
+import { removeCartItem } from '@/api';
 
 type Props = {
 	carts: ProductType[];
@@ -11,6 +12,12 @@ type Props = {
 const CartList = ({ carts }: Props) => {
 	const totalPrice = carts.reduce((acc, cur) => acc + Number(cur.price), 0);
 	const totalQuantity = carts.length;
+
+	const removeCart = async (id: string) => {
+		await removeCartItem(id);
+
+		alert('삭제가 되었습니다.');
+	};
 
 	return (
 		<>
@@ -30,6 +37,7 @@ const CartList = ({ carts }: Props) => {
 							<div>
 								<div>{cart.name}</div>
 								<div>{cart.price}</div>
+								<button onClick={() => removeCart(cart.id)}>삭제하기</button>
 							</div>
 						</li>
 					))}

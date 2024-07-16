@@ -26,4 +26,15 @@ const fetchCarts = () => {
 	return instance.get('/carts');
 };
 
-export { createCartItem, fetchProductById, fetchProducts, fetchCarts };
+// 장바구니 삭제
+const removeCartItem = (id: string) => {
+	return instance.delete(`/carts/${id}`);
+};
+
+export {
+	createCartItem,
+	fetchProductById,
+	fetchProducts,
+	fetchCarts,
+	removeCartItem,
+};
