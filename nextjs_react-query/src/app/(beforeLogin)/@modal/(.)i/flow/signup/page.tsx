@@ -2,8 +2,8 @@ import SignupModal from '@/app/(beforeLogin)/_component/SignupModal';
 
 type Props = {};
 
-const SignupPage = ({}: Props) => {
+const SignupModalPage = ({}: Props) => {
 	return <SignupModal />;
 };
 
-export default SignupPage;
+export default SignupModalPage;
