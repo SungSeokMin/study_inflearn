@@ -2,8 +2,8 @@ import LoginModal from '@/app/(beforeLogin)/_component/LoginModal';
 
 type Props = {};
 
-const LoginPage = ({}: Props) => {
+const LoginModalPage = ({}: Props) => {
 	return <LoginModal />;
 };
 
-export default LoginPage;
+export default LoginModalPage;

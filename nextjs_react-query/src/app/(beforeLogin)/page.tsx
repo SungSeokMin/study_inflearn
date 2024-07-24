@@ -21,9 +21,12 @@ export default function Home() {
 				</Link>
 
 				<h3>이미 트위터에 가입하셨나요?</h3>
-				<Link href="/login" className={styles.login}>
+				<Link href="/i/flow/login" className={styles.login}>
 					로그인
 				</Link>
+				{/* <Link href="/login" className={styles.login}>
+					로그인
+				</Link> */}
 			</div>
 		</div>
 	);
