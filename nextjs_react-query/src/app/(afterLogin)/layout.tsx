@@ -4,6 +4,9 @@ import Image from 'next/image';
 
 import ZLogo from '../../../public/zlogo.png';
 
+import NavMenu from './_component/NavMenu';
+import LogoutButton from './_component/LogoutButton';
+
 import style from './layout.module.css';
 
 type Props = {
@@ -22,12 +25,15 @@ const AfterLoginLayout = ({ children }: Props) => {
 							</div>
 						</Link>
 						<nav>
-							<ul>{/* NavMenu */}</ul>
+							<ul>
+								<NavMenu />
+							</ul>
+
 							<Link href="/compose/tweet" className={style.postButton}>
 								게시하기
 							</Link>
 						</nav>
-						{/* LogoutButton */}
+						<LogoutButton />
 					</div>
 				</section>
 			</header>
