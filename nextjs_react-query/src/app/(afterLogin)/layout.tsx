@@ -6,6 +6,8 @@ import ZLogo from '../../../public/zlogo.png';
 
 import NavMenu from './_component/NavMenu';
 import LogoutButton from './_component/LogoutButton';
+import TrendSection from './_component/TrendSection';
+import FollowRecommend from './_component/FollowRecommend';
 
 import style from './layout.module.css';
 
@@ -53,10 +55,11 @@ const AfterLoginLayout = ({ children }: Props) => {
 								<input type="search" />
 							</form>
 						</div>
-						{/* TrendSection */}
+						<TrendSection />
+
 						<div className={style.followRecommend}>
 							<h3>팔로우 추천</h3>
-							{/* FollowRecommend */}
+							<FollowRecommend />
 						</div>
 					</section>
 				</div>
