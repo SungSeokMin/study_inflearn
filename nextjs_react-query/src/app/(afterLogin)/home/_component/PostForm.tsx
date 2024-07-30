@@ -15,11 +15,11 @@ const PostForm = ({}: Props) => {
 		image: '/5Udwvqim.jpg',
 	};
 
-	const onChange: ChangeEventHandler<HTMLTextAreaElement> = e => {
+	const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
 		setContent(e.target.value);
 	};
 
-	const onSubmit: FormEventHandler = e => {
+	const onSubmit: FormEventHandler = (e) => {
 		e.preventDefault();
 	};
 
