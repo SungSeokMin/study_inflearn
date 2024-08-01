@@ -1,9 +1,18 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
 import Trend from './Trend';
+
 import style from './TrendSection.module.css';
 
 type Props = {};
 
 const TrendSection = ({}: Props) => {
+	const pathname = usePathname();
+
+	if (pathname === '/explore') return null;
+
 	return (
 		<div className={style.trendBg}>
 			<div className={style.trend}>
