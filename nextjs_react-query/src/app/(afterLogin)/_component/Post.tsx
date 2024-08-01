@@ -1,9 +1,12 @@
 import Link from 'next/link';
-import style from './Post.module.css';
+
+import ActionButtons from './ActionButtons';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
+
+import style from './Post.module.css';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -43,7 +46,7 @@ const Post = ({}: Props) => {
 					</div>
 					<div>{target.content}</div>
 					<div className={style.postImageSection}></div>
-					{/* <ActionButtons /> */}
+					<ActionButtons />
 				</div>
 			</div>
 		</article>
