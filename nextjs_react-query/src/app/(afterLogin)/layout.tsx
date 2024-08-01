@@ -13,9 +13,10 @@ import style from './layout.module.css';
 
 type Props = {
 	children: ReactNode;
+	modal: ReactNode;
 };
 
-const AfterLoginLayout = ({ children }: Props) => {
+const AfterLoginLayout = ({ children, modal }: Props) => {
 	return (
 		<div className={style.container}>
 			<header className={style.leftSectionWrapper}>
@@ -64,6 +65,8 @@ const AfterLoginLayout = ({ children }: Props) => {
 					</section>
 				</div>
 			</div>
+
+			{modal}
 		</div>
 	);
 };

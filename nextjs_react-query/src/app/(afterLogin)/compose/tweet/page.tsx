@@ -1,7 +1,9 @@
+import HomePage from '@/app/(afterLogin)/home/page';
+
 type Props = {};
 
 const TweetPage = ({}: Props) => {
-	return <div>TweetPage</div>;
+	return <HomePage />;
 };
 
 export default TweetPage;
