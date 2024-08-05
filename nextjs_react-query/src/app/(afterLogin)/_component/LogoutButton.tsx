@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+
 import style from './LohoutButton.module.css';
 
 type Props = {};
