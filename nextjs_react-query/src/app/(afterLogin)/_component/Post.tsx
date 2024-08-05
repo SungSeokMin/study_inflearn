@@ -1,12 +1,14 @@
 import Link from 'next/link';
 
 import ActionButtons from './ActionButtons';
+import PostArticle from './PostArticle';
 
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 
 import style from './Post.module.css';
+import { PostType } from '../_type/post.types';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
@@ -14,7 +16,8 @@ dayjs.locale('ko');
 type Props = {};
 
 const Post = ({}: Props) => {
-	const target = {
+	const target: PostType = {
+		postId: 1,
 		User: {
 			id: 'elonmusk',
 			nickname: 'Elon Musk',
@@ -26,7 +29,7 @@ const Post = ({}: Props) => {
 	};
 
 	return (
-		<article className={style.post}>
+		<PostArticle post={target}>
 			<div className={style.postWrapper}>
 				<div className={style.postUserSection}>
 					<Link href={`/${target.User.id}`} className={style.postUserImage}>
@@ -49,7 +52,7 @@ const Post = ({}: Props) => {
 					<ActionButtons />
 				</div>
 			</div>
-		</article>
+		</PostArticle>
 	);
 };
 
