@@ -6,7 +6,7 @@ const RootPage = async () => {
 	const session = await auth();
 
 	if (session?.user) {
-		redirect('home');
+		redirect('/home');
 	}
 
 	return <Main />;

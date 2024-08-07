@@ -1,21 +1,25 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import Main from '../_component/Main';
+import { useEffect } from 'react';
 
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+
+import Main from '../_component/Main';
 
 const LoginRedirectPage = () => {
 	const { data: session } = useSession();
 
 	const router = useRouter();
 
-	if (session?.user) {
-		router.replace('/home');
-		return null;
-	}
+	useEffect(() => {
+		if (session?.user) {
+			router.replace('/home');
+			return;
+		}
 
-	router.replace('/i/flow/login');
+		router.replace('/i/flow/login');
+	}, []);
 
 	return <Main />;
 };
