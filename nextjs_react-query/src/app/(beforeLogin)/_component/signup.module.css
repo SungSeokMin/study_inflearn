@@ -108,3 +108,8 @@
 .actionButton:hover {
 	background-color: rgb(39, 44, 48);
 }
+
+.error {
+	font-weight: bold;
+	color: red;
+}
