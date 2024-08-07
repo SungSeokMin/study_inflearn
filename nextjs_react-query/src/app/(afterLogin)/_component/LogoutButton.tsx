@@ -2,29 +2,35 @@
 
 import Image from 'next/image';
 
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
 import style from './LohoutButton.module.css';
 
 type Props = {};
 
 const LogoutButton = ({}: Props) => {
-	const me = {
-		// 임시로 내 정보 있는것처럼
-		id: 'seokmin',
-		nickname: '석민',
-		image: '/5Udwvqim.jpg',
+	const router = useRouter();
+
+	const { data: me } = useSession();
+
+	const onLogout = () => {
+		signOut({ redirect: false }).then(() => router.replace('/'));
 	};
 
-	const onLogout = () => {};
+	if (!me?.user) {
+		return null;
+	}
 
 	return (
 		<button className={style.logoutButton} onClick={onLogout}>
 			<div className={style.logoutUserImage}>
-				<Image src={me.image} alt={me.id} width={40} height={40} />
+				<Image src={me.user?.image!} alt={me.user?.email!} width={40} height={40} />
 			</div>
 
 			<div className={style.logoutUserName}>
-				<div>{me.nickname}</div>
-				<div>@{me.id}</div>
+				<div>{me.user?.name}</div>
+				<div>@{me.user?.email}</div>
 			</div>
 		</button>
 	);

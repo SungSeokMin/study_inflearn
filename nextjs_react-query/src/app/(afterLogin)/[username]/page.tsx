@@ -1,4 +1,5 @@
 import BackButton from '../_component/BackButton';
+import FollowButton from '../_component/FollowButton';
 import Post from '../_component/Post';
 
 import style from './profile.module.css';
@@ -26,7 +27,7 @@ const ProfilePage = ({}: Props) => {
 					<div>{user.nickname}</div>
 					<div>@{user.id}</div>
 				</div>
-				<button className={style.followButton}>팔로우</button>
+				<FollowButton />
 			</div>
 			<div>
 				<Post />

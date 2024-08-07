@@ -1,12 +1,11 @@
 'use client';
 
+import FollowButton from './FollowButton';
 import style from './FollowRecommend.module.css';
 
 type Props = {};
 
 const FollowRecommend = ({}: Props) => {
-	const onFollow = () => {};
-
 	const user = {
 		id: 'elonmusk',
 		nickname: 'Elon Musk',
@@ -24,8 +23,8 @@ const FollowRecommend = ({}: Props) => {
 				<div className={style.title}>{user.nickname}</div>
 				<div className={style.count}>@{user.id}</div>
 			</div>
-			<div className={style.followButtonSection}>
-				<button onClick={onFollow}>팔로우</button>
+			<div>
+				<FollowButton />
 			</div>
 		</div>
 	);

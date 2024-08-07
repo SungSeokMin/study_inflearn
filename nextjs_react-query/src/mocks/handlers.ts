@@ -7,9 +7,8 @@ export const handlers = [
 
 		return HttpResponse.json(
 			{
-				userId: 1,
-				nickname: '제로초',
 				id: 'zerocho',
+				nickname: '제로초',
 				image: '/5Udwvqim.jpg',
 			},
 			{
