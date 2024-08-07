@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import '@/app/globals.css';
+import MSWComponent from './_component/MSWComponent';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -14,7 +15,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body>
+				<MSWComponent />
+				{children}
+			</body>
 		</html>
 	);
 }
