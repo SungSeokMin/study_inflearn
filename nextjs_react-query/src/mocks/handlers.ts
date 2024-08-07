@@ -29,4 +29,16 @@ export const handlers = [
 			},
 		});
 	}),
+	// 회원가입
+	http.post('/api/users', () => {
+		const cookie = 'connect.sid=msw-cookie;HttpOnly;Path=/;Max-Age=0';
+
+		return HttpResponse.text(JSON.stringify('ok'), {
+			headers: {
+				'Set-Cookie': cookie,
+			},
+		});
+
+		// return HttpResponse.text(JSON.stringify('user_exists'), { status: 403 });
+	}),
 ];
