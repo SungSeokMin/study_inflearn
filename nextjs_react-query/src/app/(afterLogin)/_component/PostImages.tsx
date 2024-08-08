@@ -2,12 +2,12 @@ import Link from 'next/link';
 
 import cx from 'classnames';
 
-import { PostType } from '../_type/post.types';
+import { IPost } from '../../../model/post.model';
 
 import style from './PostImages.module.css';
 
 type Props = {
-	post: PostType;
+	post: IPost;
 };
 
 const PostImages = ({ post }: Props) => {

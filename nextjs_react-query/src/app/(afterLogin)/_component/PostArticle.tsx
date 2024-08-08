@@ -2,14 +2,14 @@
 
 import { ReactNode } from 'react';
 
-import { PostType } from '../_type/post.types';
+import { IPost } from '../../../model/post.model';
 
 import style from './PostArticle.module.css';
 import { useRouter } from 'next/navigation';
 
 type Props = {
 	children: ReactNode;
-	post: PostType;
+	post: IPost;
 };
 
 const PostArticle = ({ children, post }: Props) => {

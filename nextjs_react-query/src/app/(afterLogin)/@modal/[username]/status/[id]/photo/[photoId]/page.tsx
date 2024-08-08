@@ -31,7 +31,7 @@ const PhotoModalPage = ({}: Props) => {
 				</div>
 			</div>
 			<div className={style.commentZone}>
-				<Post noImage />
+				<Post />
 				<CommentForm />
 				<Post />
 				<Post />
