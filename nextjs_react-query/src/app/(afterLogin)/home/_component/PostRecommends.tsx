@@ -11,6 +11,7 @@ const PostRecommends = ({}: Props) => {
 	const { data } = useQuery<IPost[]>({
 		queryKey: ['posts', 'recommends'],
 		queryFn: getPostRecommends,
+		staleTime: 60 * 1000,
 	});
 
 	return data?.map((post) => <Post post={post} key={post.postId} />);
