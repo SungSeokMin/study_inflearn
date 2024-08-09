@@ -3,6 +3,7 @@ export const getPostRecommends = async () => {
 		next: {
 			tags: ['posts', 'recommends'],
 		},
+		cache: 'no-store',
 	});
 
 	if (!response.ok) {

@@ -62,6 +62,7 @@ export const handlers = [
 
 		// return HttpResponse.text(JSON.stringify('user_exists'), { status: 403 });
 	}),
+	// 추천 게시글
 	http.get('/api/postRecommends', ({ request }) => {
 		const url = new URL(request.url);
 		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
@@ -107,6 +108,117 @@ export const handlers = [
 				postId: cursor + 5,
 				User: User[0],
 				content: `${cursor + 5} Z.com is so marvelous. I'm gonna buy that.`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+		]);
+	}),
+	// 검색 결과
+	http.get('/api/search/:tag', ({ request, params }) => {
+		const { tag } = params;
+
+		const url = new URL(request.url);
+		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+		return HttpResponse.json([
+			{
+				postId: cursor + 1,
+				User: User[0],
+				content: `${cursor + 1} 검색결과 ${tag}`,
+				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 2,
+				User: User[0],
+				content: `${cursor + 2} 검색결과 ${tag}`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 3,
+				User: User[0],
+				content: `${cursor + 3} 검색결과 ${tag}`,
+				Images: [],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 4,
+				User: User[0],
+				content: `${cursor + 4} 검색결과 ${tag}`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+					{ imageId: 4, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 5,
+				User: User[0],
+				content: `${cursor + 5} 검색결과 ${tag}`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+		]);
+	}),
+	http.get('/api/followingPosts', ({ request }) => {
+		const url = new URL(request.url);
+		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+		return HttpResponse.json([
+			{
+				postId: cursor + 1,
+				User: User[0],
+				content: `${cursor + 1} following me.`,
+				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 2,
+				User: User[0],
+				content: `${cursor + 2} following me.`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 3,
+				User: User[0],
+				content: `${cursor + 3} following me.`,
+				Images: [],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 4,
+				User: User[0],
+				content: `${cursor + 4} following me.`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+					{ imageId: 4, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 5,
+				User: User[0],
+				content: `${cursor + 5} following me.`,
 				Images: [
 					{ imageId: 1, link: faker.image.urlLoremFlickr() },
 					{ imageId: 2, link: faker.image.urlLoremFlickr() },

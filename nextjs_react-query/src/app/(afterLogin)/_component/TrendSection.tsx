@@ -14,8 +14,6 @@ const TrendSection = ({}: Props) => {
 	const pathname = usePathname();
 	const { data: session } = useSession();
 
-	console.log('🔥TrendSection: 16줄🔥', pathname);
-
 	if (pathname === '/explore') return null;
 
 	if (session?.user) {
