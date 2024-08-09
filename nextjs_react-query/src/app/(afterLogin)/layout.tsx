@@ -7,12 +7,14 @@ import ZLogo from '../../../public/zlogo.png';
 import NavMenu from './_component/NavMenu';
 import LogoutButton from './_component/LogoutButton';
 import TrendSection from './_component/TrendSection';
-import FollowRecommend from './_component/FollowRecommend';
+
 import RightSearchZone from './_component/RightSearchZone';
+import RQProvider from './_component/RQProvider';
+
+import { auth } from '@/auth';
 
 import style from './layout.module.css';
-import { auth } from '@/auth';
-import RQProvider from './_component/RQProvider';
+import FollowRecommendSection from './_component/FollowRecommendSection';
 
 type Props = {
 	children: ReactNode;
@@ -70,7 +72,7 @@ const AfterLoginLayout = async ({ children, modal }: Props) => {
 
 							<div className={style.followRecommend}>
 								<h3>팔로우 추천</h3>
-								<FollowRecommend />
+								<FollowRecommendSection />
 							</div>
 						</section>
 					</div>

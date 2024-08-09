@@ -1,17 +1,15 @@
 'use client';
 
+import { IUser } from '@/model/user.model';
 import FollowButton from './FollowButton';
+
 import style from './FollowRecommend.module.css';
 
-type Props = {};
+type Props = {
+	user: IUser;
+};
 
-const FollowRecommend = ({}: Props) => {
-	const user = {
-		id: 'elonmusk',
-		nickname: 'Elon Musk',
-		image: '/yRsRRjGO.jpg',
-	};
-
+const FollowRecommend = ({ user }: Props) => {
 	return (
 		<div className={style.container}>
 			<div className={style.userLogoSection}>

@@ -117,6 +117,61 @@ export const handlers = [
 			},
 		]);
 	}),
+	// 팔로우 게시글
+	http.get('/api/followingPosts', ({ request }) => {
+		const url = new URL(request.url);
+		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+		return HttpResponse.json([
+			{
+				postId: cursor + 1,
+				User: User[0],
+				content: `${cursor + 1} following me.`,
+				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 2,
+				User: User[0],
+				content: `${cursor + 2} following me.`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 3,
+				User: User[0],
+				content: `${cursor + 3} following me.`,
+				Images: [],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 4,
+				User: User[0],
+				content: `${cursor + 4} following me.`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+					{ imageId: 4, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 5,
+				User: User[0],
+				content: `${cursor + 5} following me.`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+		]);
+	}),
 	// 검색 결과
 	http.get('/api/search/:tag', ({ request, params }) => {
 		const { tag } = params;
@@ -174,7 +229,14 @@ export const handlers = [
 			},
 		]);
 	}),
-	http.get('/api/followingPosts', ({ request }) => {
+	// 유저 정보
+	http.get('/api/users/:userId', () => {
+		return HttpResponse.json(User[1]);
+	}),
+	// 내 게시글
+	http.get('/api/users/:userId/posts', ({ request, params }) => {
+		const { userId } = params;
+
 		const url = new URL(request.url);
 		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
 
@@ -182,14 +244,14 @@ export const handlers = [
 			{
 				postId: cursor + 1,
 				User: User[0],
-				content: `${cursor + 1} following me.`,
+				content: `${cursor + 1} ${userId}의 게시글`,
 				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
 				createdAt: generateDate(),
 			},
 			{
 				postId: cursor + 2,
 				User: User[0],
-				content: `${cursor + 2} following me.`,
+				content: `${cursor + 2} ${userId}의 게시글`,
 				Images: [
 					{ imageId: 1, link: faker.image.urlLoremFlickr() },
 					{ imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -199,14 +261,14 @@ export const handlers = [
 			{
 				postId: cursor + 3,
 				User: User[0],
-				content: `${cursor + 3} following me.`,
+				content: `${cursor + 3} ${userId}의 게시글`,
 				Images: [],
 				createdAt: generateDate(),
 			},
 			{
 				postId: cursor + 4,
 				User: User[0],
-				content: `${cursor + 4} following me.`,
+				content: `${cursor + 4} ${userId}의 게시글`,
 				Images: [
 					{ imageId: 1, link: faker.image.urlLoremFlickr() },
 					{ imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -218,7 +280,7 @@ export const handlers = [
 			{
 				postId: cursor + 5,
 				User: User[0],
-				content: `${cursor + 5} following me.`,
+				content: `${cursor + 5} ${userId}의 게시글`,
 				Images: [
 					{ imageId: 1, link: faker.image.urlLoremFlickr() },
 					{ imageId: 2, link: faker.image.urlLoremFlickr() },
@@ -226,6 +288,98 @@ export const handlers = [
 				],
 				createdAt: generateDate(),
 			},
+		]);
+	}),
+	// 게시글 상세
+	http.get('/api/users/:userId/posts/:postId', ({ request, params }) => {
+		const { userId, postId } = params;
+
+		const url = new URL(request.url);
+		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+		return HttpResponse.json([
+			{
+				postId: cursor + 1,
+				User: User[0],
+				content: `${cursor + 1} ${userId}의 게시글 `,
+				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+				createdAt: generateDate(),
+			},
+		]);
+	}),
+	// 답글
+	http.get('/api/users/:userId/posts/:postId/comments', ({ request, params }) => {
+		const { userId, postId } = params;
+
+		const url = new URL(request.url);
+		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
+
+		return HttpResponse.json([
+			{
+				postId: cursor + 1,
+				User: User[0],
+				content: `${cursor + 1} ${userId}의 게시글 ${postId}의 답글`,
+				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 2,
+				User: User[0],
+				content: `${cursor + 2} ${userId}의 게시글 ${postId}의 답글`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 3,
+				User: User[0],
+				content: `${cursor + 3} ${userId}의 게시글 ${postId}의 답글`,
+				Images: [],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 4,
+				User: User[0],
+				content: `${cursor + 4} ${userId}의 게시글 ${postId}의 답글`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+					{ imageId: 4, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+			{
+				postId: cursor + 5,
+				User: User[0],
+				content: `${cursor + 5} ${userId}의 게시글 ${postId}의 답글`,
+				Images: [
+					{ imageId: 1, link: faker.image.urlLoremFlickr() },
+					{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					{ imageId: 3, link: faker.image.urlLoremFlickr() },
+				],
+				createdAt: generateDate(),
+			},
+		]);
+	}),
+	// 팔로우 추천
+	http.get('/api/followRecommends', () => {
+		return HttpResponse.json(User);
+	}),
+	// 트렌드
+	http.get('/api/trends', () => {
+		return HttpResponse.json([
+			{ tagId: 1, title: '제로초1', count: 1234 },
+			{ tagId: 2, title: '제로초2', count: 1234 },
+			{ tagId: 3, title: '제로초3', count: 1234 },
+			{ tagId: 4, title: '제로초4', count: 1234 },
+			{ tagId: 5, title: '제로초5', count: 1234 },
+			{ tagId: 6, title: '제로초6', count: 1234 },
+			{ tagId: 7, title: '제로초7', count: 1234 },
+			{ tagId: 8, title: '제로초8', count: 1234 },
+			{ tagId: 9, title: '제로초9', count: 1234 },
 		]);
 	}),
 ];
