@@ -14,7 +14,7 @@ function generateDate() {
 const User = [
 	{ id: 'elonmusk', nickname: 'Elon Musk', image: '/yRsRRjGO.jpg' },
 	{ id: 'zerohch0', nickname: '제로초', image: '/5Udwvqim.jpg' },
-	{ id: 'leoturtle', nickname: '레오', image: faker.image.avatar() },
+	{ id: 'seokmin', nickname: '석민', image: '/5Udwvqim.jpg' },
 ];
 
 const delay = (ms: number) =>
@@ -230,8 +230,16 @@ export const handlers = [
 		]);
 	}),
 	// 유저 정보
-	http.get('/api/users/:userId', () => {
-		return HttpResponse.json(User[1]);
+	http.get('/api/users/:userId', ({ params }) => {
+		const { userId } = params;
+
+		const found = User.find((v) => v.id === userId);
+
+		if (found) {
+			return HttpResponse.json(found);
+		}
+
+		return HttpResponse.json({ message: 'no_search_user' }, { status: 404 });
 	}),
 	// 내 게시글
 	http.get('/api/users/:userId/posts', ({ request, params }) => {
@@ -240,55 +248,61 @@ export const handlers = [
 		const url = new URL(request.url);
 		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
 
-		return HttpResponse.json([
-			{
-				postId: cursor + 1,
-				User: User[0],
-				content: `${cursor + 1} ${userId}의 게시글`,
-				Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
-				createdAt: generateDate(),
-			},
-			{
-				postId: cursor + 2,
-				User: User[0],
-				content: `${cursor + 2} ${userId}의 게시글`,
-				Images: [
-					{ imageId: 1, link: faker.image.urlLoremFlickr() },
-					{ imageId: 2, link: faker.image.urlLoremFlickr() },
-				],
-				createdAt: generateDate(),
-			},
-			{
-				postId: cursor + 3,
-				User: User[0],
-				content: `${cursor + 3} ${userId}의 게시글`,
-				Images: [],
-				createdAt: generateDate(),
-			},
-			{
-				postId: cursor + 4,
-				User: User[0],
-				content: `${cursor + 4} ${userId}의 게시글`,
-				Images: [
-					{ imageId: 1, link: faker.image.urlLoremFlickr() },
-					{ imageId: 2, link: faker.image.urlLoremFlickr() },
-					{ imageId: 3, link: faker.image.urlLoremFlickr() },
-					{ imageId: 4, link: faker.image.urlLoremFlickr() },
-				],
-				createdAt: generateDate(),
-			},
-			{
-				postId: cursor + 5,
-				User: User[0],
-				content: `${cursor + 5} ${userId}의 게시글`,
-				Images: [
-					{ imageId: 1, link: faker.image.urlLoremFlickr() },
-					{ imageId: 2, link: faker.image.urlLoremFlickr() },
-					{ imageId: 3, link: faker.image.urlLoremFlickr() },
-				],
-				createdAt: generateDate(),
-			},
-		]);
+		const found = User.find((v) => v.id === userId);
+
+		if (found) {
+			return HttpResponse.json([
+				{
+					postId: cursor + 1,
+					User: User[0],
+					content: `${cursor + 1} ${userId}의 게시글`,
+					Images: [{ imageId: 1, link: faker.image.urlLoremFlickr() }],
+					createdAt: generateDate(),
+				},
+				{
+					postId: cursor + 2,
+					User: User[0],
+					content: `${cursor + 2} ${userId}의 게시글`,
+					Images: [
+						{ imageId: 1, link: faker.image.urlLoremFlickr() },
+						{ imageId: 2, link: faker.image.urlLoremFlickr() },
+					],
+					createdAt: generateDate(),
+				},
+				{
+					postId: cursor + 3,
+					User: User[0],
+					content: `${cursor + 3} ${userId}의 게시글`,
+					Images: [],
+					createdAt: generateDate(),
+				},
+				{
+					postId: cursor + 4,
+					User: User[0],
+					content: `${cursor + 4} ${userId}의 게시글`,
+					Images: [
+						{ imageId: 1, link: faker.image.urlLoremFlickr() },
+						{ imageId: 2, link: faker.image.urlLoremFlickr() },
+						{ imageId: 3, link: faker.image.urlLoremFlickr() },
+						{ imageId: 4, link: faker.image.urlLoremFlickr() },
+					],
+					createdAt: generateDate(),
+				},
+				{
+					postId: cursor + 5,
+					User: User[0],
+					content: `${cursor + 5} ${userId}의 게시글`,
+					Images: [
+						{ imageId: 1, link: faker.image.urlLoremFlickr() },
+						{ imageId: 2, link: faker.image.urlLoremFlickr() },
+						{ imageId: 3, link: faker.image.urlLoremFlickr() },
+					],
+					createdAt: generateDate(),
+				},
+			]);
+		}
+
+		return HttpResponse.json({ message: 'no_search_user' }, { status: 404 });
 	}),
 	// 게시글 상세
 	http.get('/api/users/:userId/posts/:postId', ({ request, params }) => {
