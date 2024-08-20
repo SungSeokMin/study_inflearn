@@ -12,9 +12,10 @@ import style from './home.module.css';
 // RootLayout -> HomeLayout -> HomePage
 const HomePage = async () => {
 	const queryClient = new QueryClient();
-	await queryClient.prefetchQuery({
+	await queryClient.prefetchInfiniteQuery({
 		queryKey: ['posts', 'recommends'],
 		queryFn: getPostRecommends,
+		initialPageParam: 0,
 	});
 	const dehydratedState = dehydrate(queryClient);
 
