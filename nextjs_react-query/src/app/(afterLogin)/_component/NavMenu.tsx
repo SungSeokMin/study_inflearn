@@ -1,5 +1,7 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
+
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
@@ -10,9 +12,7 @@ type Props = {};
 const NavMenu = ({}: Props) => {
 	const segment = useSelectedLayoutSegment();
 
-	const me = {
-		id: 'seokmin',
-	};
+	const { data: me } = useSession();
 
 	return (
 		<>
@@ -121,11 +121,11 @@ const NavMenu = ({}: Props) => {
 					</div>
 				</Link>
 			</li>
-			{me?.id && (
+			{me?.user?.email && (
 				<li>
-					<Link href={`/${me?.id}`}>
+					<Link href={`/${me?.user.email}`}>
 						<div className={style.navPill}>
-							{segment === me.id ? (
+							{segment === me.user.email ? (
 								<>
 									<svg
 										width={26}

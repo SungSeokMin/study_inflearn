@@ -27,18 +27,11 @@ export const handlers = [
 	http.post('/api/login', () => {
 		const cookie = 'connect.sid=msw-cookie;HttpOnly;Path=/';
 
-		return HttpResponse.json(
-			{
-				id: 'zerocho',
-				nickname: '제로초',
-				image: '/5Udwvqim.jpg',
+		return HttpResponse.json(User[2], {
+			headers: {
+				'Set-Cookie': cookie,
 			},
-			{
-				headers: {
-					'Set-Cookie': cookie,
-				},
-			},
-		);
+		});
 	}),
 	// 로그아웃
 	http.post('/api/logout', () => {

@@ -45,7 +45,7 @@ const PhotoModalPage = async ({ params }: Props) => {
 				<div className={style.commentZone}>
 					<SinglePost id={id} noImage={true} />
 
-					<CommentForm />
+					<CommentForm id={id} />
 
 					<Comments id={id} />
 				</div>
