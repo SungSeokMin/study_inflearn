@@ -17,9 +17,10 @@ dayjs.locale('ko');
 
 type Props = {
 	post: IPost;
+	noImage?: boolean;
 };
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, noImage }: Props) => {
 	return (
 		<PostArticle post={post}>
 			<div className={style.postWrapper}>
@@ -41,9 +42,12 @@ const Post = ({ post }: Props) => {
 					</div>
 					<div>{post.content}</div>
 
-					<div>
-						<PostImages post={post} />
-					</div>
+					{!noImage ? (
+						<div>
+							<PostImages post={post} />
+						</div>
+					) : null}
+
 					<ActionButtons />
 				</div>
 			</div>

@@ -6,5 +6,5 @@ export interface IPost {
 	postId: number;
 	content: string;
 	createdAt: Date;
-	Images: IPostImage;
+	Images: IPostImage[];
 }

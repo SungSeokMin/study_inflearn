@@ -25,6 +25,8 @@ const UserPosts = ({ username }: Props) => {
 	if (user) {
 		return data?.map((post) => <Post post={post} key={post.postId} />);
 	}
+
+	return null;
 };
 
 export default UserPosts;
