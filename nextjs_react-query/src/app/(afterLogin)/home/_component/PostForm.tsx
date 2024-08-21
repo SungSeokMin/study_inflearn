@@ -6,6 +6,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 
 import style from './PostForm.module.css';
 import { Session } from 'next-auth';
+import { useQueryClient } from '@tanstack/react-query';
+import { IPost } from '@/model/post.model';
 
 type Props = {
 	me: Session | null;
@@ -16,6 +18,8 @@ const PostForm = ({ me }: Props) => {
 
 	const [preview, setPreview] = useState<Array<{ dataUrl: string; file: File } | null>>([]);
 	const [content, setContent] = useState('');
+
+	const queryClient = useQueryClient();
 
 	const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
 		setContent(e.target.value);
@@ -28,11 +32,35 @@ const PostForm = ({ me }: Props) => {
 		formData.append('content', content);
 		preview.forEach((p) => p && formData.append('images', p.file));
 
-		await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
-			method: 'post',
-			credentials: 'include',
-			body: formData,
-		});
+		try {
+			const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
+				method: 'post',
+				credentials: 'include',
+				body: formData,
+			});
+
+			if (response.status === 201) {
+				setContent('');
+				setPreview([]);
+
+				const newPost = await response.json();
+
+				queryClient.setQueryData(['posts', 'recommends'], (prevData: { pages: IPost[][] }) => {
+					const copy = { ...prevData, pages: [...prevData.pages] };
+					copy.pages[0] = [...copy.pages[0]];
+					copy.pages[0].unshift(newPost);
+					return copy;
+				});
+				queryClient.setQueryData(['posts', 'followings'], (prevData: { pages: IPost[][] }) => {
+					const copy = { ...prevData, pages: [...prevData.pages] };
+					copy.pages[0] = [...copy.pages[0]];
+					copy.pages[0].unshift(newPost);
+					return copy;
+				});
+			}
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	const onClickButton = () => {
