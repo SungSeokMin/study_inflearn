@@ -3,21 +3,53 @@
 import cx from 'classnames';
 
 import style from './Post.module.css';
+import { MouseEventHandler } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { IPost } from '@/model/post.model';
+import { useSession } from 'next-auth/react';
+import useHeart from '../_hooks/useHeart';
 
 type Props = {
 	white?: boolean;
+	post: IPost;
 };
 
-const ActionButtons = ({ white }: Props) => {
-	const commented = true;
-	const reposted = true;
-	const liked = false;
+const ActionButtons = ({ white, post }: Props) => {
+	const { data: session } = useSession();
+
+	const commented = !!post.Comments?.find((v) => v.userId === session?.user?.email);
+	const reposted = !!post.Reposts?.find((v) => v.userId === session?.user?.email);
+	const liked = !!post.Hearts?.find((v) => v.userId === session?.user?.email);
+
+	const { onFetch, onHeart, onUnHeart, onInvalidate } = useHeart(post);
+
+	const heartMutation = useMutation({
+		mutationFn: () => onFetch('post'),
+		onMutate: () => onHeart(),
+		onError: () => onUnHeart(),
+		onSettled: () => onInvalidate(),
+	});
+
+	const unHeartMutation = useMutation({
+		mutationFn: () => onFetch('delete'),
+		onMutate: () => onUnHeart(),
+		onError: () => onHeart(),
+		onSettled: () => onInvalidate(),
+	});
 
 	const onClickComment = () => {};
 
 	const onClickRepost = () => {};
 
-	const onClickHeart = () => {};
+	const onClickHeart: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.stopPropagation();
+
+		if (liked) {
+			unHeartMutation.mutate();
+		} else {
+			heartMutation.mutate();
+		}
+	};
 
 	return (
 		<div className={style.actionButtons}>
@@ -31,7 +63,7 @@ const ActionButtons = ({ white }: Props) => {
 						</g>
 					</svg>
 				</button>
-				<div className={style.count}>{1 || ''}</div>
+				<div className={style.count}>{post._count.Comments}</div>
 			</div>
 			<div className={cx(style.repostButton, reposted && style.reposted, white && style.white)}>
 				<button onClick={onClickRepost}>
@@ -41,7 +73,7 @@ const ActionButtons = ({ white }: Props) => {
 						</g>
 					</svg>
 				</button>
-				<div className={style.count}>{1 || ''}</div>
+				<div className={style.count}>{post._count.Reposts}</div>
 			</div>
 			<div className={cx([style.heartButton, liked && style.liked, white && style.white])}>
 				<button onClick={onClickHeart}>
@@ -51,7 +83,7 @@ const ActionButtons = ({ white }: Props) => {
 						</g>
 					</svg>
 				</button>
-				<div className={style.count}>{0 || ''}</div>
+				<div className={style.count}>{post._count.Hearts}</div>
 			</div>
 		</div>
 	);
