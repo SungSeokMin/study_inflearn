@@ -22,7 +22,7 @@ const FollowRecommend = ({ user }: Props) => {
 				<div className={style.count}>@{user.id}</div>
 			</div>
 			<div>
-				<FollowButton />
+				<FollowButton user={user} />
 			</div>
 		</div>
 	);

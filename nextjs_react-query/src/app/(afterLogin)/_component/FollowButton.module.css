@@ -11,6 +11,18 @@
 	color: white;
 	cursor: pointer;
 }
+
 .container:hover {
 	background-color: rgb(39, 44, 48);
+	color: white;
+}
+
+.followed {
+	background-color: white;
+	color: black;
+}
+
+.followed hover {
+	background-color: lightgray;
+	color: white;
 }

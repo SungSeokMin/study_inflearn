@@ -68,7 +68,7 @@ const UserInfo = ({ username }: Props) => {
 					<div>{user.nickname}</div>
 					<div>@{user.id}</div>
 				</div>
-				<FollowButton />
+				<FollowButton user={user} />
 			</div>
 		</>
 	);

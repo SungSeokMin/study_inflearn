@@ -25,16 +25,16 @@ const ActionButtons = ({ white, post }: Props) => {
 
 	const heartMutation = useMutation({
 		mutationFn: () => onFetch('post'),
-		onMutate: () => onHeart(),
-		onError: () => onUnHeart(),
-		onSettled: () => onInvalidate(),
+		onMutate: onHeart,
+		onError: onUnHeart,
+		onSettled: onInvalidate,
 	});
 
 	const unHeartMutation = useMutation({
 		mutationFn: () => onFetch('delete'),
-		onMutate: () => onUnHeart(),
-		onError: () => onHeart(),
-		onSettled: () => onInvalidate(),
+		onMutate: onUnHeart,
+		onError: onHeart,
+		onSettled: onInvalidate,
 	});
 
 	const onClickComment = () => {};
