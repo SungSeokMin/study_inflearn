@@ -1,12 +1,12 @@
 'use client';
 
-import { ChangeEventHandler, FormEventHandler, useRef, useState } from 'react';
+import { ChangeEventHandler, FormEvent, FormEventHandler, useRef, useState } from 'react';
 
 import TextareaAutosize from 'react-textarea-autosize';
 
 import style from './PostForm.module.css';
 import { Session } from 'next-auth';
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IPost } from '@/model/post.model';
 
 type Props = {
@@ -21,36 +21,36 @@ const PostForm = ({ me }: Props) => {
 
 	const queryClient = useQueryClient();
 
-	const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-		setContent(e.target.value);
-	};
+	const mutation = useMutation({
+		mutationFn: (e: FormEvent) => {
+			e.preventDefault();
 
-	const onSubmit: FormEventHandler = async (e) => {
-		e.preventDefault();
+			const formData = new FormData();
+			formData.append('content', content);
+			preview.forEach((p) => p && formData.append('images', p.file));
 
-		const formData = new FormData();
-		formData.append('content', content);
-		preview.forEach((p) => p && formData.append('images', p.file));
-
-		try {
-			const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
+			return fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
 				method: 'post',
 				credentials: 'include',
 				body: formData,
 			});
+		},
+		onSuccess: async (response) => {
+			const newPost = await response.json();
 
-			if (response.status === 201) {
-				setContent('');
-				setPreview([]);
+			setContent('');
+			setPreview([]);
 
-				const newPost = await response.json();
-
+			if (queryClient.getQueryData(['posts', 'recommends'])) {
 				queryClient.setQueryData(['posts', 'recommends'], (prevData: { pages: IPost[][] }) => {
 					const copy = { ...prevData, pages: [...prevData.pages] };
 					copy.pages[0] = [...copy.pages[0]];
 					copy.pages[0].unshift(newPost);
 					return copy;
 				});
+			}
+
+			if (queryClient.getQueryData(['posts', 'followings'])) {
 				queryClient.setQueryData(['posts', 'followings'], (prevData: { pages: IPost[][] }) => {
 					const copy = { ...prevData, pages: [...prevData.pages] };
 					copy.pages[0] = [...copy.pages[0]];
@@ -58,9 +58,14 @@ const PostForm = ({ me }: Props) => {
 					return copy;
 				});
 			}
-		} catch (err) {
-			console.error(err);
-		}
+		},
+		onError: () => {
+			alert('오류가 있습니다.');
+		},
+	});
+
+	const onChange: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+		setContent(e.target.value);
 	};
 
 	const onClickButton = () => {
@@ -99,7 +104,7 @@ const PostForm = ({ me }: Props) => {
 	};
 
 	return (
-		<form className={style.postForm} onSubmit={onSubmit}>
+		<form className={style.postForm} onSubmit={mutation.mutate}>
 			<div className={style.postUserSection}>
 				<div className={style.postUserImage}>
 					<img src={me?.user?.image as string} alt={me?.user?.email as string} />
