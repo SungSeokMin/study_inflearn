@@ -55,7 +55,7 @@ const AfterLoginLayout = async ({ children, modal }: Props) => {
 											</svg>
 										</Link>
 									</nav>
-									<LogoutButton />
+									<LogoutButton me={session} />
 								</>
 							) : null}
 						</div>

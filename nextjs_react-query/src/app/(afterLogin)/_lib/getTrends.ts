@@ -1,8 +1,9 @@
 export const getTrends = async () => {
-	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/trends`, {
+	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/hashtags/trends`, {
 		next: {
 			tags: ['trends'],
 		},
+		credentials: 'include',
 		cache: 'no-store',
 	});
 

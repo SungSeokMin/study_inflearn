@@ -20,6 +20,8 @@ export default async (prevState: any, formData: FormData) => {
 		return { message: 'no_image' };
 	}
 
+	formData.set('nickname', formData.get('name') as string);
+
 	let shouldRedirect = false;
 
 	try {

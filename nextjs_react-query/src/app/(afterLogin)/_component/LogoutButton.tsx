@@ -2,17 +2,18 @@
 
 import Image from 'next/image';
 
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import style from './LohoutButton.module.css';
+import { Session } from 'next-auth';
 
-type Props = {};
+type Props = {
+	me: Session | null;
+};
 
-const LogoutButton = ({}: Props) => {
+const LogoutButton = ({ me }: Props) => {
 	const router = useRouter();
-
-	const { data: me } = useSession();
 
 	const onLogout = () => {
 		signOut({ redirect: false }).then(() => router.replace('/'));
