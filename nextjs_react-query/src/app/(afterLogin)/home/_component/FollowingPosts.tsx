@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import Post from '../../_component/Post';
 
@@ -11,7 +11,7 @@ import { IPost } from '../../../../model/post.model';
 type Props = {};
 
 const FollowingPosts = ({}: Props) => {
-	const { data } = useQuery<IPost[]>({
+	const { data, isPending } = useSuspenseQuery<IPost[]>({
 		queryKey: ['posts', 'followings'],
 		queryFn: getFollowingPosts,
 		staleTime: 60 * 1000,

@@ -56,7 +56,9 @@ export const handlers = [
 		// return HttpResponse.text(JSON.stringify('user_exists'), { status: 403 });
 	}),
 	// 추천 게시글
-	http.get('/api/postRecommends', ({ request }) => {
+	http.get('/api/postRecommends', async ({ request }) => {
+		await delay(2000);
+
 		const url = new URL(request.url);
 		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
 
@@ -111,7 +113,8 @@ export const handlers = [
 		]);
 	}),
 	// 팔로우 게시글
-	http.get('/api/followingPosts', ({ request }) => {
+	http.get('/api/followingPosts', async ({ request }) => {
+		await delay(2000);
 		const url = new URL(request.url);
 		const cursor = parseInt(url.searchParams.get('cursor') as string) || 0;
 

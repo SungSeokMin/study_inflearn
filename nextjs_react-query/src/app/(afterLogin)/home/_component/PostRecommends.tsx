@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
+import { InfiniteData, useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 import Post from '../../_component/Post';
 
@@ -13,7 +13,7 @@ import { IPost } from '../../../../model/post.model';
 type Props = {};
 
 const PostRecommends = ({}: Props) => {
-	const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery<
+	const { data, fetchNextPage, hasNextPage, isFetching } = useSuspenseInfiniteQuery<
 		IPost[],
 		Object,
 		InfiniteData<IPost[]>,
