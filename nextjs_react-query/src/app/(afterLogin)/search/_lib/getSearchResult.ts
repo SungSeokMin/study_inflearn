@@ -9,12 +9,15 @@ type QueryKeyType = QueryFunction<
 export const getSearchResult: QueryKeyType = async ({ queryKey }) => {
 	const [_1, _2, searchParams] = queryKey;
 
+	const urlSearchParams = new URLSearchParams(searchParams);
+
 	const response = await fetch(
-		`${process.env.NEXT_PUBLIC_BASE_URL}/api/search/${searchParams.q}?${searchParams.toString()}`,
+		`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts?${urlSearchParams.toString()}`,
 		{
 			next: {
 				tags: ['posts', 'search', searchParams.q],
 			},
+			credentials: 'include',
 			cache: 'no-store',
 		},
 	);
