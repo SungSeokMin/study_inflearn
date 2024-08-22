@@ -9,6 +9,8 @@ import { IPost } from '@/model/post.model';
 import { useSession } from 'next-auth/react';
 import useHeart from '../_hooks/useHeart';
 import useRepost from '../_hooks/useRepost';
+import { useRouter } from 'next/navigation';
+import { useModalStore } from '@/store/modal';
 
 type Props = {
 	white?: boolean;
@@ -18,7 +20,10 @@ type Props = {
 const ActionButtons = ({ white, post }: Props) => {
 	const { data: session } = useSession();
 
-	const commented = !!post.Comments?.find((v) => v.userId === session?.user?.email);
+	const router = useRouter();
+
+	const modalStore = useModalStore();
+
 	const reposted = !!post.Reposts?.find((v) => v.userId === session?.user?.email);
 	const liked = !!post.Hearts?.find((v) => v.userId === session?.user?.email);
 
@@ -53,13 +58,18 @@ const ActionButtons = ({ white, post }: Props) => {
 	const onClickComment: MouseEventHandler<HTMLButtonElement> = (e) => {
 		e.stopPropagation();
 
-		const formData = new FormData();
-		formData.append('content', '답글 테스트');
-		fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/comments`, {
-			method: 'post',
-			credentials: 'include',
-			body: formData,
-		});
+		modalStore.setMode('comment');
+		modalStore.setData(post);
+
+		router.push('/compose/tweet');
+
+		// const formData = new FormData();
+		// formData.append('content', '답글 테스트');
+		// fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/comments`, {
+		// 	method: 'post',
+		// 	credentials: 'include',
+		// 	body: formData,
+		// });
 	};
 
 	const onClickRepost: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -84,9 +94,7 @@ const ActionButtons = ({ white, post }: Props) => {
 
 	return (
 		<div className={style.actionButtons}>
-			<div
-				className={cx(style.commentButton, { [style.commented]: commented }, white && style.white)}
-			>
+			<div className={cx(style.commentButton, white && style.white)}>
 				<button onClick={onClickComment}>
 					<svg width={24} viewBox="0 0 24 24" aria-hidden="true">
 						<g>

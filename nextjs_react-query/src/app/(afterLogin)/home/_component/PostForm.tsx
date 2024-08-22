@@ -1,13 +1,13 @@
 'use client';
 
-import { ChangeEventHandler, FormEvent, FormEventHandler, useRef, useState } from 'react';
-
+import { Session } from 'next-auth';
+import { ChangeEventHandler, FormEvent, useRef, useState } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+import { IPost } from '@/model/post.model';
 
 import style from './PostForm.module.css';
-import { Session } from 'next-auth';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { IPost } from '@/model/post.model';
 
 type Props = {
 	me: Session | null;
