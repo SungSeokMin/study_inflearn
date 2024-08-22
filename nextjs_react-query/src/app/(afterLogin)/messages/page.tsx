@@ -1,7 +1,13 @@
+import { Metadata } from 'next';
 import Room from './_component/Room';
 import style from './message.module.css';
 
 type Props = {};
+
+export const metadata: Metadata = {
+	title: '쪽지 / Z',
+	description: '쪽지 / Z',
+};
 
 const MessagesPage = ({}: Props) => {
 	return (

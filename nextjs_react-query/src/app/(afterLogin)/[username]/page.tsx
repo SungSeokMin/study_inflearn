@@ -8,10 +8,20 @@ import { getUserPosts } from './_lib/getUserPosts';
 import style from './profile.module.css';
 import { getUserServer } from './_lib/getUserServer';
 import { auth } from '@/auth';
+import { Metadata } from 'next';
+import { IUser } from '@/model/user.model';
 
 type Props = {
 	params: { username: string };
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const user: IUser = await getUserServer({ queryKey: ['users', params.username] });
+	return {
+		title: `${user.nickname} - 프로필 / Z`,
+		description: `${user.nickname} - 프로필 / Z`,
+	};
+}
 
 const ProfilePage = async ({ params }: Props) => {
 	const { username } = params;

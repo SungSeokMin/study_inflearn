@@ -5,10 +5,18 @@ import Tab from './_component/Tab';
 
 import style from './search.module.css';
 import SearchResult from './_component/SearchResult';
+import { Metadata } from 'next';
 
 type Props = {
 	searchParams: { q: string };
 };
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+	return {
+		title: `${searchParams.q} - 검색 / Z`,
+		description: `${searchParams.q} 검색 / Z`,
+	};
+}
 
 const SearchPage = ({ searchParams }: Props) => {
 	return (

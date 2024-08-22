@@ -1,7 +1,10 @@
 import { cookies } from 'next/headers';
-import { QueryKeyType } from './getUser';
 
-export const getUserServer: QueryKeyType = async ({ queryKey }) => {
+type Props = {
+	queryKey: [string, string];
+};
+
+export const getUserServer = async ({ queryKey }: Props) => {
 	const [_1, username] = queryKey;
 
 	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${username}`, {
