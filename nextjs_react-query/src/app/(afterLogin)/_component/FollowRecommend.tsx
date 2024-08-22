@@ -4,6 +4,7 @@ import { IUser } from '@/model/user.model';
 import FollowButton from './FollowButton';
 
 import style from './FollowRecommend.module.css';
+import Link from 'next/link';
 
 type Props = {
 	user: IUser;
@@ -11,7 +12,7 @@ type Props = {
 
 const FollowRecommend = ({ user }: Props) => {
 	return (
-		<div className={style.container}>
+		<Link href={`/${user.id}`} className={style.container}>
 			<div className={style.userLogoSection}>
 				<div className={style.userLogo}>
 					<img src={user.image} alt={user.id} />
@@ -24,7 +25,7 @@ const FollowRecommend = ({ user }: Props) => {
 			<div>
 				<FollowButton user={user} />
 			</div>
-		</div>
+		</Link>
 	);
 };
 

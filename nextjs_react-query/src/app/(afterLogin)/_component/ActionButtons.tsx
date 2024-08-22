@@ -63,7 +63,7 @@ const ActionButtons = ({ white, post }: Props) => {
 						</g>
 					</svg>
 				</button>
-				<div className={style.count}>{post._count.Comments}</div>
+				<div className={style.count}>{post._count?.Comments || 0}</div>
 			</div>
 			<div className={cx(style.repostButton, reposted && style.reposted, white && style.white)}>
 				<button onClick={onClickRepost}>
@@ -73,7 +73,7 @@ const ActionButtons = ({ white, post }: Props) => {
 						</g>
 					</svg>
 				</button>
-				<div className={style.count}>{post._count.Reposts}</div>
+				<div className={style.count}>{post._count?.Reposts || 0}</div>
 			</div>
 			<div className={cx([style.heartButton, liked && style.liked, white && style.white])}>
 				<button onClick={onClickHeart}>
@@ -83,7 +83,7 @@ const ActionButtons = ({ white, post }: Props) => {
 						</g>
 					</svg>
 				</button>
-				<div className={style.count}>{post._count.Hearts}</div>
+				<div className={style.count}>{post._count?.Hearts || 0}</div>
 			</div>
 		</div>
 	);

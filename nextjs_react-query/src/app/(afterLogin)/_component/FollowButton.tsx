@@ -12,6 +12,7 @@ import useFollow from '../_hooks/useFollow';
 import { IUser } from '@/model/user.model';
 
 import style from './FollowButton.module.css';
+import { MouseEventHandler } from 'react';
 
 type Props = {
 	user: IUser;
@@ -38,7 +39,10 @@ const FollowButton = ({ user }: Props) => {
 		onError: onFollow,
 	});
 
-	const onClick = () => {
+	const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.stopPropagation();
+		e.preventDefault();
+
 		if (!session?.user) {
 			router.replace('/login');
 		}
@@ -49,6 +53,8 @@ const FollowButton = ({ user }: Props) => {
 			followMutate.mutate();
 		}
 	};
+
+	if (user.id === session?.user?.email) return null;
 
 	return (
 		<button className={cx(style.container, followed && style.followed)} onClick={onClick}>

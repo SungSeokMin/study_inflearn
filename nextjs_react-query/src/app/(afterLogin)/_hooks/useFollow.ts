@@ -19,18 +19,36 @@ const useFollow = (userId: string | undefined) => {
 
 		if (value) {
 			const index = value.findIndex((v) => v.id === userId);
-			const shallow = [...value];
 
-			shallow[index] = {
-				...shallow[index],
+			if (index > -1) {
+				const shallow = [...value];
+
+				shallow[index] = {
+					...shallow[index],
+					Followers: [{ userId: session?.user?.email as string }],
+					_count: {
+						...shallow[index]._count,
+						Followers: shallow[index]._count.Followers + 1,
+					},
+				};
+
+				queryClient.setQueryData(['users', 'followRecommends'], shallow);
+			}
+		}
+
+		const value2: IUser | undefined = queryClient.getQueryData(['users', userId]);
+
+		if (value2) {
+			const shallow = {
+				...value2,
 				Followers: [{ userId: session?.user?.email as string }],
 				_count: {
-					...shallow[index]._count,
-					Followers: shallow[index]._count.Followers + 1,
+					...value2._count,
+					Followers: value2._count.Followers + 1,
 				},
 			};
 
-			queryClient.setQueryData(['users', 'followRecommends'], shallow);
+			queryClient.setQueryData(['users', userId], shallow);
 		}
 	};
 
@@ -39,18 +57,36 @@ const useFollow = (userId: string | undefined) => {
 
 		if (value) {
 			const index = value.findIndex((v) => v.id === userId);
-			const shallow = [...value];
 
-			shallow[index] = {
-				...shallow[index],
-				Followers: shallow[index].Followers.filter((v) => v.userId !== session?.user?.email),
+			if (index > -1) {
+				const shallow = [...value];
+
+				shallow[index] = {
+					...shallow[index],
+					Followers: shallow[index].Followers.filter((v) => v.userId !== session?.user?.email),
+					_count: {
+						...shallow[index]._count,
+						Followers: shallow[index]._count.Followers - 1,
+					},
+				};
+
+				queryClient.setQueryData(['users', 'followRecommends'], shallow);
+			}
+		}
+
+		const value2: IUser | undefined = queryClient.getQueryData(['users', userId]);
+
+		if (value2) {
+			const shallow = {
+				...value2,
+				Followers: value2.Followers.filter((v) => v.userId !== session?.user?.email),
 				_count: {
-					...shallow[index]._count,
-					Followers: shallow[index]._count.Followers - 1,
+					...value2._count,
+					Followers: value2._count.Followers - 1,
 				},
 			};
 
-			queryClient.setQueryData(['users', 'followRecommends'], shallow);
+			queryClient.setQueryData(['users', userId], shallow);
 		}
 	};
 
