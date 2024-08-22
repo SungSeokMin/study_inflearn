@@ -9,12 +9,14 @@ import { getUser } from '../_lib/getUser';
 import { IUser } from '@/model/user.model';
 
 import style from '../profile.module.css';
+import { Session } from 'next-auth';
 
 type Props = {
 	username: string;
+	session: Session | null;
 };
 
-const UserInfo = ({ username }: Props) => {
+const UserInfo = ({ username, session }: Props) => {
 	const { data: user, error } = useQuery<IUser, Object, IUser, [_1: string, _2: string]>({
 		queryKey: ['users', username],
 		queryFn: getUser,
@@ -68,7 +70,7 @@ const UserInfo = ({ username }: Props) => {
 					<div>{user.nickname}</div>
 					<div>@{user.id}</div>
 				</div>
-				<FollowButton user={user} />
+				<FollowButton user={user} session={session} />
 			</div>
 		</>
 	);

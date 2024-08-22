@@ -1,10 +1,7 @@
-import { QueryFunction } from '@tanstack/react-query';
+import { cookies } from 'next/headers';
+import { QueryKeyType } from './getUser';
 
-import { IUser } from '@/model/user.model';
-
-export type QueryKeyType = QueryFunction<IUser, [_1: string, _2: string]>;
-
-export const getUser: QueryKeyType = async ({ queryKey }) => {
+export const getUserServer: QueryKeyType = async ({ queryKey }) => {
 	const [_1, username] = queryKey;
 
 	const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${username}`, {
@@ -12,6 +9,7 @@ export const getUser: QueryKeyType = async ({ queryKey }) => {
 			tags: ['users', username],
 		},
 		credentials: 'include',
+		headers: { Cookie: cookies().toString() },
 		cache: 'no-store',
 	});
 

@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 
 import { useMutation } from '@tanstack/react-query';
 
@@ -13,15 +12,15 @@ import { IUser } from '@/model/user.model';
 
 import style from './FollowButton.module.css';
 import { MouseEventHandler } from 'react';
+import { Session } from 'next-auth';
 
 type Props = {
 	user: IUser;
+	session: Session | null;
 };
 
-const FollowButton = ({ user }: Props) => {
-	const { data: session } = useSession();
-
-	const followed = !!user.Followers?.find((v) => v.userId === session?.user?.email);
+const FollowButton = ({ user, session }: Props) => {
+	const followed = !!user.Followers?.find((v) => v.id === session?.user?.email);
 
 	const router = useRouter();
 
