@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import { IPost } from '@/model/post.model';
 import { useSession } from 'next-auth/react';
 import useHeart from '../_hooks/useHeart';
+import useRepost from '../_hooks/useRepost';
 
 type Props = {
 	white?: boolean;
@@ -37,9 +38,39 @@ const ActionButtons = ({ white, post }: Props) => {
 		onSettled: onInvalidate,
 	});
 
-	const onClickComment = () => {};
+	const { onFetch: onFetchRepost, onRepost, onRemoveRepost } = useRepost(post.postId);
 
-	const onClickRepost = () => {};
+	const repostMutate = useMutation({
+		mutationFn: () => onFetchRepost('post'),
+		onSuccess: onRepost,
+	});
+
+	const removeRepostMuatae = useMutation({
+		mutationFn: () => onFetchRepost('delete'),
+		onSuccess: onRemoveRepost,
+	});
+
+	const onClickComment: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.stopPropagation();
+
+		const formData = new FormData();
+		formData.append('content', '답글 테스트');
+		fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${post.postId}/comments`, {
+			method: 'post',
+			credentials: 'include',
+			body: formData,
+		});
+	};
+
+	const onClickRepost: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.stopPropagation();
+
+		if (reposted) {
+			removeRepostMuatae.mutate();
+		} else {
+			repostMutate.mutate();
+		}
+	};
 
 	const onClickHeart: MouseEventHandler<HTMLButtonElement> = (e) => {
 		e.stopPropagation();

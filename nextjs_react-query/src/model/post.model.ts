@@ -19,4 +19,6 @@ export interface IPost {
 		Reposts: number;
 		Comments: number;
 	};
+	Original?: IPost;
+	Parent?: IPost;
 }
